@@ -1,5 +1,5 @@
+import { useSiteStore } from '@/stores/website'
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,17 +7,66 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: () => import('@/views/HomeView.vue'),
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      path: '/mentoria',
+      name: 'mentoria',
+      component: () => import('@/views/MentoriaView.vue'),
+    },
+    {
+      path: '/revisao',
+      name: 'revisao',
+      component: () => import('@/views/RevisaoView.vue'),
+    },
+    {
+      path: '/ebook',
+      name: 'ebook',
+      component: () => import('@/views/EbookView.vue'),
+    },
+    {
+      path: '/contato',
+      name: 'contato',
+      component: () => import('@/views/ContatoView.vue'),
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/LoginView.vue'),
+    },
+    {
+      path: '/cadastro',
+      name: 'cadastro',
+      component: () => import('@/views/CadastroView.vue'),
     },
   ],
+  scrollBehavior(to, from, savedPosition) {
+    if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: 'smooth'
+      }
+    } else {
+      if (savedPosition) {
+        return savedPosition
+      } else {
+        return { top: 0 }
+      }
+    }
+  },
+})
+
+router.beforeEach((to, from) => {
+  const siteStore = useSiteStore()
+
+  if (to.meta.requiresAuth && !siteStore.isAuthenticated) {
+    return {
+      name: 'login',
+      query: {
+        redirect: to.fullPath
+      }
+    }
+  }
 })
 
 export default router

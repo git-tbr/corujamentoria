@@ -4,7 +4,7 @@ import Layout from '@/layouts/DefaultLayout.vue'
 <template>
     <Layout>
         <main>
-            Home
+            Cadastro
         </main>
     </Layout>
 </template>

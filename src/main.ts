@@ -11,7 +11,8 @@ import icons from '@/services/fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add({ ...icons })
+library.add(...Object.values(icons))
+
 const app = createApp(App)
 
 app.directive('reveal', vReveal)
