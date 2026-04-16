@@ -3,6 +3,9 @@
 
 :root {
     --gold: #FFD700;
+    --lightGreen: #B1E6C4;
+    --lemonGreen: #1DC256;
+    --darkGreen: #024123;
 }
 
 html {
@@ -42,12 +45,28 @@ html {
     color: var(--gold);
 }
 
+.text-lightGreen {
+    color: var(--lightGreen);
+}
+
+.text-lemonGreen {
+    color: var(--lemonGreen);
+}
+
+.text-darkGreen {
+    color: var(--darkGreen);
+}
+
 .border-gold {
     border-color: var(--gold);
 }
 
 .bg-gold {
     background-color: var(--gold);
+}
+
+.bg-darkGreen {
+    background-color: var(--darkGreen);
 }
 
 .base-card {
@@ -85,4 +104,30 @@ html {
     border-radius: 50%;
     padding: 1.8rem;
     font-weight: 700;
+}
+
+.box-results {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.box-results>.icone,
+.box-results2>.icone {
+    position: absolute;
+    background-color: #1DC256;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    top: -60px;
+    left: 50%;
+    transform: translate(-50%);
+    display: flex;
+    align-items: center;
+}
+
+.icone>img {
+    padding: 20px;
+    width: 100%;
 }

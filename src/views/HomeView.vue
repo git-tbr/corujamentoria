@@ -7,7 +7,20 @@ import PlaneBadge from '@/assets/img/home/plane_badge.png'
 import DrJamil from '@/assets/img/home/dr_jamil.png'
 import DraAna from '@/assets/img/home/dra_ana.png'
 import DraBruna from '@/assets/img/home/dra_bruna.png'
+import alineMonteiro from '@/assets/img/home/aline_monteiro.webp'
+import andreaNoronha from '@/assets/img/home/andrea_noronha.webp'
+import cintiaPerico from '@/assets/img/home/cintia_perico.webp'
+import deboraVeiga from '@/assets/img/home/debora.webp'
+import geirizaChantre from '@/assets/img/home/geiriza_chantre.webp'
+import mariaLeticia from '@/assets/img/home/maria_leticia.webp'
+import nidiaChicralla from '@/assets/img/home/nidia_chicralla.webp'
+import rebecaSpinelli from '@/assets/img/home/rebeca.webp'
+import sergioCabral from '@/assets/img/home/sergio_cabral.webp'
+import garantido from '@/assets/img/home/garantido.png'
+import noventaenove from '@/assets/img/home/99.png'
+
 import { RouterLink } from 'vue-router'
+import { computed, ref } from 'vue'
 
 const conquista = [
     { id: 1, content: 'Material didático organizado e validado com o que realmente cai na prova;' },
@@ -26,8 +39,49 @@ const accordionList = [
     { id: 4, title: 'Revisão Presencial Exclusiva', content: 'Desconto exclusivo para a Revisão intensiva, presencial ou online, e que fica gravada para acesso até o dia da prova, realizada poucos dias antes da prova, focada nos temas que historicamente mais caem e nos ajustes finais de desempenho. Uma experiência imersiva, direta, assertiva, com interação próxima entre mentor e aluno — o refinamento final para chegar confiante ao grande dia.' },
     { id: 5, title: 'Curso Segunda Fase', content: 'Formação à parte direcionada para quem avançou na equivalência e agora precisa dominar a prática médica exigida nas bancas. Treinamos elaboração de relatórios, comunicação médico-paciente, discussão clínica e raciocínio conforme o padrão português — com o mapeamento das bancas e exatamente como elas avaliam.' },
     { id: 6, title: 'Pré-Sabatina CoruJÁ', content: 'Para os que fazem a prova prática em dois dias oferecemos 1h de discussão estratégica pré-sabatina do segundo dia, nos moldes das bancas, para identificar pontos fortes, lacunas e ajustes finos. Um momento decisivo para testar conhecimento sob pressão real, receber feedback imediato e alinhar a performance para apresentar a melhor versão de si na prova.' }
-]
+];
 
+const depoimentosList = [
+    { id: 1, name: 'DRA. ALINE MONTEIRO', videoKey: 'yA3baoN7p2q9VfLc', img: alineMonteiro, tipo: 'Aluna CoruJÁ' },
+    { id: 2, name: 'DRA. ANDRÉA NORONHA', videoKey: 'HzSrtNIm9ybzUL0P', img: andreaNoronha, tipo: 'Aluna CoruJÁ' },
+    { id: 3, name: 'DRA. CÍNTIA PERICO', videoKey: 'Qzzlnnbp7rCi8xpz', img: cintiaPerico, tipo: 'Aluna CoruJÁ' },
+    { id: 4, name: 'DRA. DÉBORA VEIGA', videoKey: 'X2ySnvT1wFUim2uv', img: deboraVeiga, tipo: 'Aluna CoruJÁ' },
+    { id: 5, name: 'DRA. GEIRIZA CHANTRE', videoKey: 'OK6UXigw69H6M5hb', img: geirizaChantre, tipo: 'Aluna CoruJÁ' },
+    { id: 6, name: 'DRA. MARIA LETÍCIA', videoKey: 'pIF4TbCOcePiHkGp', img: mariaLeticia, tipo: 'Médica validada em Portugal' },
+    { id: 7, name: 'DRA. NIDIA CHICRALLA', videoKey: 'LrUDNUwclZLgdS3o', img: nidiaChicralla, tipo: 'Aluna CoruJÁ' },
+    { id: 8, name: 'DRA. REBECA SPINELLI', videoKey: 'SQVOdX4MQEDF9gBn', img: rebecaSpinelli, tipo: 'Aluna CoruJÁ' },
+    { id: 9, name: 'DR. SÉRGIO CABRAL', videoKey: '5RAc5SiHPF8mcU3G', img: sergioCabral, tipo: 'Aluno CoruJÁ' },
+];
+
+const resultadosList = [
+    { id: 1, img: garantido, text: `<strong>84% de aprovação</strong> na 1ª fase da prova de equivalência em 2024.` },
+    { id: 2, img: garantido, text: `<strong>88% de aprovação</strong> na 1ª fase da prova de equivalência em 2025.` },
+    { id: 3, img: noventaenove, text: `<strong>99% de aprovação</strong> na 2ª fase no mesmo ano.` },
+    { id: 4, img: garantido, text: `Mentoria conduzida pelos médicos com as <strong>maiores notas já registradas no processo</strong>.` },
+];
+
+const modalVideo = ref<any>(null);
+const currentPlayerUrl = ref<string>('');
+const currentDoctorName = ref<string>('');
+const depoimentosAgrupados = computed(() => {
+    const size = 3
+    const grupos = []
+    for (let i = 0; i < depoimentosList.length; i += size) {
+        grupos.push(depoimentosList.slice(i, i + size))
+    }
+    return grupos
+})
+
+const openTestimony = (videoKey: string, doctorName: string) => {
+    currentDoctorName.value = doctorName;
+    currentPlayerUrl.value = `https://cdn.tbr.com.br/player/?vod=1&video=${videoKey}&dual_audio=0`;
+    modalVideo.value.showModal();
+}
+
+const closeModal = () => {
+    modalVideo.value.close();
+    currentPlayerUrl.value = '';
+}
 </script>
 <template>
     <Layout>
@@ -297,10 +351,10 @@ const accordionList = [
                 </div>
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-6 px-0" v-reveal="'bottom'">
+                        <div class="col-lg-6 px-0 align-self-center" v-reveal="'bottom'">
                             <img :src="DrJamil" alt="Dr Jamil Ribeiro Cade" class="w-100">
                         </div>
-                        <div class="col-md-6 p-3 p-md-5" v-reveal="'bottom'">
+                        <div class="col-lg-6 p-3 p-xxl-5 align-self-center " v-reveal="'bottom'">
                             <h1 class="fw-bold mb-0">
                                 Dr. Jamil Ribeiro Cade
                             </h1>
@@ -329,10 +383,10 @@ const accordionList = [
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6 px-0 order-md-2" v-reveal="'bottom'">
+                        <div class="col-lg-6 px-0 order-lg-2 align-self-center" v-reveal="'bottom'">
                             <img :src="DraAna" alt="Dra Ana Carolina Facundo" class="w-100">
                         </div>
-                        <div class="col-md-6 p-3 p-md-5 order-md-1" v-reveal="'bottom'">
+                        <div class="col-lg-6 p-3 p-xxl-5 order-lg-1 align-self-center" v-reveal="'bottom'">
                             <h1 class="fw-bold mb-0">
                                 Dra. Ana Carolina Facundo
                             </h1>
@@ -355,10 +409,10 @@ const accordionList = [
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6 px-0" v-reveal="'bottom'">
+                        <div class="col-lg-6 px-0 align-self-center" v-reveal="'bottom'">
                             <img :src="DraBruna" alt="Dra Bruna Soares Bicalho" class="w-100">
                         </div>
-                        <div class="col-md-6 p-3 p-md-5" v-reveal="'bottom'">
+                        <div class="col-lg-6 p-3 p-xxl-5 align-self-center" v-reveal="'bottom'">
                             <h1 class="fw-bold mb-0">
                                 Dra. Bruna Soares Bicalho
                             </h1>
@@ -387,30 +441,56 @@ const accordionList = [
             <!-- por que a corujá é diferente -->
             <section class="circle-bg">
                 <div class="container py-5">
-                    <h1 class="text-success text-center fw-bold mb-3" v-reveal="'bottom'">
+                    <h1 class="text-success text-center fw-bold mb-3 ff-roboto" v-reveal="'bottom'">
                         Por que a CoruJÁ é diferente?
                     </h1>
 
-                    <div class="row">
-                        <div class="col-lg-9 mx-auto bg-dark rounded-4">
-                            <div class="p-3">
+                    <div class="row mb-3">
+                        <div class="col-lg-9 mx-auto">
+                            <div class="p-4 p-lg-5 bg-dark rounded-4">
                                 <div class="row mb-3">
                                     <div class="col-lg-6 text-light">
-                                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore necessitatibus
-                                        deserunt placeat hic expedita nisi enim, animi quam a repellendus quia,
-                                        molestiae possimus voluptates sit nesciunt? Ad nemo ducimus maxime.
+                                        <ul class="list-unstyled fs-5">
+                                            <li v-reveal="'bottom'" class="mb-3">
+                                                <font-awesome-icon icon="fa-solid fa-thumbtack" class="text-success" />
+                                                <br>
+                                                Metodologia validada por quem já passou — aprovação de 84% em 2024 na
+                                                primeira fase e 100% na segunda fase e com as melhores notas do processo
+                                            </li>
+                                            <li v-reveal="'bottom'" class="mb-3">
+                                                <font-awesome-icon icon="fa-solid fa-clock" class="text-success" />
+                                                <br>
+                                                Encontros ao vivo com resolução de dúvidas e contato direto com os
+                                                mentores (5 meses que antecedem a prova da primeira fase de
+                                                Equivalência)
+                                            </li>
+                                        </ul>
                                     </div>
                                     <div class="col-lg-6 text-light">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, ullam
-                                        eveniet doloribus iusto quas, provident architecto culpa, voluptatum
-                                        exercitationem nemo quasi accusamus! Commodi architecto quo ducimus ea impedit?
-                                        In, voluptate.
+                                        <ul class="list-unstyled fs-5">
+                                            <li v-reveal="'bottom'" class="mb-3">
+                                                <font-awesome-icon icon="fa-solid fa-lock" class="text-success" />
+                                                <br>
+                                                Estrutura completa: você não precisa buscar materiais fora
+                                            </li>
+                                            <li v-reveal="'bottom'" class="mb-3">
+                                                <font-awesome-icon icon="fa-solid fa-user-group" class="text-success" />
+                                                <br>
+                                                Grupo de apoio contínuo para você não se sentir sozinho no processo
+                                            </li>
+                                            <li v-reveal="'bottom'" class="mb-3">
+                                                <font-awesome-icon icon="fa-solid fa-ticket" class="text-success" />
+                                                <br>
+                                                Desconto no Curso de Revisão Pré-Prova da Primeira fase de Equivalência
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
                                         <p class="text-center">
-                                            <RouterLink to="/mentoria" class="btn btn-danger rounded-pill px-4 fs-5">
+                                            <RouterLink to="/mentoria"
+                                                class="btn btn-danger rounded-pill px-4 fs-5 ff-roboto">
                                                 Você não precisa estudar no escuro
                                             </RouterLink>
                                         </p>
@@ -423,8 +503,97 @@ const accordionList = [
                             </div>
                         </div>
                     </div>
+
+                    <div class="row mb-3">
+                        <div class="col">
+                            <h1 class="text-success fw-bold text-center ff-roboto">
+                                Depoimentos
+                            </h1>
+                            <p class="fs-5 text-white text-center">
+                                Confira os depoimentos de alunos e ex-alunos:
+                            </p>
+                        </div>
+                    </div>
+
+                    <div id="minhaGaleriaCarrossel" class="carousel slide" data-bs-ride="carousel">
+
+                        <div class="carousel-indicators">
+                            <button v-for="(grupo, index) in depoimentosAgrupados" :key="'ind-' + index" type="button"
+                                data-bs-target="#minhaGaleriaCarrossel" :data-bs-slide-to="index"
+                                :class="{ active: index === 0 }" :aria-current="index === 0"
+                                :aria-label="'Slide ' + (index + 1)">
+                            </button>
+                        </div>
+
+                        <div class="carousel-inner">
+                            <div v-for="(grupo, index) in depoimentosAgrupados" :key="'grupo-' + index"
+                                class="carousel-item" :class="{ active: index === 0 }" data-bs-interval="3000">
+
+                                <div class="row g-3">
+                                    <div class="col-md-4" v-for="i in grupo" :key="i.id">
+                                        <div class="bg-dark rounded-4 position-relative">
+                                            <img :src="i.img" :alt="i.name" class="w-100 rounded-top-4 mb-3">
+                                            <p class="text-center text-success mb-0 fs-4 fw-bold px-3 ff-roboto">
+                                                {{ i.name }}
+                                            </p>
+                                            <p class="text-center text-white fs-5 pb-3">
+                                                {{ i.tipo }}
+                                            </p>
+                                            <font-awesome-icon icon="fa-solid fa-circle-play" role="button"
+                                                class="play-icon" @click="openTestimony(i.videoKey, i.name)" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
+
+            <!-- resultados que comprovam -->
+            <section class="bg-darkGreen">
+                <div class="container py-5">
+                    <div class="row mb-5">
+                        <h1 class="text-lightGreen text-center fw-bold ff-roboto">
+                            Resultados que comprovam
+                        </h1>
+                        <h1 class="text-lemonGreen fw-bold ff-roboto text-center display-4">
+                            nosso método
+                        </h1>
+                    </div>
+
+                    <div class="row py-5">
+                        <div class="col-md-6 col-lg-3 mb-5 mb-lg-0" v-for="l in resultadosList" :key="l.id">
+                            <div class="p-3 position-relative rounded-4 bg-white box-results">
+                                <div class="icone">
+                                    <img :src="l.img" alt="">
+                                </div>
+                                <p class="text-center fs-4" v-html="l.text"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Modal -->
+            <dialog ref="modalVideo" class="custom-modal">
+                <div class="modal-content-wrapper">
+                    <div class="modal-header-custom">
+                        <h2 class="fw-semibold">{{ currentDoctorName }}</h2>
+                        <button type="button" class="btn-close-custom" @click="closeModal">&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+                        <iframe v-if="currentPlayerUrl" id="player" :src="currentPlayerUrl" frameborder="0"
+                            class="d-block mx-auto" style="aspect-ratio: 16 / 9; width: 100%;" allowfullscreen></iframe>
+                    </div>
+
+                    <div class="text-end mt-3">
+                        <button type="button" class="btn btn-light" @click="closeModal">Fechar</button>
+                    </div>
+                </div>
+            </dialog>
         </main>
     </Layout>
 </template>
@@ -462,8 +631,19 @@ const accordionList = [
 .circle-bg {
     background-image: url(../assets/img/home/backgroundCircle.png);
     background-repeat: no-repeat;
-    background-position: bottom center;
+    background-position: center center;
     background-size: cover;
+}
+
+.overflow-control {
+    overflow: hidden;
+}
+
+@media (min-width: 993px) {
+    .overflow-control {
+        max-height: 420px;
+        overflow-y: scroll
+    }
 }
 
 @media (min-width: 1200px) {
@@ -476,6 +656,11 @@ const accordionList = [
         background-image: url(../assets/img/home/doutores.png);
         background-size: 65%;
     }
+
+    .overflow-control {
+        max-height: unset;
+        overflow: hidden;
+    }
 }
 
 @media (min-width: 1400px) {
@@ -486,5 +671,65 @@ const accordionList = [
     #hero-bg {
         background-size: 80vh;
     }
+}
+
+.play-icon {
+    position: absolute;
+    left: 16px;
+    top: 8px;
+    font-size: 40px;
+    color: #000000;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.custom-modal {
+    border: none;
+    border-radius: 1rem;
+    padding: 0;
+    width: 90%;
+    max-width: 1140px;
+    /* Equivalente ao modal-xl */
+    background: #1a1a1a;
+    /* Cor de fundo escura conforme seu tema */
+    color: white;
+}
+
+.custom-modal::backdrop {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content-wrapper {
+    padding: 1.5rem;
+}
+
+.modal-header-custom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btn-close-custom {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+/* Garante que o dialog centralize corretamente */
+dialog[open] {
+    display: block;
+    position: fixed;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 </style>
