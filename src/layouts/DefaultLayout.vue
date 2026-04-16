@@ -15,7 +15,7 @@ import NavbarComponent from '@/components/NavbarComponent.vue'
 #main_content {
     display: flex;
     flex-direction: column;
-    min-height: calc(100dvh - (268px + 56px));
+    min-height: calc(100dvh - (266px + 71px));
 }
 
 #site_footer {

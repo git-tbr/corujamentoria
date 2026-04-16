@@ -39,6 +39,11 @@ const router = createRouter({
       name: 'cadastro',
       component: () => import('@/views/CadastroView.vue'),
     },
+    {
+      path: '/politica',
+      name: 'politica',
+      component: () => import('@/views/PolicyView.vue'),
+    },
   ],
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {

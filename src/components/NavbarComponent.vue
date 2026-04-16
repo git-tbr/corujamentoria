@@ -2,7 +2,7 @@
 import { useSiteStore } from '@/stores/website'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
-import Logo from '@/assets/img/logo.png'
+import Logo from '@/assets/img/logo/logo.png'
 
 const siteStore = useSiteStore()
 const fixedNavbar = ref<boolean>(false)
@@ -30,8 +30,8 @@ onUnmounted(() => {
 })
 </script>
 <template>
-    <header class="shadow">
-        <nav :class="['navbar navbar-expand-xl', { 'fixed-top': fixedNavbar }]" data-bs-theme="light">
+    <header class="shadow ff-roboto fw-semibold">
+        <nav :class="['navbar navbar-expand-xl bg-light', { 'fixed-top': fixedNavbar }]" data-bs-theme="light">
             <!-- caixa da navbar -->
             <div class="container">
                 <!-- logo / brand -->
@@ -40,7 +40,7 @@ onUnmounted(() => {
                 </a>
 
                 <!-- botão do menu -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="navigationBar"
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigationBar"
                     aria-expanded="false" aria-label="Gatilho da barra de navegação">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -98,13 +98,13 @@ onUnmounted(() => {
                             </ul>
                         </li>
 
-                        <li class="nav-item ms-lg-2 align-items-center d-flex" v-else>
-                            <RouterLink to="/login" class="btn btn-success bg-gradient rounded-pill px-4">
+                        <li class="nav-item ms-lg-2 align-items-center d-flex mb-3 mb-lg-0" v-else>
+                            <RouterLink to="/login" class="btn btn-success bg-gradient rounded-4 px-4">
                                 Login
                             </RouterLink>
                         </li>
                         <li class="nav-item ms-lg-2 align-items-center d-flex" v-if="!siteStore.isAuthenticated">
-                            <RouterLink to="/cadastro" class="btn btn-danger bg-gradient rounded-pill px-4">
+                            <RouterLink to="/cadastro" class="btn btn-danger bg-gradient rounded-4 px-4">
                                 Cadastro
                             </RouterLink>
                         </li>
