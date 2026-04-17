@@ -30,8 +30,8 @@ onUnmounted(() => {
 })
 </script>
 <template>
-    <header class="shadow ff-roboto fw-semibold">
-        <nav :class="['navbar navbar-expand-xl bg-light', { 'fixed-top': fixedNavbar }]" data-bs-theme="light">
+    <header class="ff-roboto fw-semibold">
+        <nav :class="['navbar navbar-expand-xl bg-light shadow', { 'fixed-top': fixedNavbar }]" data-bs-theme="light">
             <!-- caixa da navbar -->
             <div class="container">
                 <!-- logo / brand -->

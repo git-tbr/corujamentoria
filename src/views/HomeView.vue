@@ -5,7 +5,9 @@ import DoctorsCircle from '@/assets/img/home/doutores_circulo.png'
 import DoctorsLaptop from '@/assets/img/home/doutores_laptop.png'
 import PlaneBadge from '@/assets/img/home/plane_badge.png'
 import DrJamil from '@/assets/img/home/dr_jamil.png'
+import DrJamilDetalhe from '@/assets/img/home/dr_jamil_detalhe.png'
 import DraAna from '@/assets/img/home/dra_ana.png'
+import DraAnaDetalhe from '@/assets/img/home/dra_ana_detalhe.png'
 import DraBruna from '@/assets/img/home/dra_bruna.png'
 import alineMonteiro from '@/assets/img/home/aline_monteiro.webp'
 import andreaNoronha from '@/assets/img/home/andrea_noronha.webp'
@@ -19,8 +21,9 @@ import sergioCabral from '@/assets/img/home/sergio_cabral.webp'
 import garantido from '@/assets/img/home/garantido.png'
 import noventaenove from '@/assets/img/home/99.png'
 
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import { computed, ref } from 'vue'
+import { useAlert } from '@/services/alertService'
 
 const conquista = [
     { id: 1, content: 'Material didático organizado e validado com o que realmente cai na prova;' },
@@ -63,6 +66,22 @@ const resultadosList = [
 const modalVideo = ref<any>(null);
 const currentPlayerUrl = ref<string>('');
 const currentDoctorName = ref<string>('');
+const { showAlert } = useAlert();
+const router = useRouter();
+
+const openCourse = async (curso: string) => {
+    if (curso === 'revisao') {
+        await showAlert({
+            title: "Revisão Pré-Prova",
+            message: "O curso ainda não está disponível para compra.",
+            type: "error",
+        });
+        return;
+    }
+
+    router.push({ name: curso });
+}
+
 const depoimentosAgrupados = computed(() => {
     const size = 3
     const grupos = []
@@ -70,7 +89,7 @@ const depoimentosAgrupados = computed(() => {
         grupos.push(depoimentosList.slice(i, i + size))
     }
     return grupos
-})
+});
 
 const openTestimony = (videoKey: string, doctorName: string) => {
     currentDoctorName.value = doctorName;
@@ -486,7 +505,7 @@ const closeModal = () => {
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" v-reveal="'bottom'">
                                     <div class="col">
                                         <p class="text-center">
                                             <RouterLink to="/mentoria"
@@ -506,16 +525,16 @@ const closeModal = () => {
 
                     <div class="row mb-3">
                         <div class="col">
-                            <h1 class="text-success fw-bold text-center ff-roboto">
+                            <h1 class="text-success fw-bold text-center ff-roboto" v-reveal="'bottom'">
                                 Depoimentos
                             </h1>
-                            <p class="fs-5 text-white text-center">
+                            <p class="fs-5 text-white text-center" v-reveal="'bottom'">
                                 Confira os depoimentos de alunos e ex-alunos:
                             </p>
                         </div>
                     </div>
 
-                    <div id="minhaGaleriaCarrossel" class="carousel slide" data-bs-ride="carousel">
+                    <div id="minhaGaleriaCarrossel" class="carousel slide" data-bs-ride="carousel" v-reveal="'bottom'">
 
                         <div class="carousel-indicators">
                             <button v-for="(grupo, index) in depoimentosAgrupados" :key="'ind-' + index" type="button"
@@ -554,7 +573,7 @@ const closeModal = () => {
             <!-- resultados que comprovam -->
             <section class="bg-darkGreen">
                 <div class="container py-5">
-                    <div class="row mb-5">
+                    <div class="row mb-5" v-reveal="'bottom'">
                         <h1 class="text-lightGreen text-center fw-bold ff-roboto">
                             Resultados que comprovam
                         </h1>
@@ -564,12 +583,262 @@ const closeModal = () => {
                     </div>
 
                     <div class="row py-5">
-                        <div class="col-md-6 col-lg-3 mb-5 mb-lg-0" v-for="l in resultadosList" :key="l.id">
-                            <div class="p-3 position-relative rounded-4 bg-white box-results">
-                                <div class="icone">
+                        <div class="col-md-6 col-lg-3 mb-3 mb-lg-0" v-for="l in resultadosList" :key="l.id">
+                            <div class="p-3 position-relative rounded-4 bg-white box-results" v-reveal="'bottom'">
+                                <div class="icone d-none d-lg-block">
                                     <img :src="l.img" alt="">
                                 </div>
-                                <p class="text-center fs-4" v-html="l.text"></p>
+                                <p class="text-center fs-4 d-none d-lg-block" v-html="l.text"></p>
+                                <div class="row d-lg-none">
+                                    <div class="col-auto align-self-center bg-lemonGreen p-3 rounded-circle ms-1">
+                                        <img :src="l.img" alt="" width="80">
+                                    </div>
+                                    <div class="col align-self-center">
+                                        <p class="text-center fs-4" v-html="l.text"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- curso revisão pré-prova -->
+            <section>
+                <div class="container py-5">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <img :src="Logo" alt="" class="img-fluid">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3 mb-md-0 align-self-center">
+                            <h1 class="text-success ff-roboto fw-semibold mb-3" v-reveal="'bottom'">
+                                Curso de Revisão Pré-Prova
+                            </h1>
+
+                            <h2 class="text-danger fw-semibold mb-3 ff-roboto" v-reveal="'bottom'">
+                                Três dias de revisão, mais de 20 horas de aula
+                            </h2>
+
+                            <p class="fs-5" v-reveal="'bottom'">
+                                Vagas presenciais <span class="fw-semibold">LIMITADAS!!!</span>
+                            </p>
+
+                            <ul class="list-unstyled fs-5 mb-3" v-reveal="'bottom'">
+                                <li class="mb-2 fs-5">
+                                    <font-awesome-icon icon="fa-solid fa-ticket" class="text-success" />
+                                    Vagas online com transmissão simultânea
+                                </li>
+                                <li class="mb-2 fs-5">
+                                    <font-awesome-icon icon="fa-solid fa-clock" class="text-success" />
+                                    8:00h às 18h30 (Horário de Lisboa)
+                                </li>
+                                <li class="mb-2 fs-5">
+                                    <font-awesome-icon icon="fa-solid fa-clock" class="text-success" />
+                                    5:00h às 15h30 (Horário de Brasília)
+                                </li>
+                            </ul>
+
+                            <p class="fs-5 fw-bold mb-3" v-reveal="'bottom'">
+                                Data da revisão uma semana antes da data da prova
+                            </p>
+
+                            <p class="fs-5" v-reveal="'bottom'">
+                                O curso ficará gravado e disponível para acesso posterior
+                            </p>
+                        </div>
+                        <div class="col-md-6 align-self-center">
+                            <img :src="DoctorsCircle" alt="Doutores Jamil Cade e Ana Facundo" class="img-75"
+                                v-reveal="'bottom'">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <p class="text-center mb-3 fs-1 text-success fw-bold" v-reveal="'bottom'">
+                            Programação
+                        </p>
+
+                        <div class="col-md-4 mb-3 mb-md-0" v-reveal="'bottom'">
+                            <div
+                                class="p-4 program-card position-relative bg-success bg-gradient rounded-4 shadow align-content-center">
+                                <div class="bg-program-card">
+                                    Dia 1
+                                </div>
+                                <ul class="list-unstyled fs-5 text-white" v-reveal="'bottom'">
+                                    <li class="mb-1 fw-semibold ff-roboto fs-3 text-gold">
+                                        Manhã: Clínica Médica 1
+                                    </li>
+                                    <li class="mb-1">
+                                        Até 8h - Chegada dos alunos
+                                    </li>
+                                    <li class="mb-1">
+                                        8h até 8h30 - Boas-vindas
+                                    </li>
+                                    <li class="mb-1">
+                                        8h30 - inicío das atividades
+                                    </li>
+                                    <li class="mb-1 fw-semibold ff-roboto fs-3 text-gold">
+                                        Tarde: GO e Psiquiatria
+                                    </li>
+                                    <li class="mb-1">
+                                        13h até 14h30 - Almoço
+                                    </li>
+                                    <li class="mb-1">
+                                        14h30 - Retorno às atividades
+                                    </li>
+                                    <li class="mb-1">
+                                        18h30 - Término das atividades
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0" v-reveal="'bottom'">
+                            <div
+                                class="p-4 program-card position-relative bg-success bg-gradient rounded-4 shadow align-content-center">
+                                <div class="bg-program-card">
+                                    Dia 2
+                                </div>
+                                <ul class="list-unstyled fs-5 text-white" v-reveal="'bottom'">
+                                    <li class="mb-1 fw-semibold ff-roboto fs-3 text-gold">
+                                        Manhã: Clínica Médica 2
+                                    </li>
+                                    <li class="mb-1">
+                                        Até 8h - Chegada dos alunos
+                                    </li>
+                                    <li class="mb-1">
+                                        8h - início das atividades
+                                    </li>
+                                    <li class="mb-1 fw-semibold ff-roboto fs-3 text-gold">
+                                        Tarde: Pediatria
+                                    </li>
+                                    <li class="mb-1">
+                                        13h até 14h30 - Almoço
+                                    </li>
+                                    <li class="mb-1">
+                                        14h30 - Retorno às atividades
+                                    </li>
+                                    <li class="mb-1">
+                                        18h30 - Término das atividades
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0" v-reveal="'bottom'">
+                            <div
+                                class="p-4 program-card position-relative bg-success bg-gradient rounded-4 shadow align-content-center">
+                                <div class="bg-program-card">
+                                    Dia 3
+                                </div>
+                                <ul class="list-unstyled fs-5 text-white" v-reveal="'bottom'">
+                                    <li class="mb-1 fw-semibold ff-roboto fs-3 text-gold">
+                                        Manhã: Cirurgia
+                                    </li>
+                                    <li class="mb-1">
+                                        Até 8h - Chegada dos alunos
+                                    </li>
+                                    <li class="mb-1">
+                                        8h - início das atividades
+                                    </li>
+                                    <li class="mb-1 fw-semibold ff-roboto fs-3 text-gold">
+                                        Tarde: SP e MFG
+                                    </li>
+                                    <li class="mb-1">
+                                        13h até 14h30 - Almoço
+                                    </li>
+                                    <li class="mb-1">
+                                        14h30 - Retorno às atividades
+                                    </li>
+                                    <li class="mb-1">
+                                        18h30 - Término das atividades
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-auto mx-auto d-grid" v-reveal="'bottom'">
+                            <button type="button" class="btn btn-danger fs-5 rounded-4 px-4 btn-lg fw-semibold"
+                                @click="openCourse('revisao')">
+                                Quero garantir somente
+                                <br>
+                                a <span class="text-gold">Revisão Pré-Prova</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- professores -->
+            <section class="bg-darkGreen">
+                <div class="container py-5">
+                    <h1 class="text-lemonGreen text-center mb-3 ff-roboto fw-bold" v-reveal="'bottom'">
+                        Professores
+                    </h1>
+                    <div class="row justify-content-center" v-reveal="'bottom'">
+                        <div class="col-md-6 col-lg-4 mb-3 mb-md-0">
+                            <div class="m-1 rounded-4" style="background-color: #146531;">
+                                <img :src="DrJamilDetalhe" alt="Dr Jamil Ribeiro Cade" class="w-100 rounded-top-4">
+                                <p class="fs-2 text-lightGreen text-center mb-0 fw-semibold py-2">
+                                    Dr. Jamil Ribeiro Cade
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 mb-3 mb-md-0">
+                            <div class="m-1 rounded-4" style="background-color: #02542D;">
+                                <img :src="DraAnaDetalhe" alt="Dra Ana Carolina Facundo" class="w-100 rounded-top-4">
+                                <p class="fs-2 text-lightGreen text-center mb-0 fw-semibold py-2">
+                                    Dra. Ana Carolina Facundo
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- segunda fase -->
+            <section style="background-color: #07301C;" class="position-relative">
+                <div id="bg-paperplane"></div>
+                <div class="container py-5">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <p class="fs-1 text-gold mb-3 fw-semibold" v-reveal="'bottom'">
+                                Estude e revise com quem mais entende da prova e dê o primeiro passo rumo à Medicina em
+                                Portugal.
+                            </p>
+                            <p class="fs-3 text-white mb-3 fw-semibold" v-reveal="'bottom'">
+                                Sua aprovação começa com clareza, suporte e um plano validado.
+                            </p>
+
+                            <a href="https://wa.me/5511948308431"
+                                class="btn btn-success bg-gradient btn-lg fs-5 py-3 px-5 rounded-4 border-light mb-3">
+                                <font-awesome-icon icon="fa-brands fa-whatsapp" />
+                                Garanta sua vaga para segunda fase agora!
+                            </a>
+
+                            <p class="fs-3 text-white mb-3 fw-semibold" v-reveal="'bottom'">
+                                Vendas limitadas ao número de vagas
+                            </p>
+
+                            <div class="row g-3">
+                                <div class="col-lg-6 d-grid">
+                                    <div class="fs-4 text-center py-3 text-white rounded-4"
+                                        style="background-color: #E3172A;">
+                                        <span class="text-warning fw-bold">€ 249,00</span>
+                                        <br>
+                                        <small>para mentorado</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 d-grid">
+                                    <div class="fs-4 text-center py-3 text-white rounded-4"
+                                        style="background-color: #E3172A;">
+                                        <span class="text-warning fw-bold">€ 319,00</span>
+                                        <br>
+                                        <small>Para não mentorado</small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -635,14 +904,34 @@ const closeModal = () => {
     background-size: cover;
 }
 
-.overflow-control {
-    overflow: hidden;
+.program-card {
+    min-height: 315px;
 }
 
-@media (min-width: 993px) {
-    .overflow-control {
-        max-height: 420px;
-        overflow-y: scroll
+.bg-program-card {
+    position: absolute;
+    color: #ffffff52;
+    font-size: 4rem;
+    font-style: italic;
+    font-weight: 700;
+    bottom: 1.5rem;
+    right: 1rem;
+    rotate: calc(270deg);
+    transform-origin: left bottom;
+    translate: calc(105%);
+}
+
+#bg-paperplane {
+    position: absolute;
+    inset: 0;
+    background-repeat: no-repeat;
+    background-position: bottom right
+}
+
+@media (min-width: 992px) {
+    #bg-paperplane {
+        background-image: url(../assets/img/home/paper-airplane.png);
+        background-size: 50%;
     }
 }
 
@@ -657,9 +946,8 @@ const closeModal = () => {
         background-size: 65%;
     }
 
-    .overflow-control {
-        max-height: unset;
-        overflow: hidden;
+    #bg-paperplane {
+        background-size: 45%;
     }
 }
 
@@ -671,6 +959,10 @@ const closeModal = () => {
     #hero-bg {
         background-size: 80vh;
     }
+
+    #bg-paperplane {
+        background-size: 40%;
+    }
 }
 
 .play-icon {
@@ -679,10 +971,6 @@ const closeModal = () => {
     top: 8px;
     font-size: 40px;
     color: #000000;
-}
-
-.position-relative {
-    position: relative;
 }
 
 .custom-modal {

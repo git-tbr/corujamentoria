@@ -69,29 +69,19 @@ html {
     background-color: var(--darkGreen);
 }
 
+.bg-lightGreen {
+    background-color: var(--lightGreen);
+}
+
+.bg-lemonGreen {
+    background-color: var(--lemonGreen);
+}
+
 .base-card {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-}
-
-@media (min-width: 768px) {
-    .base-card {
-        min-height: 470px;
-    }
-}
-
-.img-75 {
-    display: block;
-    width: 100%;
-}
-
-@media (min-width: 1200px) {
-    .img-75 {
-        width: 75%;
-        margin: 0 auto;
-    }
 }
 
 .circle {
@@ -107,7 +97,6 @@ html {
 }
 
 .box-results {
-    min-height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -130,4 +119,30 @@ html {
 .icone>img {
     padding: 20px;
     width: 100%;
+}
+
+.img-75 {
+    display: block;
+    width: 100%;
+}
+
+.position-relative {
+    position: relative;
+}
+
+@media (min-width: 768px) {
+    .base-card {
+        min-height: 470px;
+    }
+
+    .box-results {
+        min-height: 280px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .img-75 {
+        width: 75%;
+        margin: 0 auto;
+    }
 }
