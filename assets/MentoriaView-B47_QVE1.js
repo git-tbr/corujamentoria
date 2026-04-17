@@ -1,1 +1,0 @@
-import{A as e,b as t,f as n,p as r,w as i}from"./website-Dg4qeF6h.js";import{t as a}from"./DefaultLayout-BNTjz43C.js";var o=t({__name:`MentoriaView`,setup(t){return(t,o)=>(i(),r(a,null,{default:e(()=>[...o[0]||=[n(`main`,null,` Mentoria `,-1)]]),_:1}))}});export{o as default};

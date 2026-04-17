@@ -1,0 +1,1 @@
+import{A as e,b as t,f as n,p as r,w as i}from"./website-B4uyWxVZ.js";import{t as a}from"./DefaultLayout-BTrUEAls.js";var o=t({__name:`ContatoView`,setup(t){return(t,o)=>(i(),r(a,null,{default:e(()=>[...o[0]||=[n(`main`,null,` Contato `,-1)]]),_:1}))}});export{o as default};
