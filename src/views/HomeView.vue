@@ -20,6 +20,8 @@ import rebecaSpinelli from '@/assets/img/home/rebeca.webp'
 import sergioCabral from '@/assets/img/home/sergio_cabral.webp'
 import garantido from '@/assets/img/home/garantido.png'
 import noventaenove from '@/assets/img/home/99.png'
+import EbookFundo from '@/assets/img/home/ebook_fundo.png'
+import DraBrunaCirculo from '@/assets/img/home/dra_bruna_circulo.png'
 
 import { RouterLink, useRouter } from 'vue-router'
 import { computed, ref } from 'vue'
@@ -61,6 +63,15 @@ const resultadosList = [
     { id: 2, img: garantido, text: `<strong>88% de aprovação</strong> na 1ª fase da prova de equivalência em 2025.` },
     { id: 3, img: noventaenove, text: `<strong>99% de aprovação</strong> na 2ª fase no mesmo ano.` },
     { id: 4, img: garantido, text: `Mentoria conduzida pelos médicos com as <strong>maiores notas já registradas no processo</strong>.` },
+];
+
+const paraQuemList = [
+    { id: 1, content: 'Está se preparando para revalidar o diploma médico em Portugal ou se preparando para a PNA' },
+    { id: 2, content: 'Acabou de se formar ou já atua há anos na medicina' },
+    { id: 3, content: 'Mora no Brasil, Portugal ou em outros países de língua portuguesa ou não, mas que deseja acessar o mercado de Portugal e Europa' },
+    { id: 4, content: 'Está perdido(a) no meio de tanto conteúdo e não sabe por onde começar' },
+    { id: 5, content: 'Quer estudar com segurança e orientação de perto por quem já passou pelo processo' },
+    { id: 6, content: 'Deseja atuar como médico em Portugal ou simplesmente se atualizar com as práticas da medicina portuguesa e europeia' },
 ];
 
 const modalVideo = ref<any>(null);
@@ -845,6 +856,144 @@ const closeModal = () => {
                 </div>
             </section>
 
+            <!-- ebook -->
+            <section class="bg-black">
+                <div class="container py-5">
+
+                    <div class="row">
+                        <div class="col-lg-6 mb-3 mb-lg-0 align-self-center" v-reveal="'bottom'">
+                            <img :src="EbookFundo" alt="Ebook CoruJÁ" class="img-75">
+                        </div>
+                        <div class="col-lg-6 align-self-center" v-reveal="'bottom'">
+                            <h1 class="fw-bold text-light mb-3 ff-roboto">
+                                Materiais de Estudo
+                            </h1>
+                            <img :src="Logo" alt="" height="60" class="mb-3">
+                            <h1 class="mb-3 fw-bold text-light ff-roboto">
+                                Manual Completo
+                            </h1>
+                            <p class="fs-3 fw-semibold text-success mb-3" v-reveal="'bottom'">
+                                Material Completo para Revalidação
+                            </p>
+                            <p class="fs-5 text-light mb-3" v-reveal="'bottom'">
+                                Encontre os melhores materiais de estudo para sua preparação na reavaliação de diplomas
+                                médicos em Portugal. Livros completos e atualizados escritos pelos profissioinais que
+                                obtiveram as maiores notas do concurso.
+                            </p>
+                            <ul class="list-unstyled fs-5 text-light mb-3" v-reveal="'bottom'">
+                                <li class="mb-1">
+                                    <font-awesome-icon icon="fa-solid fa-circle-check" class="text-success" />
+                                    Atualizados constantemente
+                                </li>
+                                <li class="mb-1">
+                                    <font-awesome-icon icon="fa-solid fa-circle-check" class="text-success" />
+                                    Desenvolvidos pelos melhores
+                                </li>
+                                <li class="mb-1">
+                                    <font-awesome-icon icon="fa-solid fa-circle-check" class="text-success" />
+                                    Acesso imediato
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <p class="fs-5 text-light lh-0 mb-3" v-reveal="'bottom'">
+                                Apresentamos os Manuais CoruJÁ: uma coleção inédita com 7 volumes que reúde o conteúdo
+                                essencial das aulas ministradas pelo Dr. Jamil e Dra. Ana nas disciplinas mais cobradas
+                                na prova de equivalência médica em Portugal.
+                                <br>
+                                Cada fascículo foi pensado para te guiar nos estudos de forma prática e objetiva, com
+                                linguagem clara, foco no que realmente cai na prova e organizado por tema: Clínica
+                                Médica I e II, Cirurgia, Pediatria, Ginecoligia e Obstetrícia, Medicina Geral e Familiar
+                                (MGF) e Saúde Pública.
+                                <br>
+                                Ideal para acompanhar os encontors e revisar temas importantes e estruturar seu plano de
+                                estudos com clareza e estratégia.
+                                <br>
+                                Um material completo, direto ao ponto, feito por quem já passou pela prova e sabe
+                                exatamente o que você precisa esturdar para conquistar sua aprovação.
+                                <br>
+                                Seja vem-vindo(a) ao CoruJÁ. Estudar com propósito é o primeiro passo para viver seu
+                                sonho em Portugal.
+                            </p>
+                            <p class="text-end fs-5 text-light">
+                                Autor(es)
+                                <br>
+                                Ana Carolina Facundo e Jamil Ribeiro Cade
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto mx-auto d-grid" v-reveal="'bottom'">
+                            <button type="button" class="btn btn-danger fs-5 rounded-4 px-4 btn-lg fw-semibold"
+                                @click="openCourse('ebook')">
+                                Quero garantir somente
+                                <br>
+                                o <span class="text-gold">Manual Completo</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- para quem é? -->
+            <section style="background-color: #15152C;">
+                <div class="container py-5">
+                    <div class="row">
+                        <div class="col">
+                            <h1 class="display-5 text-lemonGreen text-center ff-roboto fw-bold mb-0"
+                                v-reveal="'bottom'">
+                                Para quem é?
+                            </h1>
+                            <p class="fs-2 text-light text-center mb-3 ff-roboto" v-reveal="'bottom'">
+                                Essa mentoria é pra você que:
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-lg-4" v-for="pq in paraQuemList" :key="pq.id" v-reveal="'bottom'">
+                            <div class="p-3 position-relative border border-secondary rounded-4 align-content-center mb-3"
+                                style="min-height: 200px">
+                                <font-awesome-icon icon="fa-solid fa-circle-check"
+                                    class="text-success icon-left-top fs-1" />
+                                <p class="fs-4 text-light text-center">
+                                    {{ pq.content }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- segunda fase -->
+            <section>
+                <div class="container py-5">
+                    <div class="row">
+                        <div class="col-md-6 mb-3 mb-md-0 align-self-center" v-reveal="'bottom'">
+                            <img :src="DraBrunaCirculo" alt="" class="img-75">
+                        </div>
+                        <div class="col-md-6 align-self-center">
+                            <img :src="Logo" alt="" height="60" class="mb-3" v-reveal="'bottom'" />
+                            <h1 class="fw-bold text-success ff-roboto mb-3" v-reveal="'bottom'">
+                                Mentoria CoruJÁ Segunda Fase
+                            </h1>
+                            <p class="fs-2 lh-1 text-danger mb-3" v-reveal="'bottom'">
+                                Prepare-se para a Prova Prática e Sabatina com quem teve as maiores notas da história no
+                                processo.
+                            </p>
+                            <p class="fs-5" v-reveal="'bottom'">
+                                Chega de estudar sem saber o que cada banca quer.
+                                Na Mentoria Segunda Fase CoruJÁ, você segue um plano validado por médicos aprovados com
+                                exelência - em bancas diferentes - e com tudo direcionado para a sua apresentação do
+                                relatório médico e sabatina.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Modal -->
             <dialog ref="modalVideo" class="custom-modal">
                 <div class="modal-content-wrapper">
@@ -881,7 +1030,6 @@ const closeModal = () => {
     inset: 0;
     background-repeat: no-repeat;
     background-position: bottom right;
-    ;
 }
 
 #hero-mozaic {
@@ -895,6 +1043,12 @@ const closeModal = () => {
 #hero-container {
     position: relative;
     z-index: 3;
+}
+
+.icon-left-top {
+    position: absolute;
+    top: -6px;
+    left: -10px;
 }
 
 .circle-bg {
