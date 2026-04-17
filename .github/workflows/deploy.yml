@@ -35,4 +35,3 @@ jobs:
           branch: deploy # Branch onde os arquivos estáticos residirão
           folder: dist # Pasta gerada pelo comando 'npm run build'
           clean: true
-          single-commit: true
