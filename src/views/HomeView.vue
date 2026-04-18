@@ -22,6 +22,7 @@ import garantido from '@/assets/img/home/garantido.png'
 import noventaenove from '@/assets/img/home/99.png'
 import EbookFundo from '@/assets/img/home/ebook_fundo.png'
 import DraBrunaCirculo from '@/assets/img/home/dra_bruna_circulo.png'
+import CorujaBranca from '@/assets/img/logo/coruja_branca.png'
 
 import { RouterLink, useRouter } from 'vue-router'
 import { computed, ref } from 'vue'
@@ -73,6 +74,12 @@ const paraQuemList = [
     { id: 5, content: 'Quer estudar com segurança e orientação de perto por quem já passou pelo processo' },
     { id: 6, content: 'Deseja atuar como médico em Portugal ou simplesmente se atualizar com as práticas da medicina portuguesa e europeia' },
 ];
+
+const doctorsImages = [
+    { id: 1, img: DrJamil, name: 'Dr. Jamil Ribeiro Cade' },
+    { id: 2, img: DraBruna, name: 'Dra. Bruna Soares Bicalho' },
+    { id: 3, img: DraAna, name: 'Dra. Ana Carolina Facundo' },
+]
 
 const modalVideo = ref<any>(null);
 const currentPlayerUrl = ref<string>('');
@@ -823,7 +830,7 @@ const closeModal = () => {
                                 Sua aprovação começa com clareza, suporte e um plano validado.
                             </p>
 
-                            <a href="https://wa.me/5511948308431"
+                            <a href="https://wa.me/5511948308431" target="_blank"
                                 class="btn btn-success bg-gradient btn-lg fs-5 py-3 px-5 rounded-4 border-light mb-3">
                                 <font-awesome-icon icon="fa-brands fa-whatsapp" />
                                 Garanta sua vaga para segunda fase agora!
@@ -994,6 +1001,103 @@ const closeModal = () => {
                 </div>
             </section>
 
+            <!-- chamada segunda fase -->
+            <section class="bg-darkGreen">
+                <div class="container py-5">
+                    <div class="row">
+                        <div class="col-md-auto order-md-last align-self-center mb-3 mb-md-0" v-reveal="'bottom'">
+                            <img :src="CorujaBranca" alt="" width="200" class="d-block mx-auto">
+                        </div>
+                        <div class="col align-self-center order-md-first" v-reveal="'bottom'">
+                            <p class="fs-4 fw-semibold text-white mb-3">
+                                CoruJÁ Mentoria 2ª Fase é Online e em Tempo Real. Após os encontros, os materiais ficam
+                                gravados e disponíveis para consulta até o final das provas.
+                                <br>
+                                Método Validado com 99% de aprovação na Segunda Fase.
+                            </p>
+                            <p class="text-center">
+                                <a href="https://wa.me/5511948308431" target="_blank"
+                                    class="btn btn-lg btn-danger bg-gradient border border-light rounded-4 fs-5 py-3 px-5">
+                                    <font-awesome-icon icon="fa-brands fa-whatsapp" />
+                                    Quero garantir minha vaga
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- os médicos com as maiores notas -->
+            <section class="bg-dark">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4 px-0 position-relative" v-for="img in doctorsImages" :key="img.id"
+                            v-reveal="'bottom'">
+                            <img :src="img.img" alt="" class="img-fluid">
+                            <p
+                                class="text-center text-light fw-semibold ff-roboto fs-5 mb-0 bg-success bg-gradient rounded-4 bg-opacity-50 p-3 text-over-img">
+                                {{ img.name }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container py-5">
+                    <h1 class="display-4 text-center text-lemonGreen ff-roboto fw-bold mb-3" v-reveal="'bottom'">
+                        Os médicos com as maiores notas - agora do seu lado
+                    </h1>
+                    <div class="row">
+                        <div class="col-md-6 align-self-center" v-reveal="'bottom'">
+                            <p class="fs-5 text-light mb-3">
+                                Na Mentoria Segunda Fase CoruJÁ, você tem encontros com 3 médicos aprovados, cada um em
+                                uma banca diferente, incluindo:
+                            </p>
+                            <ul class="text-light mb-3 fs-5">
+                                <li class="mb-1">
+                                    Universidade de Lisboa
+                                </li>
+                                <li class="mb-1">
+                                    Universidade do Porto
+                                </li>
+                            </ul>
+                            <ul class="list-unstyled text-light mb-3 fs-5">
+                                <li class="mb-1">
+                                    Três estilos.
+                                </li>
+                                <li class="mb-1">
+                                    Três bancas.
+                                </li>
+                                <li class="mb-3">
+                                    Três experiências reais.
+                                </li>
+                                <li class="mb-1 fw-semibold">
+                                    Você aprende exatamente o que cada banca valoriza.
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 align-self-center" v-reveal="'bottom'">
+                            <ul class="list-unstyled text-light mb-3 mb-md-5 fs-5">
+                                <li class="mb-3">
+                                    <font-awesome-icon icon="fa-solid fa-angle-right" class="text-success fs-3" />
+                                    Quer treinar com profissionais que conhecem as bancas "por dentro", com professores
+                                    de semiologia médica com foco em Portugal.
+                                </li>
+                                <li class="mb-3">
+                                    <font-awesome-icon icon="fa-solid fa-angle-right" class="text-success fs-3" />
+                                    Mentores aprovados com as maiores notas do processo médico e que já dominaram as
+                                    bancas nas mais diversas universidades médicas de Portugal.
+                                </li>
+                            </ul>
+                            <a href="https://wa.me/5511948308431" target="_blank"
+                                class="btn btn-lg btn-danger bg-gradient border border-light rounded-4 fs-5 py-3 px-5">
+                                <font-awesome-icon icon="fa-brands fa-whatsapp" />
+                                Quero garantir minha vaga
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Modal -->
             <dialog ref="modalVideo" class="custom-modal">
                 <div class="modal-content-wrapper">
@@ -1043,6 +1147,14 @@ const closeModal = () => {
 #hero-container {
     position: relative;
     z-index: 3;
+}
+
+.text-over-img {
+    position: absolute;
+    bottom: 3%;
+    width: 90%;
+    left: 5%;
+
 }
 
 .icon-left-top {
