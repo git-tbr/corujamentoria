@@ -23,10 +23,46 @@ import noventaenove from '@/assets/img/home/99.png'
 import EbookFundo from '@/assets/img/home/ebook_fundo.png'
 import DraBrunaCirculo from '@/assets/img/home/dra_bruna_circulo.png'
 import CorujaBranca from '@/assets/img/logo/coruja_branca.png'
+import DoutoresSegundaFase from '@/assets/img/home/doutores_segunda_fase.png'
+import DoctorsStanding from '@/assets/img/home/doctors_standing.png'
+import BgSemicircle from '@/assets/img/home/background_semicircle.png'
 
 import { RouterLink, useRouter } from 'vue-router'
 import { computed, ref } from 'vue'
 import { useAlert } from '@/services/alertService'
+
+const faqItems = [
+    {
+    pergunta: "Preciso estar em Portugal para fazer a mentoria?",
+    resposta: "Não. Todo o conteúdo é online e acessível de qualquer lugar."
+  },
+  {
+    pergunta: "Serve para qualquer fase da revalidação?",
+    resposta: "Atualmente, o foco é na 1ª fase. A mentoria da 2ª fase será lançada em breve na plataforma. Fique atento ao lançamento ou entre em contato."
+  },
+  {
+    pergunta: "Como funciona o CoruJÁ Encontro?",
+    resposta: "São encontros semanais ao vivo para tirar dúvidas e resolver as questões com maior índice de erros. Você pode assistir aos encontros ao vivo ou gravados."
+  },
+  {
+    pergunta: "Quando começo a estudar?",
+    resposta: "Assim que o pagamento for confirmado mediante comprovante de pagamento, o acesso é liberado automaticamente."
+  },
+  {
+    pergunta: "Por quanto tempo tenho acesso?",
+    resposta: "Você terá acesso por 12 meses, com possibilidade de renovação."
+  }
+];
+
+const mentoria2FaseList = [
+    { id: 1, title: 'Banco de Casos CoruJÁ', content: 'Mais de 150 casos clínicos, organizados por temas e perfil de banca, baseados no que já caiu na 2ª fase.' },
+    { id: 2, title: 'Mapeamento completo das bancas', content: 'Entenda o estilo, preferências e padrões de cobrança de cada instituição.' },
+    { id: 3, title: 'Resumos estratégicos por área', content: 'Clínica Médica | Cirurgia \n Com foco no que realmente é perguntado na sabatina.' },
+    { id: 4, title: 'Encontros ao vivo e que ficam gravados', content: 'Tudo é gravado e fica disponível para assistir quantas vezes quiser.' },
+    { id: 5, title: 'Modelo de Relatório Exclusivo CoruJÁ', content: 'Template validado por aprovados com nota máxima.' },
+    { id: 6, title: 'Mapas mentais e materiais de alto rendimento', content: 'Mapas dos temas, roteiros de apresentação, listas de verificação.' },
+    { id: 7, title: 'Pré-Sabatina CoruJÁ que é a ÚNICA DO MERCADO', content: 'A única mentoria que faz encontro no dia anterior da sabatina, especialmente para quem será avaliado em dois dias.' },
+];
 
 const conquista = [
     { id: 1, content: 'Material didático organizado e validado com o que realmente cai na prova;' },
@@ -1033,7 +1069,7 @@ const closeModal = () => {
                     <div class="row">
                         <div class="col-md-4 px-0 position-relative" v-for="img in doctorsImages" :key="img.id"
                             v-reveal="'bottom'">
-                            <img :src="img.img" alt="" class="img-fluid">
+                            <img :src="img.img" alt="" class="w-100">
                             <p
                                 class="text-center text-light fw-semibold ff-roboto fs-5 mb-0 bg-success bg-gradient rounded-4 bg-opacity-50 p-3 text-over-img">
                                 {{ img.name }}
@@ -1043,7 +1079,7 @@ const closeModal = () => {
                 </div>
 
                 <div class="container py-5">
-                    <h1 class="display-4 text-center text-lemonGreen ff-roboto fw-bold mb-3" v-reveal="'bottom'">
+                    <h1 class="display-4 text-center text-lemonGreen ff-roboto fw-bold mb-4" v-reveal="'bottom'">
                         Os médicos com as maiores notas - agora do seu lado
                     </h1>
                     <div class="row">
@@ -1093,6 +1129,111 @@ const closeModal = () => {
                                 <font-awesome-icon icon="fa-brands fa-whatsapp" />
                                 Quero garantir minha vaga
                             </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- chamada para segunda fase -->
+            <section>
+                <div class="container py-5">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <h1 class="text-success ff-roboto fw-semibold text-center">
+                                Você vai receber na Mentoria Segunda Fase:
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6 align-self-center mb-3 mb-md-0" v-reveal="'bottom'">
+                            <img :src="DoutoresSegundaFase" alt="" class="img-75 rounded-4">
+                        </div>
+                        <div class="col-md-6 align-self-center" v-reveal="'bottom'">
+                            <ul class="list-unstyled mb-3 fs-5">
+                                <li v-for="list in mentoria2FaseList" :key="list.id">
+                                    <p class="mb-0 fw-semibold fs-4">
+                                        <font-awesome-icon icon="fa-solid fa-circle-check" class="text-success" />
+                                        {{ list.title }}
+                                    </p>
+                                    <p class="preserve-break">
+                                        {{ list.content }}
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" v-reveal="'bottom'">
+                            <img :src="Logo" alt="" height="60" class="d-block mx-auto mb-3">
+                            <h1 class="text-center ff-roboto fw-bold mb-3">
+                                <span class="text-success">
+                                    Mentoria CoruJÁ Segunda Fase
+                                </span>
+                                <br>
+                                <span class="text-danger">
+                                    INSCRIÇÕES ABERTAS
+                                </span>
+                            </h1>
+                            <p class="text-center">
+                                <a href="https://wa.me/5511948308431" target="_blank"
+                                    class="btn btn-lg btn-danger bg-gradient border border-light rounded-4 fs-5 py-3 px-5">
+                                    <font-awesome-icon icon="fa-brands fa-whatsapp" />
+                                    Falar com a equipe no WhatsApp
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section style="background-color: #07301C;">
+                <div class="container py-5">
+                    <div class="row">
+                        <div class="col-lg-9 mx-auto">
+                            <p class="fs-1 fw-bold text-center" style="color: #B1E6C4;">
+                                FAQ - Perguntas Frequentes
+                            </p>
+
+                            <div class="accordion accordion-flush" id="accordionListFAQ">
+                                <div v-for="(item, index) in faqItems" :key="index"
+                                    class="accordion-item mb-3 rounded-4">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed rounded-4 fs-5" type="button"
+                                            data-bs-toggle="collapse" :data-bs-target="'#flush-collapse' + index"
+                                            aria-expanded="false" :aria-controls="'flush-collapse' + index">
+                                            {{ item.pergunta }}
+                                        </button>
+                                    </h2>
+                                    <div :id="'flush-collapse' + index" class="accordion-collapse collapse"
+                                        data-bs-parent="#accordionListFAQ">
+                                        <div class="accordion-body">
+                                            {{ item.resposta }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-lightGreen">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 py-5 align-self-center" v-reveal="'bottom'">
+                            <h1 class="text-darkGreen fw-bold mb-3" v-reveal="'bottom'">
+                                Sua aprovação começa com clareza, suporte e um plano validado.
+                            </h1>
+                            <p class="fs-3 mb-3" v-reveal="'bottom'">
+                                Chega de perder tempo com materiais soltos e inseguranças do processo.
+                            </p>
+                            <p class="fs-3 mb-3 fw-semibold" v-reveal="'bottom'">
+                                Estude com quem mais entende da prova e dê o primeiro passo rumo à medicina em Portugal.
+                            </p>
+                        </div>
+                        <div class="col-lg-6 align-self-end d-none d-lg-block position-relative">
+                            <img :src="BgSemicircle" alt="" class="w-50 z-0" style="position: absolute; top: 0; right: 0;">
+                            <img :src="DoctorsStanding" alt="" class="w-50 pt-5 d-block ms-auto z-1" style="position: relative; bottom: 0; right: 0;">
                         </div>
                     </div>
                 </div>
@@ -1192,6 +1333,10 @@ const closeModal = () => {
     inset: 0;
     background-repeat: no-repeat;
     background-position: bottom right
+}
+
+.preserve-break {
+    white-space: pre-line;
 }
 
 @media (min-width: 992px) {
