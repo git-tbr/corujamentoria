@@ -1,1 +1,0 @@
-import{M as e,N as t}from"./website-B4uyWxVZ.js";var n=t(!1),r=t({title:``,message:``,type:`info`,isConfirm:!1}),i;function a(){return{isOpen:e(n),options:e(r),showAlert:e=>(r.value={...e,type:e.type||`info`,isConfirm:e.isConfirm||!1},n.value=!0,new Promise(e=>{i=e})),close:e=>{n.value=!1,i&&i(e)}}}export{a as t};
