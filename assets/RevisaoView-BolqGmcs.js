@@ -1,1 +1,0 @@
-import{A as e,b as t,f as n,p as r,w as i}from"./website-DjmJUy4t.js";import{t as a}from"./DefaultLayout-C7pISFyU.js";var o=t({__name:`RevisaoView`,setup(t){return(t,o)=>(i(),r(a,null,{default:e(()=>[...o[0]||=[n(`main`,null,` Revisão `,-1)]]),_:1}))}});export{o as default};
