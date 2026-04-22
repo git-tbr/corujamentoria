@@ -9,9 +9,16 @@ const fixedNavbar = ref<boolean>(false)
 const actualRoute = ref<string>('')
 const route = useRoute()
 const router = useRouter()
+const toTopBtn = ref<any>(null)
+const btnParent = ref<boolean>(false)
 
 const onScroll = () => {
     fixedNavbar.value = window.scrollY > 56
+    btnParent.value = window.scrollY > 800
+}
+
+const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 const logOut = () => {
@@ -113,4 +120,20 @@ onUnmounted(() => {
             </div>
         </nav>
     </header>
+
+    <div class="floating-button" :class="btnParent ? 'd-block' : 'd-none'">
+        <button ref="toTopBtn" class="btn btn-success btn-lg border-light border border-3 fs-3 px-3 rounded-4 shadow"
+            @click="scrollToTop">
+            <font-awesome-icon icon="fa-solid fa-arrow-up" />
+        </button>
+    </div>
 </template>
+
+<style scoped>
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+</style>

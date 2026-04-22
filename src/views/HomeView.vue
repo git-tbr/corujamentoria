@@ -33,25 +33,25 @@ import { useAlert } from '@/services/alertService'
 
 const faqItems = [
     {
-    pergunta: "Preciso estar em Portugal para fazer a mentoria?",
-    resposta: "Não. Todo o conteúdo é online e acessível de qualquer lugar."
-  },
-  {
-    pergunta: "Serve para qualquer fase da revalidação?",
-    resposta: "Atualmente, o foco é na 1ª fase. A mentoria da 2ª fase será lançada em breve na plataforma. Fique atento ao lançamento ou entre em contato."
-  },
-  {
-    pergunta: "Como funciona o CoruJÁ Encontro?",
-    resposta: "São encontros semanais ao vivo para tirar dúvidas e resolver as questões com maior índice de erros. Você pode assistir aos encontros ao vivo ou gravados."
-  },
-  {
-    pergunta: "Quando começo a estudar?",
-    resposta: "Assim que o pagamento for confirmado mediante comprovante de pagamento, o acesso é liberado automaticamente."
-  },
-  {
-    pergunta: "Por quanto tempo tenho acesso?",
-    resposta: "Você terá acesso por 12 meses, com possibilidade de renovação."
-  }
+        pergunta: "Preciso estar em Portugal para fazer a mentoria?",
+        resposta: "Não. Todo o conteúdo é online e acessível de qualquer lugar."
+    },
+    {
+        pergunta: "Serve para qualquer fase da revalidação?",
+        resposta: "Atualmente, o foco é na 1ª fase. A mentoria da 2ª fase será lançada em breve na plataforma. Fique atento ao lançamento ou entre em contato."
+    },
+    {
+        pergunta: "Como funciona o CoruJÁ Encontro?",
+        resposta: "São encontros semanais ao vivo para tirar dúvidas e resolver as questões com maior índice de erros. Você pode assistir aos encontros ao vivo ou gravados."
+    },
+    {
+        pergunta: "Quando começo a estudar?",
+        resposta: "Assim que o pagamento for confirmado mediante comprovante de pagamento, o acesso é liberado automaticamente."
+    },
+    {
+        pergunta: "Por quanto tempo tenho acesso?",
+        resposta: "Você terá acesso por 12 meses, com possibilidade de renovação."
+    }
 ];
 
 const mentoria2FaseList = [
@@ -1232,8 +1232,10 @@ const closeModal = () => {
                             </p>
                         </div>
                         <div class="col-lg-6 align-self-end d-none d-lg-block position-relative">
-                            <img :src="BgSemicircle" alt="" class="w-50 z-0" style="position: absolute; top: 0; right: 0;">
-                            <img :src="DoctorsStanding" alt="" class="w-50 pt-5 d-block ms-auto z-1" style="position: relative; bottom: 0; right: 0;">
+                            <img :src="BgSemicircle" alt="" class="w-75 z-0"
+                                style="position: absolute; top: 0; right: 0;">
+                            <img :src="DoctorsStanding" alt="" class="w-75 pt-5 d-block ms-auto z-1"
+                                style="position: relative; bottom: 0; right: 0;">
                         </div>
                     </div>
                 </div>
@@ -1262,42 +1264,6 @@ const closeModal = () => {
 </template>
 
 <style scoped>
-#hero {
-    position: relative;
-    min-height: 850px;
-    background-color: #07301c;
-    overflow: hidden;
-}
-
-#hero-mozaic,
-#hero-bg {
-    position: absolute;
-    inset: 0;
-    background-repeat: no-repeat;
-    background-position: bottom right;
-}
-
-#hero-mozaic {
-    z-index: 1;
-}
-
-#hero-bg {
-    z-index: 2;
-}
-
-#hero-container {
-    position: relative;
-    z-index: 3;
-}
-
-.text-over-img {
-    position: absolute;
-    bottom: 3%;
-    width: 90%;
-    left: 5%;
-
-}
-
 .icon-left-top {
     position: absolute;
     top: -6px;
@@ -1335,10 +1301,6 @@ const closeModal = () => {
     background-position: bottom right
 }
 
-.preserve-break {
-    white-space: pre-line;
-}
-
 @media (min-width: 992px) {
     #bg-paperplane {
         background-image: url(../assets/img/home/paper-airplane.png);
@@ -1347,30 +1309,12 @@ const closeModal = () => {
 }
 
 @media (min-width: 1200px) {
-    #hero-mozaic {
-        background-image: url(../assets/img/home/mozaico.png);
-        background-size: 50%;
-    }
-
-    #hero-bg {
-        background-image: url(../assets/img/home/doutores.png);
-        background-size: 65%;
-    }
-
     #bg-paperplane {
         background-size: 45%;
     }
 }
 
 @media (min-width: 1400px) {
-    #hero-mozaic {
-        background-size: 35vw;
-    }
-
-    #hero-bg {
-        background-size: 80vh;
-    }
-
     #bg-paperplane {
         background-size: 40%;
     }
