@@ -170,6 +170,24 @@ html {
     z-index: 3;
 }
 
+.swiper-button-prev {
+    color: white !important;
+    background-color: #1DC2569d;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.swiper-button-next {
+    color: white !important;
+    background-color: #1DC2569d;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.swiper-pagination-bullet-active {
+    background: #1DC256 !important;
+}
+
 @media (min-width: 768px) {
     .base-card {
         min-height: 470px;

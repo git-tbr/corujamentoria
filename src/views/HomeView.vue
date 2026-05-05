@@ -27,6 +27,7 @@ import DoutoresSegundaFase from '@/assets/img/home/doutores_segunda_fase.png'
 import DoctorsStanding from '@/assets/img/home/doctors_standing.png'
 import BgSemicircle from '@/assets/img/home/background_semicircle.png'
 
+import TestimonialsComponent from '@/components/TestimonialsComponent.vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { computed, ref } from 'vue'
 import { useAlert } from '@/services/alertService'
@@ -83,18 +84,6 @@ const accordionList = [
     { id: 6, title: 'Pré-Sabatina CoruJÁ', content: 'Para os que fazem a prova prática em dois dias oferecemos 1h de discussão estratégica pré-sabatina do segundo dia, nos moldes das bancas, para identificar pontos fortes, lacunas e ajustes finos. Um momento decisivo para testar conhecimento sob pressão real, receber feedback imediato e alinhar a performance para apresentar a melhor versão de si na prova.' }
 ];
 
-const depoimentosList = [
-    { id: 1, name: 'DRA. ALINE MONTEIRO', videoKey: 'yA3baoN7p2q9VfLc', img: alineMonteiro, tipo: 'Aluna CoruJÁ' },
-    { id: 2, name: 'DRA. ANDRÉA NORONHA', videoKey: 'HzSrtNIm9ybzUL0P', img: andreaNoronha, tipo: 'Aluna CoruJÁ' },
-    { id: 3, name: 'DRA. CÍNTIA PERICO', videoKey: 'Qzzlnnbp7rCi8xpz', img: cintiaPerico, tipo: 'Aluna CoruJÁ' },
-    { id: 4, name: 'DRA. DÉBORA VEIGA', videoKey: 'X2ySnvT1wFUim2uv', img: deboraVeiga, tipo: 'Aluna CoruJÁ' },
-    { id: 5, name: 'DRA. GEIRIZA CHANTRE', videoKey: 'OK6UXigw69H6M5hb', img: geirizaChantre, tipo: 'Aluna CoruJÁ' },
-    { id: 6, name: 'DRA. MARIA LETÍCIA', videoKey: 'pIF4TbCOcePiHkGp', img: mariaLeticia, tipo: 'Médica validada em Portugal' },
-    { id: 7, name: 'DRA. NIDIA CHICRALLA', videoKey: 'LrUDNUwclZLgdS3o', img: nidiaChicralla, tipo: 'Aluna CoruJÁ' },
-    { id: 8, name: 'DRA. REBECA SPINELLI', videoKey: 'SQVOdX4MQEDF9gBn', img: rebecaSpinelli, tipo: 'Aluna CoruJÁ' },
-    { id: 9, name: 'DR. SÉRGIO CABRAL', videoKey: '5RAc5SiHPF8mcU3G', img: sergioCabral, tipo: 'Aluno CoruJÁ' },
-];
-
 const resultadosList = [
     { id: 1, img: garantido, text: `<strong>84% de aprovação</strong> na 1ª fase da prova de equivalência em 2024.` },
     { id: 2, img: garantido, text: `<strong>88% de aprovação</strong> na 1ª fase da prova de equivalência em 2025.` },
@@ -117,9 +106,6 @@ const doctorsImages = [
     { id: 3, img: DraAna, name: 'Dra. Ana Carolina Facundo' },
 ]
 
-const modalVideo = ref<any>(null);
-const currentPlayerUrl = ref<string>('');
-const currentDoctorName = ref<string>('');
 const { showAlert } = useAlert();
 const router = useRouter();
 
@@ -134,26 +120,6 @@ const openCourse = async (curso: string) => {
     }
 
     router.push({ name: curso });
-}
-
-const depoimentosAgrupados = computed(() => {
-    const size = 3
-    const grupos = []
-    for (let i = 0; i < depoimentosList.length; i += size) {
-        grupos.push(depoimentosList.slice(i, i + size))
-    }
-    return grupos
-});
-
-const openTestimony = (videoKey: string, doctorName: string) => {
-    currentDoctorName.value = doctorName;
-    currentPlayerUrl.value = `https://cdn.tbr.com.br/player/?vod=1&video=${videoKey}&dual_audio=0`;
-    modalVideo.value.showModal();
-}
-
-const closeModal = () => {
-    modalVideo.value.close();
-    currentPlayerUrl.value = '';
 }
 </script>
 <template>
@@ -588,39 +554,7 @@ const closeModal = () => {
                         </div>
                     </div>
 
-                    <div id="minhaGaleriaCarrossel" class="carousel slide" data-bs-ride="carousel" v-reveal="'bottom'">
-
-                        <div class="carousel-indicators">
-                            <button v-for="(grupo, index) in depoimentosAgrupados" :key="'ind-' + index" type="button"
-                                data-bs-target="#minhaGaleriaCarrossel" :data-bs-slide-to="index"
-                                :class="{ active: index === 0 }" :aria-current="index === 0"
-                                :aria-label="'Slide ' + (index + 1)">
-                            </button>
-                        </div>
-
-                        <div class="carousel-inner">
-                            <div v-for="(grupo, index) in depoimentosAgrupados" :key="'grupo-' + index"
-                                class="carousel-item" :class="{ active: index === 0 }" data-bs-interval="3000">
-
-                                <div class="row g-3">
-                                    <div class="col-md-4" v-for="i in grupo" :key="i.id">
-                                        <div class="bg-dark rounded-4 position-relative">
-                                            <img :src="i.img" :alt="i.name" class="w-100 rounded-top-4 mb-3">
-                                            <p class="text-center text-success mb-0 fs-4 fw-bold px-3 ff-roboto">
-                                                {{ i.name }}
-                                            </p>
-                                            <p class="text-center text-white fs-5 pb-3">
-                                                {{ i.tipo }}
-                                            </p>
-                                            <font-awesome-icon icon="fa-solid fa-circle-play" role="button"
-                                                class="play-icon" @click="openTestimony(i.videoKey, i.name)" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
+                    <TestimonialsComponent />
                 </div>
             </section>
 
@@ -1240,25 +1174,6 @@ const closeModal = () => {
                     </div>
                 </div>
             </section>
-
-            <!-- Modal -->
-            <dialog ref="modalVideo" class="custom-modal">
-                <div class="modal-content-wrapper">
-                    <div class="modal-header-custom">
-                        <h2 class="fw-semibold">{{ currentDoctorName }}</h2>
-                        <button type="button" class="btn-close-custom" @click="closeModal">&times;</button>
-                    </div>
-
-                    <div class="modal-body">
-                        <iframe v-if="currentPlayerUrl" id="player" :src="currentPlayerUrl" frameborder="0"
-                            class="d-block mx-auto" style="aspect-ratio: 16 / 9; width: 100%;" allowfullscreen></iframe>
-                    </div>
-
-                    <div class="text-end mt-3">
-                        <button type="button" class="btn btn-light" @click="closeModal">Fechar</button>
-                    </div>
-                </div>
-            </dialog>
         </main>
     </Layout>
 </template>
@@ -1318,61 +1233,5 @@ const closeModal = () => {
     #bg-paperplane {
         background-size: 40%;
     }
-}
-
-.play-icon {
-    position: absolute;
-    left: 16px;
-    top: 8px;
-    font-size: 40px;
-    color: #000000;
-}
-
-.custom-modal {
-    border: none;
-    border-radius: 1rem;
-    padding: 0;
-    width: 90%;
-    max-width: 1140px;
-    /* Equivalente ao modal-xl */
-    background: #1a1a1a;
-    /* Cor de fundo escura conforme seu tema */
-    color: white;
-}
-
-.custom-modal::backdrop {
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(4px);
-}
-
-.modal-content-wrapper {
-    padding: 1.5rem;
-}
-
-.modal-header-custom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #333;
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
-}
-
-.btn-close-custom {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 2rem;
-    line-height: 1;
-    cursor: pointer;
-}
-
-/* Garante que o dialog centralize corretamente */
-dialog[open] {
-    display: block;
-    position: fixed;
-    top: 70%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 </style>

@@ -58,24 +58,24 @@ const doctorsImages = [
                     <div class="row mb-3">
                         <div class="col-lg-8">
                             <!-- logo -->
-                            <img :src="Logo" alt="Logo CoruJÁ" class="img-fluid mb-3">
+                            <img :src="Logo" alt="Logo CoruJÁ" class="img-fluid mb-3" v-reveal="'bottom'">
 
                             <!-- content -->
-                            <h3 class="text-white fw-semibold mb-3 ff-roboto">
+                            <h3 class="text-white fw-semibold mb-3 ff-roboto" v-reveal="'bottom'">
                                 Revalide seu diploma médico em Portugal com quem teve as maiores notas da história do
                                 concurso.
                             </h3>
 
-                            <p class="fs-4 text-white mb-3">
+                            <p class="fs-4 text-white mb-3" v-reveal="'bottom'">
                                 Chega de estudar no escuro. Com a CoruJÁ Mentoria, você segue um plano validado por
                                 médicos que já passaram — e com excelência.
                             </p>
 
-                            <p class="fs-4 text-gold fw-semibold mb-3">
+                            <p class="fs-4 text-gold fw-semibold mb-3" v-reveal="'bottom'">
                                 Tudo o que você precisa para se preparar com segurança, foco e resultados.
                             </p>
 
-                            <div class="row text-light">
+                            <div class="row text-light" v-reveal="'bottom'">
                                 <div class="col-auto align-self-center">
                                     <i class="fa-solid fa-credit-card fa-2x"></i>
                                 </div>
@@ -85,14 +85,14 @@ const doctorsImages = [
                                     </p>
                                 </div>
                             </div>
-                            <p class="fs-5 text-light">
+                            <p class="fs-5 text-light" v-reveal="'bottom'">
                                 pagamento em real em até 12x com juros.
                             </p>
-                            <p class="pt-3 small text-light">
+                            <p class="pt-3 small text-light" v-reveal="'bottom'">
                                 *** o valor do curso em real varia de acordo com a cotação do euro
                             </p>
                             <button class="btn btn-danger btn-lg px-5 fs-5 fw-semibold rounded-4"
-                                @click="setPaymentAndRedirect">
+                                @click="setPaymentAndRedirect" v-reveal="'bottom'">
                                 ADQUIRA AGORA!
                             </button>
                         </div>
