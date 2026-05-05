@@ -1,0 +1,1 @@
+import{t as e}from"./index-BL818uzh.js";var t={};function n(e,t){return`Política`}var r=e(t,[[`render`,n]]);export{r as default};

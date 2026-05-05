@@ -1,0 +1,1 @@
+var e=`/corujamentoria/assets/doutores_laptop-DjbuztkS.png`,t=`/corujamentoria/assets/garantido-BxsuNjrD.png`,n=`/corujamentoria/assets/99-Bxi_jKvo.png`,r=`/corujamentoria/assets/doctors_standing-FdwVNbPk.png`,i=`/corujamentoria/assets/background_semicircle-CF_Ozcsv.png`;export{e as a,t as i,r as n,n as r,i as t};

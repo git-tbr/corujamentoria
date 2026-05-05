@@ -1,0 +1,1 @@
+var e=`/corujamentoria/assets/doutores_circulo-xFYhN-vq.png`;export{e as t};
