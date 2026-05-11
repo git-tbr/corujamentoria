@@ -1,1 +1,0 @@
-import{C as e,M as t,g as n,h as r,z as i}from"./website-DdWaLw8u.js";import{t as a}from"./DefaultLayout-DdvqrNNN.js";var o=e({__name:`ContatoView`,setup(e){return(e,o)=>(t(),n(a,null,{default:i(()=>[...o[0]||=[r(`main`,null,` Contato `,-1)]]),_:1}))}});export{o as default};

@@ -1,0 +1,1 @@
+import{C as e,M as t,g as n,h as r,z as i}from"./website-Df-UHTmW.js";import{t as a}from"./DefaultLayout-CiyR-i3S.js";var o=e({__name:`CadastroView`,setup(e){return(e,o)=>(t(),n(a,null,{default:i(()=>[...o[0]||=[r(`main`,null,` Cadastro `,-1)]]),_:1}))}});export{o as default};
