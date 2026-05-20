@@ -1,1 +1,0 @@
-import{n as e}from"./index-Dll-awlp.js";var t={};function n(e,t){return`Política`}var r=e(t,[[`render`,n]]);export{r as default};

@@ -1,0 +1,1 @@
+import{C as e,M as t,g as n,h as r,z as i}from"./website-94mBrp3s.js";import{t as a}from"./DefaultLayout-CypXy8hg.js";var o=e({__name:`LoginView`,setup(e){return(e,o)=>(t(),n(a,null,{default:i(()=>[...o[0]||=[r(`main`,null,` Login `,-1)]]),_:1}))}});export{o as default};

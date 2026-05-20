@@ -1,1 +1,0 @@
-import{s as e}from"./website-Df-UHTmW.js";var t=e(),n=e=>{localStorage.setItem(`selectedProduct`,e),t.push(`/checkout`)};export{n as t};
