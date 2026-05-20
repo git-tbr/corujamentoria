@@ -137,9 +137,9 @@ onMounted(() => {
             <section id="hero">
                 <div id="hero-mozaic"></div>
                 <div id="hero-bg"></div>
-                <div class="container py-3 py-lg-5" id="hero-container">
+                <div class="container-fluid py-3 py-lg-5" id="hero-container">
                     <div class="row">
-                        <div class="col-lg-9 mx-auto bg-light bg-opacity-50 p-3 p-lg-5 rounded-4 shadow">
+                        <div class="col-xl-6 bg-light p-3 p-lg-5 ms-xl-5 rounded-4 shadow">
                             <h1 class="text-center text-success ff-roboto fw-bold">
                                 Crie sua conta
                             </h1>
@@ -152,14 +152,15 @@ onMounted(() => {
                                     <div class="col-lg-8 mb-3">
                                         <div class="form-group">
                                             <label for="name" class="form-label fs-5">Nome completo</label>
-                                            <input type="text" id="name" class="form-control bg-light p-2"
+                                            <input type="text" id="name"
+                                                class="form-control bg-secondary bg-opacity-10 p-2"
                                                 v-model="subscribeData.name" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 mb-3">
                                         <div class="form-group">
                                             <label for="nacionality" class="form-label fs-5">Nacionalidade</label>
-                                            <select id="nacionality" class="form-select bg-light p-2"
+                                            <select id="nacionality" class="form-select bg-secondary bg-opacity-10 p-2"
                                                 v-model="subscribeData.nacionality" @change="countryChange" required>
                                                 <option value="">Selecione uma opção</option>
                                                 <option value="Brasileiro(a)">Brasileiro(a)</option>
@@ -173,7 +174,8 @@ onMounted(() => {
                                     <div class="col-lg-6 mb-3" v-if="isBrazilian">
                                         <div class="form-group">
                                             <label for="cpf" class="form-label fs-5">Informe seu CPF</label>
-                                            <input type="text" id="cpf" class="form-control bg-light p-2"
+                                            <input type="text" id="cpf"
+                                                class="form-control bg-secondary bg-opacity-10 p-2"
                                                 v-model="subscribeData.cpf" @input="cpfMask">
                                         </div>
                                     </div>
@@ -182,14 +184,15 @@ onMounted(() => {
                                             <label for="tin" class="form-label fs-5">Informe seu TIN (NIF, CUIT, SSN)
                                                 <span class="text-danger" role="button"
                                                     @click="showTinDescription">(?)</span></label>
-                                            <input type="text" class="form-control bg-light p-2" id="tin"
-                                                v-model="subscribeData.tin">
+                                            <input type="text" class="form-control bg-secondary bg-opacity-10 p-2"
+                                                id="tin" v-model="subscribeData.tin">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 mb-3">
                                         <div class="form-group">
                                             <label for="cellphone" class="form-label fs-5">Celular</label>
-                                            <input type="text" id="cellphone" class="form-control bg-light p-2"
+                                            <input type="text" id="cellphone"
+                                                class="form-control bg-secondary bg-opacity-10 p-2"
                                                 v-model="subscribeData.cellphone" placeholder="+55 99 99999-9999"
                                                 required>
                                         </div>
@@ -200,7 +203,8 @@ onMounted(() => {
                                     <div class="col-lg-6 mb-3">
                                         <div class="form-group">
                                             <label for="email" class="form-label fs-5">E-mail</label>
-                                            <input type="email" id="email" class="form-control bg-light p-2"
+                                            <input type="email" id="email"
+                                                class="form-control bg-secondary bg-opacity-10 p-2"
                                                 v-model="subscribeData.email" required>
                                         </div>
                                     </div>
@@ -209,9 +213,9 @@ onMounted(() => {
                                             <label for="email_confirmation" class="form-label fs-5">Confirme seu
                                                 e-mail</label>
                                             <input type="email" id="email_confirmation"
-                                                class="form-control bg-light p-2" :class="emailCheckedClass"
-                                                v-model="subscribeData.email_confirmation" @input="validateEmail"
-                                                required>
+                                                class="form-control bg-secondary bg-opacity-10 p-2"
+                                                :class="emailCheckedClass" v-model="subscribeData.email_confirmation"
+                                                @input="validateEmail" required>
                                         </div>
                                     </div>
                                 </div>
@@ -223,7 +227,7 @@ onMounted(() => {
 
                                             <div class="input-group">
                                                 <input :type="showPassword ? 'text' : 'password'" id="password"
-                                                    class="form-control bg-light p-2 rounded-end-0"
+                                                    class="form-control bg-secondary bg-opacity-10 p-2 rounded-end-0"
                                                     v-model="subscribeData.password" required>
                                                 <button
                                                     class="btn text-dark bg-light border border-1 rounded-2 rounded-start-0"
@@ -241,7 +245,7 @@ onMounted(() => {
                                             <div class="input-group">
                                                 <input :type="showPasswordConfirmation ? 'text' : 'password'"
                                                     id="password_confirmation"
-                                                    class="form-control bg-light p-2 rounded-end-0"
+                                                    class="form-control bg-secondary bg-opacity-10 p-2 rounded-end-0"
                                                     :class="passCheckedClass"
                                                     v-model="subscribeData.password_confirmation"
                                                     @input="validatePassword" required>
@@ -260,14 +264,15 @@ onMounted(() => {
                                     <div class="col-lg-6 mb-3">
                                         <div class="form-group">
                                             <label for="profissao" class="form-label fs-5">Área de atuação</label>
-                                            <input type="text" id="profissao" class="form-control bg-light p-2"
-                                                required>
+                                            <input type="text" id="profissao"
+                                                class="form-control bg-secondary bg-opacity-10 p-2" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 mb-3">
                                         <div class="form-group">
                                             <label for="city" class="form-label fs-5">Cidade</label>
-                                            <input type="text" id="city" class="form-control bg-light p-2"
+                                            <input type="text" id="city"
+                                                class="form-control bg-secondary bg-opacity-10 p-2"
                                                 v-model="subscribeData.city" required>
                                         </div>
                                     </div>
@@ -277,14 +282,16 @@ onMounted(() => {
                                     <div class="col-lg-6 mb-3">
                                         <div class="form-group">
                                             <label for="state" class="form-label fs-5">Estado</label>
-                                            <input type="text" id="state" class="form-control bg-light p-2"
+                                            <input type="text" id="state"
+                                                class="form-control bg-secondary bg-opacity-10 p-2"
                                                 v-model="subscribeData.state" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 mb-3">
                                         <div class="form-group">
                                             <label for="country" class="form-label fs-5">País</label>
-                                            <input type="text" id="country" class="form-control bg-light p-2"
+                                            <input type="text" id="country"
+                                                class="form-control bg-secondary bg-opacity-10 p-2"
                                                 v-model="subscribeData.country" required>
                                         </div>
                                     </div>
