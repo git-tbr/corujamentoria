@@ -134,22 +134,22 @@ onMounted(() => {
 <template>
     <Layout>
         <main>
-            <section id="hero">
-                <div id="hero-mozaic"></div>
-                <div id="hero-bg"></div>
+            <section id="hero-subscribe">
+                <!-- <div id="hero-mozaic"></div>
+                <div id="hero-bg"></div> -->
                 <div class="container-fluid py-3 py-lg-5" id="hero-container">
                     <div class="row">
                         <div class="col-xl-6 bg-light p-3 p-lg-5 ms-xl-5 rounded-4 shadow">
-                            <h1 class="text-center text-success ff-roboto fw-bold">
+                            <h1 class="text-center text-success ff-roboto fw-bold" v-reveal="'bottom'">
                                 Crie sua conta
                             </h1>
                             <hr class="border border-3 border-success">
-                            <p class="fs-5 mb-3 text-center mb-3 mb-lg-4 ff-roboto">
+                            <p class="fs-5 mb-3 text-center mb-3 mb-lg-4 ff-roboto" v-reveal="'bottom'">
                                 Para se cadastrar, preencha os dados abaixo.
                             </p>
                             <form @submit.prevent="subscribeSubmit">
                                 <div class="row">
-                                    <div class="col-lg-8 mb-3">
+                                    <div class="col-lg-8 mb-3" v-reveal="'bottom'">
                                         <div class="form-group">
                                             <label for="name" class="form-label fs-5">Nome completo</label>
                                             <input type="text" id="name"
@@ -157,7 +157,7 @@ onMounted(() => {
                                                 v-model="subscribeData.name" required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 mb-3">
+                                    <div class="col-lg-4 mb-3" v-reveal="'bottom'">
                                         <div class="form-group">
                                             <label for="nacionality" class="form-label fs-5">Nacionalidade</label>
                                             <select id="nacionality" class="form-select bg-secondary bg-opacity-10 p-2"
@@ -171,7 +171,7 @@ onMounted(() => {
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-6 mb-3" v-if="isBrazilian">
+                                    <div class="col-lg-6 mb-3" v-if="isBrazilian" v-reveal="'bottom'">
                                         <div class="form-group">
                                             <label for="cpf" class="form-label fs-5">Informe seu CPF</label>
                                             <input type="text" id="cpf"
@@ -179,7 +179,7 @@ onMounted(() => {
                                                 v-model="subscribeData.cpf" @input="cpfMask">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 mb-3" v-else>
+                                    <div class="col-lg-6 mb-3" v-else v-reveal="'bottom'">
                                         <div class="form-group">
                                             <label for="tin" class="form-label fs-5">Informe seu TIN (NIF, CUIT, SSN)
                                                 <span class="text-danger" role="button"
@@ -188,7 +188,7 @@ onMounted(() => {
                                                 id="tin" v-model="subscribeData.tin">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 mb-3">
+                                    <div class="col-lg-6 mb-3" v-reveal="'bottom'">
                                         <div class="form-group">
                                             <label for="cellphone" class="form-label fs-5">Celular</label>
                                             <input type="text" id="cellphone"
@@ -200,7 +200,7 @@ onMounted(() => {
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-6 mb-3">
+                                    <div class="col-lg-6 mb-3" v-reveal="'bottom'">
                                         <div class="form-group">
                                             <label for="email" class="form-label fs-5">E-mail</label>
                                             <input type="email" id="email"
@@ -208,7 +208,7 @@ onMounted(() => {
                                                 v-model="subscribeData.email" required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 mb-3">
+                                    <div class="col-lg-6 mb-3" v-reveal="'bottom'">
                                         <div class="form-group">
                                             <label for="email_confirmation" class="form-label fs-5">Confirme seu
                                                 e-mail</label>
@@ -221,7 +221,7 @@ onMounted(() => {
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-6 mb-3">
+                                    <div class="col-lg-6 mb-3" v-reveal="'bottom'">
                                         <div class="form-group">
                                             <label for="password" class="form-label fs-5">Senha</label>
 
@@ -238,7 +238,7 @@ onMounted(() => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 mb-3">
+                                    <div class="col-lg-6 mb-3" v-reveal="'bottom'">
                                         <div class="form-group">
                                             <label for="password_confirmation" class="form-label fs-5">Confirme sua
                                                 senha</label>
@@ -261,14 +261,14 @@ onMounted(() => {
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-6 mb-3">
+                                    <div class="col-lg-6 mb-3" v-reveal="'bottom'">
                                         <div class="form-group">
                                             <label for="profissao" class="form-label fs-5">Área de atuação</label>
                                             <input type="text" id="profissao"
                                                 class="form-control bg-secondary bg-opacity-10 p-2" required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 mb-3">
+                                    <div class="col-lg-6 mb-3" v-reveal="'bottom'">
                                         <div class="form-group">
                                             <label for="city" class="form-label fs-5">Cidade</label>
                                             <input type="text" id="city"
@@ -279,7 +279,7 @@ onMounted(() => {
                                 </div>
 
                                 <div class="row mb-3">
-                                    <div class="col-lg-6 mb-3">
+                                    <div class="col-lg-6 mb-3" v-reveal="'bottom'">
                                         <div class="form-group">
                                             <label for="state" class="form-label fs-5">Estado</label>
                                             <input type="text" id="state"
@@ -287,7 +287,7 @@ onMounted(() => {
                                                 v-model="subscribeData.state" required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 mb-3">
+                                    <div class="col-lg-6 mb-3" v-reveal="'bottom'">
                                         <div class="form-group">
                                             <label for="country" class="form-label fs-5">País</label>
                                             <input type="text" id="country"
@@ -298,7 +298,7 @@ onMounted(() => {
                                 </div>
 
                                 <div class="row mb-3">
-                                    <div class="col">
+                                    <div class="col" v-reveal="'bottom'">
                                         <p class="fs-5">
                                             Ao me cadastrar, declaro que li e estou de acordo com os <RouterLink
                                                 to="/politica" class="text-danger fw-semibold">termos e condições de uso
@@ -307,7 +307,7 @@ onMounted(() => {
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="row" v-reveal="'bottom'">
                                     <div class="col-md-6 d-grid mb-3">
                                         <button class="btn btn-secondary btn-lg rounded-4" type="button"
                                             @click="cancelSubscribe">
@@ -334,5 +334,12 @@ onMounted(() => {
 <style scoped>
 .input-group .btn {
     z-index: 0;
+}
+
+#hero-subscribe {
+    background-image: url('@/assets/img/cadastro/hero.png');
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 </style>
