@@ -1,0 +1,1 @@
+import{r as e}from"./index-BJSS10IZ.js";var t={};function n(e,t){return`Política`}var r=e(t,[[`render`,n]]);export{r as default};
