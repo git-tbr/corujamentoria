@@ -20,6 +20,7 @@ interface SubscribeFormInterface {
     email_confirmation: string;
     password: string;
     password_confirmation: string;
+    profession: string;
     city: string;
     state: string;
     country: string;
@@ -38,6 +39,7 @@ const initialValue = (): SubscribeFormInterface => ({
     email_confirmation: '',
     password: '',
     password_confirmation: '',
+    profession: '',
     city: '',
     state: '',
     country: '',
@@ -263,7 +265,7 @@ onMounted(() => {
                                         <div class="form-group">
                                             <label for="profissao" class="form-label">Área de atuação</label>
                                             <input type="text" id="profissao"
-                                                class="form-control bg-secondary bg-opacity-10 p-2" required>
+                                                class="form-control bg-secondary bg-opacity-10 p-2" v-model="subscribeData.profession" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 mb-2" v-reveal="'bottom'">
