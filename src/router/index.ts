@@ -53,6 +53,17 @@ const router = createRouter({
       path: '/pagamento',
       name: 'pagamento',
       component: () => import('@/views/PagamentoView.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/perfil',
+      name: 'perfil',
+      component: () => import('@/views/PerfilView.vue'),
+      meta: {
+        requiresAuth: true
+      }
     }
   ],
   scrollBehavior(to, from, savedPosition) {
