@@ -9,15 +9,6 @@ import DrJamilDetalhe from '@/assets/img/home/dr_jamil_detalhe.png'
 import DraAna from '@/assets/img/home/dra_ana.png'
 import DraAnaDetalhe from '@/assets/img/home/dra_ana_detalhe.png'
 import DraBruna from '@/assets/img/home/dra_bruna.png'
-import alineMonteiro from '@/assets/img/home/aline_monteiro.webp'
-import andreaNoronha from '@/assets/img/home/andrea_noronha.webp'
-import cintiaPerico from '@/assets/img/home/cintia_perico.webp'
-import deboraVeiga from '@/assets/img/home/debora.webp'
-import geirizaChantre from '@/assets/img/home/geiriza_chantre.webp'
-import mariaLeticia from '@/assets/img/home/maria_leticia.webp'
-import nidiaChicralla from '@/assets/img/home/nidia_chicralla.webp'
-import rebecaSpinelli from '@/assets/img/home/rebeca.webp'
-import sergioCabral from '@/assets/img/home/sergio_cabral.webp'
 import garantido from '@/assets/img/home/garantido.png'
 import noventaenove from '@/assets/img/home/99.png'
 import EbookFundo from '@/assets/img/home/ebook_fundo.png'
@@ -29,31 +20,14 @@ import BgSemicircle from '@/assets/img/home/background_semicircle.png'
 
 import TestimonialsComponent from '@/components/TestimonialsComponent.vue'
 import { RouterLink, useRouter } from 'vue-router'
-import { computed, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useAlert } from '@/services/alertService'
+import api from '@/services/api'
+import { useSiteStore } from '@/stores/website'
+import { defineProduct } from '@/services/FunctionsService';
 
-const faqItems = [
-    {
-        pergunta: "Preciso estar em Portugal para fazer a mentoria?",
-        resposta: "Não. Todo o conteúdo é online e acessível de qualquer lugar."
-    },
-    {
-        pergunta: "Serve para qualquer fase da revalidação?",
-        resposta: "Atualmente, o foco é na 1ª fase. A mentoria da 2ª fase será lançada em breve na plataforma. Fique atento ao lançamento ou entre em contato."
-    },
-    {
-        pergunta: "Como funciona o CoruJÁ Encontro?",
-        resposta: "São encontros semanais ao vivo para tirar dúvidas e resolver as questões com maior índice de erros. Você pode assistir aos encontros ao vivo ou gravados."
-    },
-    {
-        pergunta: "Quando começo a estudar?",
-        resposta: "Assim que o pagamento for confirmado mediante comprovante de pagamento, o acesso é liberado automaticamente."
-    },
-    {
-        pergunta: "Por quanto tempo tenho acesso?",
-        resposta: "Você terá acesso por 12 meses, com possibilidade de renovação."
-    }
-];
+const faqContent = ref<any[]>([]);
+const siteStore = useSiteStore();
 
 const mentoria2FaseList = [
     { id: 1, title: 'Banco de Casos CoruJÁ', content: 'Mais de 150 casos clínicos, organizados por temas e perfil de banca, baseados no que já caiu na 2ª fase.' },
@@ -121,6 +95,34 @@ const openCourse = async (curso: string) => {
 
     router.push({ name: curso });
 }
+
+const getfaqContent = async () => {
+    try {
+        const response = await api.get(`/v1/faq/${siteStore.company}`);
+        faqContent.value = response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const definePurchaseItem = (courseKey: string) => {
+    let returnData = defineProduct(courseKey);
+
+    if (returnData === 0) {
+        showAlert({
+            title: "Revisão Pré-Prova",
+            message: "O curso ainda não está disponível para compra.",
+            type: "error",
+        });
+        return;
+    }
+    
+    router.push({ name: returnData as string });
+}
+
+onMounted(() => {
+    getfaqContent();
+})
 </script>
 <template>
     <Layout>
@@ -192,8 +194,10 @@ const openCourse = async (curso: string) => {
                                         </li>
                                     </ul>
                                     <div class="text-center">
-                                        <RouterLink to="/mentoria" class="btn btn-danger rounded-4 px-4">Quero adquirir
-                                        </RouterLink>
+                                        <button class="btn btn-danger rounded-4 px-4"
+                                            @click="definePurchaseItem(siteStore.mentoria)">
+                                            Quero adquirir
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -228,8 +232,10 @@ const openCourse = async (curso: string) => {
                                         </li>
                                     </ul>
                                     <div class="text-center">
-                                        <RouterLink to="/revisao" class="btn btn-danger rounded-4 px-4">Quero adquirir
-                                        </RouterLink>
+                                        <button class="btn btn-danger rounded-4 px-4"
+                                            @click="definePurchaseItem(siteStore.revisao)">
+                                            Quero adquirir
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -273,8 +279,10 @@ const openCourse = async (curso: string) => {
                                         </li>
                                     </ul>
                                     <div class="text-center">
-                                        <RouterLink to="/ebook" class="btn btn-danger rounded-4 px-4">Quero adquirir
-                                        </RouterLink>
+                                        <button class="btn btn-danger rounded-4 px-4"
+                                            @click="definePurchaseItem(siteStore.ebook)">
+                                            Quero adquirir
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -789,7 +797,7 @@ const openCourse = async (curso: string) => {
             <!-- segunda fase -->
             <section style="background-color: #07301C;" class="position-relative">
                 <div id="bg-paperplane"></div>
-                <div class="container py-5">
+                <div class="container py-5 position-relative">
                     <div class="row">
                         <div class="col-lg-6">
                             <p class="fs-1 text-gold mb-3 fw-semibold" v-reveal="'bottom'">
@@ -799,12 +807,14 @@ const openCourse = async (curso: string) => {
                             <p class="fs-3 text-white mb-3 fw-semibold" v-reveal="'bottom'">
                                 Sua aprovação começa com clareza, suporte e um plano validado.
                             </p>
-
-                            <a href="https://wa.me/5511948308431" target="_blank"
-                                class="btn btn-success bg-gradient btn-lg fs-5 py-3 px-5 rounded-4 border-light mb-3">
-                                <font-awesome-icon icon="fa-brands fa-whatsapp" />
-                                Garanta sua vaga para segunda fase agora!
-                            </a>
+                            
+                            <p class="text-start">
+                                <a href="https://wa.me/5511948308431" target="_blank"
+                                    class="btn btn-success bg-gradient btn-lg fs-5 py-3 px-5 rounded-4 border-light mb-3">
+                                    <font-awesome-icon icon="fa-brands fa-whatsapp" />
+                                    Quero garantir minha vaga
+                                </a>
+                            </p>
 
                             <p class="fs-3 text-white mb-3 fw-semibold" v-reveal="'bottom'">
                                 Vendas limitadas ao número de vagas
@@ -1129,19 +1139,18 @@ const openCourse = async (curso: string) => {
                             </p>
 
                             <div class="accordion accordion-flush" id="accordionListFAQ">
-                                <div v-for="(item, index) in faqItems" :key="index"
+                                <div v-for="(item, index) in faqContent" :key="index"
                                     class="accordion-item mb-3 rounded-4">
                                     <h2 class="accordion-header">
                                         <button class="accordion-button collapsed rounded-4 fs-5" type="button"
                                             data-bs-toggle="collapse" :data-bs-target="'#flush-collapse' + index"
-                                            aria-expanded="false" :aria-controls="'flush-collapse' + index">
-                                            {{ item.pergunta }}
+                                            aria-expanded="false" :aria-controls="'flush-collapse' + index"
+                                            v-html="item.h_question">
                                         </button>
                                     </h2>
                                     <div :id="'flush-collapse' + index" class="accordion-collapse collapse"
                                         data-bs-parent="#accordionListFAQ">
-                                        <div class="accordion-body">
-                                            {{ item.resposta }}
+                                        <div class="accordion-body" v-html="item.h_response">
                                         </div>
                                     </div>
                                 </div>

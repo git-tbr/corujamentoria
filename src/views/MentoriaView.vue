@@ -13,16 +13,12 @@ import Layout from '@/layouts/DefaultLayout.vue'
 import Logo from '@/assets/img/logo/logo.png'
 import { useRouter } from 'vue-router'
 import { useSiteStore } from '@/stores/website'
+import { defineProduct } from '@/services/FunctionsService';
+import { useAlert } from '@/services/alertService';
 
+const { showAlert } = useAlert();
 const router = useRouter()
 const siteStore = useSiteStore()
-
-const setPaymentAndRedirect = () => {
-    const courseKey = siteStore.mentoria
-    sessionStorage.setItem('payment', 'true')
-    sessionStorage.setItem('course', courseKey)
-    router.push('/pagamento')
-}
 
 const conquista = [
     { id: 1, content: 'Material didático organizado e validado com o que realmente cai na prova;' },
@@ -46,6 +42,21 @@ const doctorsImages = [
     { id: 2, img: DraAna, name: 'Dra. Ana Carolina Facundo', content: 'Médica de família e comunidade, geriatra, e supervisora do Programa Mais Médicos. \n Aprovada com 17 em 20 valores; nota máxima na segunda fase e nota máxima atribuída em currículo na terceira fase.' },
     { id: 3, img: DraBruna, name: 'Dra. Bruna Soares Bicalho', content: 'Clínica geral e hematologista-hemoterapeuta. \n Aprovada na revalidação em Portugal com nota 17 em 20 valores, com nota máxima na terceira fase.' },
 ];
+
+const definePurchaseItem = (courseKey: string) => {
+    let returnData = defineProduct(courseKey);
+
+    if (returnData === 0) {
+        showAlert({
+            title: "Revisão Pré-Prova",
+            message: "O curso ainda não está disponível para compra.",
+            type: "error",
+        });
+        return;
+    }
+    
+    router.push({ name: returnData as string });
+}
 </script>
 <template>
     <Layout>
@@ -92,9 +103,12 @@ const doctorsImages = [
                                 *** o valor do curso em real varia de acordo com a cotação do euro
                             </p>
                             <button class="btn btn-danger btn-lg px-5 fs-5 fw-semibold rounded-4"
-                                @click="setPaymentAndRedirect" v-reveal="'bottom'">
+                                @click="definePurchaseItem(siteStore.mentoria)" v-reveal="'bottom'">
                                 ADQUIRA AGORA!
                             </button>
+                            <RouterLink class="btn btn-light fs-4 px-4 rounded-4 ms-2" to="/login" v-reveal="'bottom'" v-if="!siteStore.isAuthenticated">
+                                Acesse o conteúdo
+                            </RouterLink>
                         </div>
                     </div>
                 </div>
@@ -225,7 +239,7 @@ const doctorsImages = [
             <section class="bg-lightGreen">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-6 py-5 align-self-center" v-reveal="'bottom'">
+                        <div class="col-lg-6 py-5 align-self-center">
                             <h1 class="text-darkGreen fw-bold mb-3" v-reveal="'bottom'">
                                 Sua aprovação começa com clareza, suporte e um plano validado.
                             </h1>
@@ -236,11 +250,11 @@ const doctorsImages = [
                                 Estude com quem mais entende da prova e dê o primeiro passo rumo à medicina em Portugal.
                             </p>
                             <button class="btn btn-danger btn-lg px-5 fs-5 fw-semibold rounded-4"
-                                @click="setPaymentAndRedirect">
+                                @click="definePurchaseItem(siteStore.mentoria)" v-reveal="'bottom'">
                                 ADQUIRA AGORA!
                             </button>
                         </div>
-                        <div class="col-lg-6 align-self-end d-none d-lg-block position-relative">
+                        <div class="col-lg-6 align-self-end d-none d-lg-block position-relative" v-reveal="'bottom'">
                             <img :src="BgSemicircle" alt="" class="w-75 z-0"
                                 style="position: absolute; top: 0; right: 0;">
                             <img :src="DoctorsStanding" alt="" class="w-75 pt-5 d-block ms-auto z-1"

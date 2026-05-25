@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import Layout from '@/layouts/DefaultLayout.vue'
-import instance from '@/services/api'
+import api from '@/services/api'
 import WhiteAirplane from '@/assets/img/ebook/white_airplane.svg'
 import { useSiteStore } from '@/stores/website';
-import { computed, onMounted, reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { reactive, ref } from 'vue';
 import { vReveal } from '@/directives/vReveal';
-import { RouterLink, useRoute } from 'vue-router';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useAlert } from '@/services/alertService';
 const { showAlert } = useAlert();
 
-const api = instance;
 const siteStore = useSiteStore();
 const router = useRouter();
 const route = useRoute();
@@ -19,27 +17,19 @@ interface LoginFormInterface {
     email: string;
     password: string;
     company: number;
-    redirect: string;
-    course: string | null;
 }
 
 const getInitialLoginFormData = (): LoginFormInterface => ({
     email: '',
     password: '',
-    company: siteStore.company,
-    redirect: '',
-    course: ''
+    company: siteStore.company
 });
 
 const userLoginForm = reactive(getInitialLoginFormData());
 const isSubmittingLogin = ref(false);
-const isSubmittingPassword = ref(false);
-
 
 const submitLogin = async () => {
     isSubmittingLogin.value = true;
-    userLoginForm.redirect = sessionStorage.getItem('payment') ? 'payment' : 'home';
-    userLoginForm.course = sessionStorage.getItem('course') ? sessionStorage.getItem('course') : '';
 
     try {
         const response = await api.post('/login', userLoginForm);
@@ -60,13 +50,7 @@ const submitLogin = async () => {
                 type: "success",
             });
 
-            sessionStorage.removeItem('payment');
-            sessionStorage.removeItem('course');
-
-            sessionStorage.setItem('paymentlink', data.link);
-
-            window.location.href = data.link;
-            return;
+            router.push({ name: 'pagamento'});
         }
 
         await showAlert({

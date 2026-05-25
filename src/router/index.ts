@@ -49,6 +49,11 @@ const router = createRouter({
       name: 'politica',
       component: () => import('@/views/PolicyView.vue'),
     },
+    {
+      path: '/pagamento',
+      name: 'pagamento',
+      component: () => import('@/views/PagamentoView.vue'),
+    }
   ],
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {

@@ -4,6 +4,28 @@ import ManualLogo from '@/assets/img/ebook/logo.svg'
 import CorujaMosaic from '@/assets/img/ebook/coruja.svg'
 import WhiteAirplane from '@/assets/img/ebook/white_airplane.svg'
 import { defineProduct } from '@/services/FunctionsService';
+import { useAlert } from '@/services/alertService'
+import { useRouter } from 'vue-router'
+import { useSiteStore } from '@/stores/website';
+
+const { showAlert } = useAlert();
+const router = useRouter();
+const siteStore = useSiteStore();
+
+const definePurchaseItem = (courseKey: string) => {
+    let returnData = defineProduct(courseKey);
+
+    if (returnData === 0) {
+        showAlert({
+            title: "Revisão Pré-Prova",
+            message: "O curso ainda não está disponível para compra.",
+            type: "error",
+        });
+        return;
+    }
+    
+    router.push({ name: returnData as string });
+}
 
 </script>
 <template>
@@ -22,7 +44,7 @@ import { defineProduct } from '@/services/FunctionsService';
                     <div class="row">
                         <div class="col-auto">
                             <button class="btn btn-success btn-lg px-5 py-3 fs-4 rounded-4"
-                                @click="defineProduct('ebook')">Comprar o Manual</button>
+                                @click="definePurchaseItem(siteStore.ebook)">Comprar o Manual</button>
                         </div>
                     </div>
                 </div>
@@ -75,7 +97,7 @@ import { defineProduct } from '@/services/FunctionsService';
                 </div>
             </section>
 
-            <section>
+            <section v-if="!siteStore.isAuthenticated">
                 <div class="container py-3 py-lg-5">
                     <div class="row">
                         <div class="col">

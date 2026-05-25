@@ -40,7 +40,7 @@ export const useSiteStore = defineStore('siteStore', {
         email: sessionData?.email ?? '',
         userId: sessionData?.id ?? 0,
         role: sessionData?.role ?? '',
-        company: sessionData?.company ?? 0,
+        company: 3,
         mentoria: 'c45f854c11e9f4273dd6f76008bd4837',
         ebook: '5814e5f1c398ae286b5a9aa3679202d5',
         revisao: '375c72b2ae93ea626d7f46683949f46a',
@@ -54,8 +54,7 @@ export const useSiteStore = defineStore('siteStore', {
                 lastname: userData.lastname,
                 email: userData.email,
                 userId: userData.id,
-                role: userData.role,
-                company: userData.company,
+                role: userData.role
             })
 
             localStorage.setItem('userData', JSON.stringify(userData))

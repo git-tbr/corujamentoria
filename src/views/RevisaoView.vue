@@ -6,18 +6,53 @@ import BlockAna from '@/assets/img/revisao/block-ana.png'
 import RevisaoPreProvaComponent from '@/components/RevisaoPreProvaComponent.vue'
 import VueEasyLightbox from 'vue-easy-lightbox'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAlert } from '@/services/alertService'
+import { defineProduct } from '@/services/FunctionsService';
+import { useSiteStore } from '@/stores/website'
 
 //image gallery
-import gallery1 from '@/assets/img/revisao/img_01.jpg'
-import gallery2 from '@/assets/img/revisao/img_02.jpg'
-import gallery3 from '@/assets/img/revisao/img_03.jpg'
-import gallery4 from '@/assets/img/revisao/img_04.jpg'
-import gallery5 from '@/assets/img/revisao/img_05.jpg'
-import gallery6 from '@/assets/img/revisao/img_06.jpg'
-import gallery7 from '@/assets/img/revisao/img_07.jpg'
-import gallery8 from '@/assets/img/revisao/img_08.jpg'
+import gallery1 from '@/assets/img/revisao/img_01.webp'
+import gallery2 from '@/assets/img/revisao/img_02.webp'
+import gallery3 from '@/assets/img/revisao/img_03.webp'
+import gallery4 from '@/assets/img/revisao/img_04.webp'
+import gallery5 from '@/assets/img/revisao/img_05.webp'
+import gallery6 from '@/assets/img/revisao/img_06.webp'
+import gallery7 from '@/assets/img/revisao/img_07.webp'
+import gallery8 from '@/assets/img/revisao/img_08.webp'
+import gallery9 from '@/assets/img/revisao/img_09.webp'
+import gallery10 from '@/assets/img/revisao/img_10.webp'
+import gallery11 from '@/assets/img/revisao/img_11.webp'
+import gallery12 from '@/assets/img/revisao/img_12.webp'
+import gallery13 from '@/assets/img/revisao/img_13.webp'
+import gallery14 from '@/assets/img/revisao/img_14.webp'
+import gallery15 from '@/assets/img/revisao/img_15.webp'
+import gallery16 from '@/assets/img/revisao/img_16.webp'
+import gallery17 from '@/assets/img/revisao/img_17.webp'
+import gallery18 from '@/assets/img/revisao/img_18.webp'
+import gallery19 from '@/assets/img/revisao/img_19.webp'
+import gallery20 from '@/assets/img/revisao/img_20.webp'
+import gallery21 from '@/assets/img/revisao/img_21.webp'
+import gallery22 from '@/assets/img/revisao/img_22.webp'
+import gallery23 from '@/assets/img/revisao/img_23.webp'
+import gallery24 from '@/assets/img/revisao/img_24.webp'
+import gallery25 from '@/assets/img/revisao/img_25.webp'
+import gallery26 from '@/assets/img/revisao/img_26.webp'
+import gallery27 from '@/assets/img/revisao/img_27.webp'
+import gallery28 from '@/assets/img/revisao/img_28.webp'
+import gallery29 from '@/assets/img/revisao/img_29.webp'
+import gallery30 from '@/assets/img/revisao/img_30.webp'
 
-const images = [gallery1, gallery2, gallery3, gallery4, gallery5, gallery6, gallery7, gallery8]
+const { showAlert } = useAlert();
+const router = useRouter()
+const siteStore = useSiteStore();
+
+const images = [gallery1, gallery2, gallery3, gallery4, gallery5,
+    gallery6, gallery7, gallery8, gallery9, gallery10, gallery11,
+    gallery12, gallery13, gallery14, gallery15, gallery16, gallery17,
+    gallery18, gallery19, gallery20, gallery21, gallery22, gallery23,
+    gallery24, gallery25, gallery26, gallery27, gallery28, gallery29, gallery30
+];
 const visibleRef = ref<any>(false)
 const indexRef = ref<any>(0)
 const showImg = (index: number) => {
@@ -29,6 +64,20 @@ const onHide = () => {
     visibleRef.value = false
 }
 
+const definePurchaseItem = (courseKey: string) => {
+    let returnData = defineProduct(courseKey);
+
+    if (returnData === 0) {
+        showAlert({
+            title: "Revisão Pré-Prova",
+            message: "O curso ainda não está disponível para compra.",
+            type: "error",
+        });
+        return;
+    }
+
+    router.push({ name: returnData as string });
+}
 </script>
 <template>
     <Layout>
@@ -50,7 +99,13 @@ const onHide = () => {
                             <p class="fw-semibold text-light fs-4">
                                 Investimento: &euro;290,00
                             </p>
-                            <RouterLink class="btn btn-light fs-4 px-4 rounded-4" to="/login">Acesse o conteúdo
+
+                            <button class="btn btn-danger fs-4 px-4 rounded-4"
+                                @click="definePurchaseItem(siteStore.revisao)">
+                                Adquirir o curso
+                            </button>
+                            <RouterLink class="btn btn-light fs-4 px-4 rounded-4 ms-2" to="/login" v-if="!siteStore.isAuthenticated">
+                                Acesse o conteúdo
                             </RouterLink>
                         </div>
                     </div>
@@ -154,7 +209,7 @@ const onHide = () => {
                         </div>
                     </div>
                     <div class="row g-3">
-                        <div v-for="(src, index) in images" :key="index" class="col-6 col-md-4 col-lg-3">
+                        <div v-for="(src, index) in images" :key="index" class="col-6 col-md-4 col-lg-3" v-reveal="'bottom'">
                             <img :src="src" class="img-fluid rounded-3 hover-up" @click="() => showImg(index)"
                                 style="object-fit: cover; height: 200px; width: 100%; cursor: pointer;" />
                         </div>
