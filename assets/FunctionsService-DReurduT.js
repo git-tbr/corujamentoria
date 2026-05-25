@@ -1,1 +1,0 @@
-import{s as e}from"./website-94mBrp3s.js";var t=e(),n=e=>{localStorage.setItem(`selectedProduct`,e),t.push(`/checkout`)};export{n as t};

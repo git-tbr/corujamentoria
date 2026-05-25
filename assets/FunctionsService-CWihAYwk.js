@@ -1,0 +1,1 @@
+import{t as e}from"./website-APOorEF-.js";var t=e(),n=e=>e===t.revisao?0:(sessionStorage.setItem(`payment`,`true`),sessionStorage.setItem(`course`,e),`pagamento`);export{n as t};
