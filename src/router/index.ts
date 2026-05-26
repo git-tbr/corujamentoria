@@ -40,6 +40,11 @@ const router = createRouter({
       component: () => import('@/views/RecuperarSenhaView.vue'),
     },
     {
+      path: '/alterar-senha/:token',
+      name: 'alterar-senha',
+      component: () => import('@/views/AlterarSenhaView.vue'),
+    },
+    {
       path: '/cadastro',
       name: 'cadastro',
       component: () => import('@/views/CadastroView.vue'),
