@@ -188,6 +188,19 @@ html {
     background: #1DC256 !important;
 }
 
+.to-up:hover{
+    transform: translateY(-5px);
+    transition: all 0.3s ease-in-out;
+}
+
+.bg-coruja {
+    background-color: #146531;
+    background-image: url('@/assets/img/logo/white_airplane.svg');
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-attachment: fixed;
+}
+
 @media (min-width: 768px) {
     .base-card {
         min-height: 470px;

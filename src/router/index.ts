@@ -69,7 +69,27 @@ const router = createRouter({
       meta: {
         requiresAuth: true
       }
-    }
+    },
+    {
+      path: '/meus-cursos',
+      name: 'meus-cursos',
+      redirect: '/meus-cursos/cursos',
+      meta: {
+        requiresAuth: true,
+      },
+      children: [
+        {
+          path: '/meus-cursos/cursos',
+          name: 'cursos',
+          component: () => import('@/views/my-courses/HomeCoursesView.vue'),
+        },
+        {
+          path: '/meus-cursos/simulado/:token',
+          name: 'simulado',
+          component: () => import('@/views/my-courses/SimuladoCoursesView.vue'),
+        },
+      ],
+    },
   ],
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
