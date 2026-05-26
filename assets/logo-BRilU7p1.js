@@ -1,0 +1,1 @@
+var e=`/corujamentoria/assets/logo-D6tFeYWp.png`;export{e as t};
