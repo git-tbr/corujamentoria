@@ -24,7 +24,7 @@ import LogoFooter from '@/assets/img/logo/white_logo.png'
                             <RouterLink to="/revisao" class="text-white text-decoration-none">Revisão</RouterLink>
                         </li>
                         <li>
-                            <RouterLink to="/ebook" class="text-white text-decoration-none">Ebook</RouterLink>
+                            <RouterLink to="/manual" class="text-white text-decoration-none">Ebook</RouterLink>
                         </li>
                     </ul>
                 </div>

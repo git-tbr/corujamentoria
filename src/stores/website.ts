@@ -41,7 +41,7 @@ export const useSiteStore = defineStore('siteStore', {
         userId: sessionData?.id ?? 0,
         role: sessionData?.role ?? '',
         company: 3,
-        mentoria: 'c45f854c11e9f4273dd6f76008bd4837',
+        mentoria: 'f3035785c272cb84f884444ebf6ee690',
         ebook: '5814e5f1c398ae286b5a9aa3679202d5',
         revisao: '375c72b2ae93ea626d7f46683949f46a',
         combo: 'c5381ebfd29b5e556d1d986ba369a336',

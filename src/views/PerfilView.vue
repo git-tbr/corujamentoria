@@ -2,12 +2,13 @@
 import Layout from '@/layouts/DefaultLayout.vue'
 import { useSiteStore } from '@/stores/website';
 import { onMounted, reactive, ref } from 'vue';
-import { useRouter, RouterLink } from 'vue-router';
+import { useRouter, RouterLink, useRoute } from 'vue-router';
 import { useAlert } from '@/services/alertService';
 import api from '@/services/api';
 
 const { showAlert } = useAlert();
 const router = useRouter();
+const route = useRoute();
 const siteStore = useSiteStore();
 
 interface UpdateFormInterface {
@@ -128,9 +129,13 @@ const updateSubmit = async () => {
         await showAlert({ 
             title: "Sucesso", 
             message: data.message, 
-            type: "success" 
+            type: "success"
         });
-        router.push({ name: 'home' });
+
+        const redirectTo = route.query.redirect as string;
+        if(redirectTo) router.push(redirectTo);
+        else router.push({ name: 'home' });
+                
     } catch (error) {
         let errorMessage = error instanceof Error ? error.message : 'Ocorreu um erro inesperado.';
 
@@ -141,6 +146,9 @@ const updateSubmit = async () => {
         });
     }
 }
+
+//if (sessionStorage.getItem('payment') == 'true' && sessionStorage.getItem('course') != '') router.push({ name: 'pagamento' });
+//else router.push({ name: 'home' });
 
 onMounted(() => {
     getUserData();

@@ -43,24 +43,15 @@ const submitLogin = async () => {
         localStorage.setItem('tokenJwt', data.token);
         Object.assign(userLoginForm, getInitialLoginFormData());
 
-        if (sessionStorage.getItem('payment') == 'true' && sessionStorage.getItem('course') != '') {
-            await showAlert({
-                title: "Sucesso!",
-                message: data.message,
-                type: "success",
-            });
-
-            router.push({ name: 'pagamento'});
-        }
-
         await showAlert({
             title: "Sucesso!",
             message: data.message,
             type: "success",
         });
 
-        router.push({ name: 'home' });
-
+        if (sessionStorage.getItem('payment') == 'true' && sessionStorage.getItem('course') != '') router.push({ name: 'pagamento' });
+        else router.push({ name: 'home' });
+        
     } catch (error: unknown) {
         let errorMessage = error instanceof Error ? error.message : 'Ocorreu um erro inesperado.';
 

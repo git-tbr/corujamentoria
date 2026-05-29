@@ -24,7 +24,9 @@ const scrollToTop = () => {
 const logOut = () => {
     siteStore.logout()
     localStorage.removeItem('tokenJwt')
-    router.push('/')
+    sessionStorage.removeItem('payment')
+    sessionStorage.removeItem('course')
+    window.location.href = '/'
 }
 
 onMounted(() => {

@@ -79,42 +79,42 @@ const router = createRouter({
       },
       children: [
         {
-          path: '/meus-cursos/cursos',
+          path: 'cursos',
           name: 'cursos',
           component: () => import('@/views/my-courses/HomeCoursesView.vue'),
         },
         {
-          path: '/meus-cursos/simulado/:token',
+          path: 'simulado/:token',
           name: 'simulado',
           component: () => import('@/views/my-courses/SimuladoCoursesView.vue'),
         },
         {
-          path: '/meus-cursos/simulados/banco-de-questoes/:token',
+          path: 'simulados/banco-de-questoes/:token',
           name: 'banco-de-questoes',
           component: () => import('@/views/my-courses/SimulatedDBQuestionsView.vue'),
         },
         {
-          path: '/meus-cursos/ead/:token',
+          path: 'ead/:token',
           name: 'ead',
           component: () => import('@/views/my-courses/EadCourseView.vue'),
         },
         {
-          path: '/meus-cursos/ead/:courseToken/modulo/:moduleToken',
+          path: 'ead/:courseToken/modulo/:moduleToken',
           name: 'modulo',
           component: () => import('@/views/my-courses/ModuleCourseView.vue'),
         },
         {
-          path: '/meus-cursos/ebook/:token',
+          path: 'ebook/:token',
           name: 'ebook',
           component: () => import('@/views/my-courses/EbookCourseView.vue'),
         },
         {
-          path: '/meus-cursos/ead/:courseToken/modulo/:moduleToken/exercicios',
+          path: 'ead/:courseToken/modulo/:moduleToken/exercicios',
           name: 'exercicios',
           component: () => import('@/views/my-courses/ExercisesCourseView.vue'),
         },
         {
-          path: '/meus-cursos/ead/:courseToken/modulo/:moduleToken/materiais',
+          path: 'ead/:courseToken/modulo/:moduleToken/materiais',
           name: 'materiais',
           component: () => import('@/views/my-courses/MaterialsCourseView.vue'),
         }
