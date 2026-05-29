@@ -19,7 +19,10 @@ const logOut = () => {
 }
 
 onMounted(()=>{
-    window.addEventListener('scroll', onScroll);    
+    window.addEventListener('scroll', onScroll);
+    if(localStorage.getItem('tokenJwt') == null){
+        siteStore.logout()
+    }
 })
 
 onUnmounted(()=>{

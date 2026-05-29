@@ -27,7 +27,6 @@ const courseHash = ref('');
 const fetchSimulados = async (courseToken: string, userId: number) => {
     loading.value = true;
     try {
-        // Endpoint solicitado: /v1/course-simulates/[token]
         const res = await api.get(`/v1/course-simulate-user/${courseToken}/${userId}`);
         const data = res.data;
         if (data.code != 1) throw new Error(data.message);
@@ -63,7 +62,6 @@ const simuladosFiltrados = computed(() => {
 
 // --- NAVEGAÇÃO ---
 const irParaSimulado = async (key: string, isSample: number) => {
-    // Redireciona para a rota que renderiza as questões (exemplo: /simulado/questoes/:key)
     if (isSample == 1) {
         const confirmou = await showAlert({
             title: "Atenção!",
@@ -142,8 +140,8 @@ onMounted(() => {
                 </div>
 
                 <div v-else-if="simuladosFiltrados.length > 0" class="row g-4">
-                    <div v-for="item in simuladosFiltrados" :key="item.cat_id" class="col-md-6 col-lg-4">
-                        <div class="card h-100 border-0 shadow hover-up ">
+                    <div v-for="item in simuladosFiltrados" :key="item.cat_id" class="col-md-6 col-lg-3">
+                        <div class="card h-100 border-0 rounded-4 shadow hover-up ">
                             <div class="card-body p-4">
                                 <div class="d-flex align-items-center mb-3">
                                     <div class="icon-box bg-success-subtle text-success rounded-pill p-3 me-3"

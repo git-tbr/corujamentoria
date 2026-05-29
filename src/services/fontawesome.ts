@@ -1,11 +1,13 @@
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { faInstagram, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
-import { faAngleRight, faArrowRotateRight, faArrowUp, faCircleCheck, faCirclePlay, faClock, faEnvelope, faLock, faMagnifyingGlass, faPhone, faThumbtack, faTicket, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft, faAngleRight, faArrowRotateRight, faArrowUp, faBookOpen, faChevronRight, faCircleCheck, faCirclePlay, faClock, faEnvelope, faFile, faFilePdf, faImage, faLock, faMagnifyingGlass, faPhone, faPlay, faThumbtack, faTicket, faTrashCan, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
 
 const icons: Record<string, IconDefinition> = {
     faInstagram, faCircleCheck, faThumbtack, faClock, faLock, faUserGroup, faTicket, faCirclePlay,
     faWhatsapp, faAngleRight, faArrowUp, faEnvelope, faPhone, faEye, faEyeSlash, faArrowRotateRight,
-    faMagnifyingGlass
+    faMagnifyingGlass, faFile, faChevronRight, faTrashCan, faPlay, faBookOpen, faArrowLeft, faFilePdf,
+    faImage, faAngleLeft
 };
 export default icons;

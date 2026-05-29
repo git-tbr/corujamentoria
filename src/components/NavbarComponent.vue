@@ -30,6 +30,9 @@ const logOut = () => {
 onMounted(() => {
     window.addEventListener('scroll', onScroll)
     actualRoute.value = route.name as string
+    if(localStorage.getItem('tokenJwt') == null){
+        siteStore.logout()
+    }
 })
 
 onUnmounted(() => {
@@ -71,8 +74,8 @@ onUnmounted(() => {
                             </RouterLink>
                         </li>
                         <li class="nav-item ms-lg-2">
-                            <RouterLink to="/ebook"
-                                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'ebook' }]">Ebook
+                            <RouterLink to="/manual"
+                                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'manual' }]">Ebook
                             </RouterLink>
                         </li>
                         <li class="nav-item ms-lg-2">

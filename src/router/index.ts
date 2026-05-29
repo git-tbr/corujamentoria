@@ -20,9 +20,9 @@ const router = createRouter({
       component: () => import('@/views/RevisaoView.vue'),
     },
     {
-      path: '/ebook',
-      name: 'ebook',
-      component: () => import('@/views/EbookView.vue'),
+      path: '/manual',
+      name: 'manual',
+      component: () => import('@/views/ManualView.vue'),
     },
     {
       path: '/contato',
@@ -88,6 +88,36 @@ const router = createRouter({
           name: 'simulado',
           component: () => import('@/views/my-courses/SimuladoCoursesView.vue'),
         },
+        {
+          path: '/meus-cursos/simulados/banco-de-questoes/:token',
+          name: 'banco-de-questoes',
+          component: () => import('@/views/my-courses/SimulatedDBQuestionsView.vue'),
+        },
+        {
+          path: '/meus-cursos/ead/:token',
+          name: 'ead',
+          component: () => import('@/views/my-courses/EadCourseView.vue'),
+        },
+        {
+          path: '/meus-cursos/ead/:courseToken/modulo/:moduleToken',
+          name: 'modulo',
+          component: () => import('@/views/my-courses/ModuleCourseView.vue'),
+        },
+        {
+          path: '/meus-cursos/ebook/:token',
+          name: 'ebook',
+          component: () => import('@/views/my-courses/EbookCourseView.vue'),
+        },
+        {
+          path: '/meus-cursos/ead/:courseToken/modulo/:moduleToken/exercicios',
+          name: 'exercicios',
+          component: () => import('@/views/my-courses/ExercisesCourseView.vue'),
+        },
+        {
+          path: '/meus-cursos/ead/:courseToken/modulo/:moduleToken/materiais',
+          name: 'materiais',
+          component: () => import('@/views/my-courses/MaterialsCourseView.vue'),
+        }
       ],
     },
   ],
@@ -110,7 +140,7 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   const siteStore = useSiteStore()
 
-  if (to.meta.requiresAuth && !siteStore.isAuthenticated) {
+  if (to.meta.requiresAuth && !siteStore.isAuthenticated && localStorage.getItem('tokenJwt') == null) {
     return {
       name: 'login',
       query: {
