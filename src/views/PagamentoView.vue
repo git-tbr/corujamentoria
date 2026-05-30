@@ -12,13 +12,22 @@ const router = useRouter();
 const siteStore = useSiteStore();
 const selectedCourse = ref<string>('');
 const courseData = ref<any>({});
+const coursePrices = ref<any>({});
 const userData = ref<any>({});
+const isLoadingUserData = ref<boolean>(false);
+const isLoadingCourseData = ref<boolean>(false);
 
 // variáveis de pagamento
 const paymentType = ref<string>('vista');
+const isBrazilian = ref<boolean>(true);
+const subTotal = ref<number>(0);
+const discount = ref<number>(0);
+const total = ref<number>(0);
 
 // verifica se o usuário está logado e redireciona a pós o login
 const getUserData = async () => {
+    isLoadingUserData.value = true;
+
     if (siteStore.isAuthenticated == false) {
         router.push({ name: 'login', query: { redirect: router.currentRoute.value.fullPath } });
     }
@@ -32,7 +41,13 @@ const getUserData = async () => {
         }
 
         userData.value = data.user;
-        console.log(userData.value)
+
+        console.log(userData.value);//remover depois
+
+        if(userData.value.u_country !== 'Brasil'){
+            isBrazilian.value = false;
+        }        
+        isLoadingUserData.value = false;
     } catch (error) {
         let errorMessage = error instanceof Error ? error.message : 'Ocorreu um erro inesperado.';
 
@@ -64,6 +79,8 @@ const checkPaymentStatus = () => {
 
 // carrega dados do curso que está sendo comprado
 const getCourseData = async () => {
+    isLoadingCourseData.value = true;
+
     try {
         const response = await api.get(`/api/courses/course/${selectedCourse.value}`);
         const data = response.data;
@@ -73,9 +90,11 @@ const getCourseData = async () => {
         }
 
         courseData.value = data.course;
-        //aqui...
-        console.log(courseData.value)
-
+        coursePrices.value = data.prices;
+        
+        console.log(courseData.value, coursePrices.value);//remover depois
+        
+        isLoadingCourseData.value = false;
     } catch (error) {
         await showAlert({
             title: "Erro",
@@ -93,6 +112,22 @@ const moneyFormat = (value: number) => {
     });
 
     return formatter.format(value);
+}
+
+// altera os valores conforme a forma de pagamento
+const paymentTypeChange = () => {
+    //aqui
+    if (paymentType.value == 'vista') {
+        
+    }
+
+    if(paymentType.value == 'prazo'){
+        
+    }
+
+    if(paymentType.value == 'assinatura'){
+        
+    }
 }
 
 onMounted(() => {
@@ -113,22 +148,37 @@ onMounted(() => {
 <template>
     <Layout>
         <main class="page-size">
-            <section class="container py-3 py-lg-5">
+            <!-- carregamento de dados -->
+            <section class="container" v-if="isLoadingUserData || isLoadingCourseData">
+                <div class="row pt-5">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-center text-light fs-3">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Carregando...</span>
+                            </div>
+                            &nbsp;
+                            Carregando...
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- conteúdo da página -->
+            <section class="container py-3 py-lg-5" v-else>
                 <div class="row">
                     <div class="col-lg-9 mb-3 p-3">
                         <div class="row mb-4">
                             <div class="col-12 bg-light p-lg-4 rounded-4">
-                                <div class="row mb-3">
-                                    <div class="col-lg-4 mb-3 mb-lg-0">
+                                <div class="row">
+                                    <div class="col-lg-3 mb-3 mb-lg-0">
                                         <img :src="courseData.i_path" alt="Miniatura do curso"
                                             class="img-fluid rounded-4">
                                     </div>
-                                    <div class="col-lg-8">
-                                        <p class="fs-4 mb-3 fw-semibold">
+                                    <div class="col-lg-9">
+                                        <p class="fs-4 mb-3 fw-bold">
                                             {{ courseData.c_name }}
                                         </p>
                                         <p class="text-muted mb-3" v-html="courseData.c_description"></p>
-                                        <p class="fw-semibold text-darkGreen mb-0 fw-semibold fs-4">
+                                        <p class="text-darkGreen mb-0 fw-bold fs-4">
                                             {{ moneyFormat(courseData.c_value) }}
                                         </p>
                                     </div>
@@ -140,6 +190,7 @@ onMounted(() => {
                                 <div class="row">
                                     <div class="col-12">
                                         <p class="fs-4 fw-semibold">
+                                            <font-awesome-icon icon="fa-solid fa-shield-halved" class="text-success" />
                                             Confirmação de Identidade
                                         </p>
                                     </div>
@@ -192,12 +243,12 @@ onMounted(() => {
                                         <div class="border border-secondary rounded-3 px-3 py-2">
                                             <div class="form-check d-flex align-items-center">
                                                 <input class="form-check-input fs-5 border-secondary border"
-                                                    type="radio" name="radioDefault" id="radioDefault1"
-                                                    v-model="paymentType" checked>
-                                                <label class="form-check-label ms-3 flex-fill" for="radioDefault1"
+                                                    type="radio" id="pagamentoavista" value="vista"
+                                                    v-model="paymentType">
+                                                <label class="form-check-label ms-3 flex-fill" for="pagamentoavista"
                                                     role="button">
                                                     <p class="fw-semibold mb-0">
-                                                        Pagamento à vista
+                                                        Pagamento à vista com desconto
                                                     </p>
                                                     <p class="text-success mb-0">
                                                         Economize no pagamento à vista
@@ -206,19 +257,37 @@ onMounted(() => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6" v-if="isBrazilian">
                                         <div class="border border-secondary rounded-3 px-3 py-2">
                                             <div class="form-check d-flex align-items-center">
                                                 <input class="form-check-input fs-5 border-secondary border"
-                                                    type="radio" name="radioDefault" id="radioDefault2"
+                                                    type="radio" id="pagamentoaprazo" value="prazo"
                                                     v-model="paymentType">
-                                                <label class="form-check-label ms-3 flex-fill" for="radioDefault2"
+                                                <label class="form-check-label ms-3 flex-fill" for="pagamentoaprazo"
                                                     role="button">
                                                     <p class="fw-semibold mb-0">
-                                                        Pagamento parcelado
+                                                        Pagamento parcelado (sem desconto)
                                                     </p>
                                                     <p class="text-success mb-0">
                                                         Parcelado em até 12x com juros
+                                                    </p>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6" v-else>
+                                        <div class="border border-secondary rounded-3 px-3 py-2">
+                                            <div class="form-check d-flex align-items-center">
+                                                <input class="form-check-input fs-5 border-secondary border"
+                                                    type="radio" id="pagamentoassinatura" value="assinatura"
+                                                    v-model="paymentType">
+                                                <label class="form-check-label ms-3 flex-fill" for="pagamentoassinatura"
+                                                    role="button">
+                                                    <p class="fw-semibold mb-0">
+                                                        Pagamento em assinatura
+                                                    </p>
+                                                    <p class="text-success mb-0">
+                                                        Pagamento mensal
                                                     </p>
                                                 </label>
                                             </div>
@@ -275,11 +344,13 @@ onMounted(() => {
                                     <div class="row">
                                         <div class="col-12 d-grid mb-3">
                                             <button class="btn btn-success btn-lg rounded-4" @click="">
+                                                <font-awesome-icon icon="fa-solid fa-lock" />
                                                 Ir para o Pagamento
                                             </button>
                                         </div>
                                         <div class="col-12">
                                             <p class="text-muted text-center">
+                                                <font-awesome-icon icon="fa-solid fa-user-shield" />
                                                 Ambiente de pagamento 100% seguro
                                             </p>
                                         </div>
