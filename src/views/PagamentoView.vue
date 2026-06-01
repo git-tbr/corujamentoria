@@ -42,11 +42,11 @@ const getUserData = async () => {
 
         userData.value = data.user;
 
-        console.log(userData.value);//remover depois
+        //console.log(userData.value);//remover depois
 
-        if(userData.value.u_country !== 'Brasil'){
+        if (userData.value.u_country !== 'Brasil') {
             isBrazilian.value = false;
-        }        
+        }
         isLoadingUserData.value = false;
     } catch (error) {
         let errorMessage = error instanceof Error ? error.message : 'Ocorreu um erro inesperado.';
@@ -91,10 +91,11 @@ const getCourseData = async () => {
 
         courseData.value = data.course;
         coursePrices.value = data.prices;
-        
-        console.log(courseData.value, coursePrices.value);//remover depois
-        
+
+        //console.log(courseData.value, coursePrices.value);//remover depois
+
         isLoadingCourseData.value = false;
+        paymentTypeChange('vista');
     } catch (error) {
         await showAlert({
             title: "Erro",
@@ -115,18 +116,69 @@ const moneyFormat = (value: number) => {
 }
 
 // altera os valores conforme a forma de pagamento
-const paymentTypeChange = () => {
-    //aqui
-    if (paymentType.value == 'vista') {
-        
+const paymentTypeChange = (tipo: string) => {
+    paymentType.value = tipo;
+
+    coursePrices.value.find((price: any) => {
+        if (price.gpk_type == paymentType.value) {
+            subTotal.value = price.gpk_price;
+            discount.value = 0;
+            total.value = price.gpk_price;
+        } else if (price.gpk_type == paymentType.value) {
+            subTotal.value = price.gpk_price;
+            discount.value = 0;
+            total.value = price.gpk_price;
+        } else if (price.gpk_type == paymentType.value) {
+            subTotal.value = price.gpk_price;
+            discount.value = 0;
+            total.value = price.gpk_price;
+        }
+    });
+}
+
+// realiza o pagamento
+const handlePayment = async () => {
+    const isBr = isBrazilian.value;
+    const type = paymentType.value;
+
+    if (!isBr && type === 'prazo') {
+        showAlert({
+            title: "Opção Indisponível",
+            message: "O pagamento parcelado não está disponível para usuários fora do Brasil.",
+            type: "warning",
+        });
+        return
     }
 
-    if(paymentType.value == 'prazo'){
-        
+    if (isBr && type === 'assinatura') {
+        showAlert({
+            title: "Opção Indisponível",
+            message: "O pagamento em assinatura não está disponível para usuários do Brasil.",
+            type: "warning",
+        });
+        return
     }
 
-    if(paymentType.value == 'assinatura'){
-        
+    try {
+        const response = await api.post(`/payment-price-generic`, {
+            coursehash: selectedCourse.value,
+            paymenttype: paymentType.value,
+            userid: siteStore.userId,
+            companyid: siteStore.company,
+        });
+
+        const data = response.data;
+        if (data.code == 0) {
+            throw new Error(data.message);
+        }
+
+        window.location.href = data.url;
+    } catch (error) {
+        await showAlert({
+            title: "Erro",
+            message: error instanceof Error ? error.message : 'Ocorreu um erro ao gerar o link de pagamento.',
+            type: "error",
+        });
     }
 }
 
@@ -244,7 +296,7 @@ onMounted(() => {
                                             <div class="form-check d-flex align-items-center">
                                                 <input class="form-check-input fs-5 border-secondary border"
                                                     type="radio" id="pagamentoavista" value="vista"
-                                                    v-model="paymentType">
+                                                    v-model="paymentType" @click="paymentTypeChange('vista')">
                                                 <label class="form-check-label ms-3 flex-fill" for="pagamentoavista"
                                                     role="button">
                                                     <p class="fw-semibold mb-0">
@@ -262,7 +314,7 @@ onMounted(() => {
                                             <div class="form-check d-flex align-items-center">
                                                 <input class="form-check-input fs-5 border-secondary border"
                                                     type="radio" id="pagamentoaprazo" value="prazo"
-                                                    v-model="paymentType">
+                                                    v-model="paymentType" @click="paymentTypeChange('prazo')">
                                                 <label class="form-check-label ms-3 flex-fill" for="pagamentoaprazo"
                                                     role="button">
                                                     <p class="fw-semibold mb-0">
@@ -280,7 +332,7 @@ onMounted(() => {
                                             <div class="form-check d-flex align-items-center">
                                                 <input class="form-check-input fs-5 border-secondary border"
                                                     type="radio" id="pagamentoassinatura" value="assinatura"
-                                                    v-model="paymentType">
+                                                    v-model="paymentType" @click="paymentTypeChange('assinatura')">
                                                 <label class="form-check-label ms-3 flex-fill" for="pagamentoassinatura"
                                                     role="button">
                                                     <p class="fw-semibold mb-0">
@@ -312,7 +364,7 @@ onMounted(() => {
                                         </div>
                                         <div class="col-auto">
                                             <p class="fw-semibold mb-0">
-                                                {{ moneyFormat(courseData.c_value) }}
+                                                {{ moneyFormat(subTotal) }}
                                             </p>
                                         </div>
                                     </div>
@@ -324,7 +376,7 @@ onMounted(() => {
                                         </div>
                                         <div class="col-auto">
                                             <p class="fw-semibold text-success mb-0">
-                                                - {{ moneyFormat(courseData.c_value) }}
+                                                - {{ moneyFormat(discount) }}
                                             </p>
                                         </div>
                                     </div>
@@ -337,13 +389,13 @@ onMounted(() => {
                                         </div>
                                         <div class="col-auto">
                                             <p class="fw-semibold mb-0">
-                                                {{ moneyFormat(courseData.c_value) }}
+                                                {{ moneyFormat(total) }}
                                             </p>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-12 d-grid mb-3">
-                                            <button class="btn btn-success btn-lg rounded-4" @click="">
+                                            <button class="btn btn-success btn-lg rounded-4" @click="handlePayment">
                                                 <font-awesome-icon icon="fa-solid fa-lock" />
                                                 Ir para o Pagamento
                                             </button>
