@@ -63,6 +63,22 @@ const router = createRouter({
       }
     },
     {
+      path: '/mp-pagamento',
+      name: 'mp-pagamento',
+      component: () => import('@/views/MercadopagoPagamentoView.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/sp-pagamento',
+      name: 'sp-pagamento',
+      component: () => import('@/views/StripePagamentoView.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '/perfil',
       name: 'perfil',
       component: () => import('@/views/PerfilView.vue'),
@@ -139,6 +155,47 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
   const siteStore = useSiteStore()
+  const token = localStorage.getItem('tokenJwt')
+
+  if (token) {
+    const tokenParts = token.split('.')
+
+    // Um JWT válido sempre possui 3 partes separadas por pontos (header.payload.signature)
+    if (tokenParts.length === 3) {
+      try {
+        const payloadBase64 = tokenParts[1] as string
+        const payload = JSON.parse(atob(payloadBase64))
+        const expiry = payload.exp * 1000
+
+        if (Date.now() >= expiry) {
+          siteStore.logout()
+          localStorage.removeItem('tokenJwt')
+
+          // Se a rota atual necessitar de autenticação, redireciona para o login
+          if (to.meta.requiresAuth) {
+            return {
+              name: 'login',
+              query: { redirect: to.fullPath },
+            }
+          }
+        }
+      } catch (e) {
+        // Token malformado ou erro no parse
+        siteStore.logout()
+        localStorage.removeItem('tokenJwt')
+        if (to.meta.requiresAuth) {
+          return { name: 'login', query: { redirect: to.fullPath } }
+        }
+      }
+    } else {
+      // Se o token guardado não tiver os 3 blocos do JWT, é inválido
+      siteStore.logout()
+      localStorage.removeItem('tokenJwt')
+      if (to.meta.requiresAuth) {
+        return { name: 'login', query: { redirect: to.fullPath } }
+      }
+    }
+  }
 
   if (to.meta.requiresAuth && !siteStore.isAuthenticated && localStorage.getItem('tokenJwt') == null) {
     return {

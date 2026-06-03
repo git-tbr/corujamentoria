@@ -172,7 +172,10 @@ const handlePayment = async () => {
             throw new Error(data.message);
         }
 
-        window.location.href = data.url;
+        console.log(data);//remover depois
+
+
+        //window.location.href = data.url;
     } catch (error) {
         await showAlert({
             title: "Erro",
