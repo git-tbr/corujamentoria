@@ -1,8 +1,8 @@
 import { useSiteStore } from '@/stores/website'
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
-  history: createWebHashHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
@@ -59,32 +59,32 @@ const router = createRouter({
       name: 'pagamento',
       component: () => import('@/views/PagamentoView.vue'),
       meta: {
-        requiresAuth: true
-      }
+        requiresAuth: true,
+      },
     },
     {
       path: '/mp-pagamento',
       name: 'mp-pagamento',
       component: () => import('@/views/MercadopagoPagamentoView.vue'),
       meta: {
-        requiresAuth: true
-      }
+        requiresAuth: true,
+      },
     },
     {
       path: '/sp-pagamento',
       name: 'sp-pagamento',
       component: () => import('@/views/StripePagamentoView.vue'),
       meta: {
-        requiresAuth: true
-      }
+        requiresAuth: true,
+      },
     },
     {
       path: '/perfil',
       name: 'perfil',
       component: () => import('@/views/PerfilView.vue'),
       meta: {
-        requiresAuth: true
-      }
+        requiresAuth: true,
+      },
     },
     {
       path: '/meus-cursos',
@@ -133,7 +133,7 @@ const router = createRouter({
           path: 'ead/:courseToken/modulo/:moduleToken/materiais',
           name: 'materiais',
           component: () => import('@/views/my-courses/MaterialsCourseView.vue'),
-        }
+        },
       ],
     },
   ],
@@ -141,7 +141,7 @@ const router = createRouter({
     if (to.hash) {
       return {
         el: to.hash,
-        behavior: 'smooth'
+        behavior: 'smooth',
       }
     } else {
       if (savedPosition) {
@@ -197,12 +197,16 @@ router.beforeEach((to, from) => {
     }
   }
 
-  if (to.meta.requiresAuth && !siteStore.isAuthenticated && localStorage.getItem('tokenJwt') == null) {
+  if (
+    to.meta.requiresAuth &&
+    !siteStore.isAuthenticated &&
+    localStorage.getItem('tokenJwt') == null
+  ) {
     return {
       name: 'login',
       query: {
-        redirect: to.fullPath
-      }
+        redirect: to.fullPath,
+      },
     }
   }
 })
