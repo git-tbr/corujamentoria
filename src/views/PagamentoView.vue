@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Layout from '@/layouts/DefaultLayout.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSiteStore } from '@/stores/website'
 import api from '@/services/api'
@@ -16,6 +16,13 @@ const coursePrices = ref<any>({})
 const userData = ref<any>({})
 const isLoadingUserData = ref<boolean>(false)
 const isLoadingCourseData = ref<boolean>(false)
+const isLoadingPaymentData = ref<boolean>(false)
+
+interface Coupon {
+  id: number;
+  code: string;
+  discount: number;
+}
 
 // variáveis de pagamento
 const paymentType = ref<string>('vista')
@@ -23,9 +30,15 @@ const isBrazilian = ref<boolean>(true)
 const subTotal = ref<number>(0)
 const discount = ref<number>(0)
 const total = ref<number>(0)
+const initialCouponValue = (): Coupon => ({
+  id: 0,
+  code: '',
+  discount: 0
+})
+const coupon = reactive(initialCouponValue());
 
 // verifica se o usuário está logado e redireciona a pós o login
-const getUserData = async () => {
+async function getUserData() {
   isLoadingUserData.value = true
 
   if (siteStore.isAuthenticated == false) {
@@ -43,7 +56,6 @@ const getUserData = async () => {
     userData.value = data.user
 
     //console.log(userData.value);//remover depois
-
     if (userData.value.u_country !== 'Brasil') {
       isBrazilian.value = false
     }
@@ -116,23 +128,20 @@ const moneyFormat = (value: number) => {
 }
 
 // altera os valores conforme a forma de pagamento
-const paymentTypeChange = (tipo: string) => {
+const paymentTypeChange = (tipo: string = paymentType.value) => {
   paymentType.value = tipo
 
   coursePrices.value.find((price: any) => {
     if (price.gpk_type == paymentType.value) {
       subTotal.value = price.gpk_price
-      discount.value = 0
-      total.value = price.gpk_price
     } else if (price.gpk_type == paymentType.value) {
       subTotal.value = price.gpk_price
-      discount.value = 0
-      total.value = price.gpk_price
     } else if (price.gpk_type == paymentType.value) {
       subTotal.value = price.gpk_price
-      discount.value = 0
-      total.value = price.gpk_price
     }
+
+    discount.value = subTotal.value * coupon.discount / 100;
+    total.value = subTotal.value - discount.value;
   })
 }
 
@@ -159,12 +168,15 @@ const handlePayment = async () => {
     return
   }
 
+  isLoadingPaymentData.value = true
+
   try {
     const response = await api.post(`/payment-price-generic`, {
       coursehash: selectedCourse.value,
       paymenttype: paymentType.value,
       userid: siteStore.userId,
       companyid: siteStore.company,
+      coupon: coupon.id,
     })
 
     const data = response.data
@@ -172,13 +184,48 @@ const handlePayment = async () => {
       throw new Error(data.message)
     }
 
-    window.location.href = data.url
+    // console.log(data)
+    window.location.href = data.link
   } catch (error) {
     await showAlert({
       title: 'Erro',
       message:
         error instanceof Error ? error.message : 'Ocorreu um erro ao gerar o link de pagamento.',
       type: 'error',
+    })
+  }
+}
+
+//verificar a existência do cupom e aplicar o desconto
+const searchCoupon = async () => {
+  if (coupon.code == '') {
+    await showAlert({
+      title: 'Atenção',
+      message: 'O cupom não pode ser vazio',
+      type: 'warning',
+    })
+    return;
+  }
+  try {
+    const response = await api.get(`/coupon/${siteStore.company}/${coupon.code}`);
+    const data = response.data;
+
+    if (data.code != 1) {
+      coupon.code = '';
+      coupon.id = 0;
+      coupon.discount = 0;
+      throw new Error(data.message);
+    }
+
+    coupon.id = data.coupon.id;
+    coupon.discount = data.coupon.discount;
+
+    paymentTypeChange()
+  } catch (error) {
+    await showAlert({
+      title: 'Atenção',
+      message: 'O cupom informado não está disponível ou expirou.',
+      type: 'warning',
     })
   }
 }
@@ -218,15 +265,12 @@ onMounted(() => {
       <section class="container py-3 py-lg-5" v-else>
         <div class="row">
           <div class="col-lg-9 mb-3 p-3">
-            <div class="row mb-4">
-              <div class="col-12 bg-light p-lg-4 rounded-4">
+
+            <div class="row mb-4 px-3 px-lg-0">
+              <div class="col-12 bg-light p-3 p-lg-4 rounded-4">
                 <div class="row">
                   <div class="col-lg-3 mb-3 mb-lg-0">
-                    <img
-                      :src="courseData.i_path"
-                      alt="Miniatura do curso"
-                      class="img-fluid rounded-4"
-                    />
+                    <img :src="courseData.i_path" alt="Miniatura do curso" class="img-fluid rounded-4" />
                   </div>
                   <div class="col-lg-9">
                     <p class="fs-4 mb-3 fw-bold">
@@ -240,8 +284,8 @@ onMounted(() => {
                 </div>
               </div>
             </div>
-            <div class="row mb-4">
-              <div class="col-12 bg-light p-lg-4 rounded-4">
+            <div class="row mb-4 px-3 px-lg-0">
+              <div class="col-12 bg-light p-3 p-lg-4 rounded-4">
                 <div class="row">
                   <div class="col-12">
                     <p class="fs-4 fw-semibold">
@@ -271,13 +315,10 @@ onMounted(() => {
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <RouterLink
-                      class="text-success fw-semibold text-decoration-none"
-                      :to="{
-                        name: 'perfil',
-                        query: { redirect: router.currentRoute.value.fullPath },
-                      }"
-                    >
+                    <RouterLink class="text-success fw-semibold text-decoration-none" :to="{
+                      name: 'perfil',
+                      query: { redirect: router.currentRoute.value.fullPath },
+                    }">
                       <font-awesome-icon icon="fa-solid fa-pencil" />
                       Alterar dados cadastrais
                     </RouterLink>
@@ -285,30 +326,20 @@ onMounted(() => {
                 </div>
               </div>
             </div>
-            <div class="row mb-3">
-              <div class="col-12 bg-light p-lg-4 rounded-4">
+            <div class="row mb-3 px-3 px-lg-0">
+              <div class="col-12 bg-light p-3 p-lg-4 rounded-4">
                 <div class="row mb-3">
                   <div class="col-12">
                     <p class="fs-4 fw-semibold mb-0">Formas de Pagamento</p>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mb-3">
                   <div class="col-lg-6 mb-3 mb-lg-0">
                     <div class="border border-secondary rounded-3 px-3 py-2">
                       <div class="form-check d-flex align-items-center">
-                        <input
-                          class="form-check-input fs-5 border-secondary border"
-                          type="radio"
-                          id="pagamentoavista"
-                          value="vista"
-                          v-model="paymentType"
-                          @click="paymentTypeChange('vista')"
-                        />
-                        <label
-                          class="form-check-label ms-3 flex-fill"
-                          for="pagamentoavista"
-                          role="button"
-                        >
+                        <input class="form-check-input fs-5 border-secondary border" type="radio" id="pagamentoavista"
+                          value="vista" v-model="paymentType" @click="paymentTypeChange('vista')" />
+                        <label class="form-check-label ms-3 flex-fill" for="pagamentoavista" role="button">
                           <p class="fw-semibold mb-0">Pagamento à vista com desconto</p>
                           <p class="text-success mb-0">Economize no pagamento à vista</p>
                         </label>
@@ -318,19 +349,9 @@ onMounted(() => {
                   <div class="col-lg-6" v-if="isBrazilian">
                     <div class="border border-secondary rounded-3 px-3 py-2">
                       <div class="form-check d-flex align-items-center">
-                        <input
-                          class="form-check-input fs-5 border-secondary border"
-                          type="radio"
-                          id="pagamentoaprazo"
-                          value="prazo"
-                          v-model="paymentType"
-                          @click="paymentTypeChange('prazo')"
-                        />
-                        <label
-                          class="form-check-label ms-3 flex-fill"
-                          for="pagamentoaprazo"
-                          role="button"
-                        >
+                        <input class="form-check-input fs-5 border-secondary border" type="radio" id="pagamentoaprazo"
+                          value="prazo" v-model="paymentType" @click="paymentTypeChange('prazo')" />
+                        <label class="form-check-label ms-3 flex-fill" for="pagamentoaprazo" role="button">
                           <p class="fw-semibold mb-0">Pagamento parcelado (sem desconto)</p>
                           <p class="text-success mb-0">Parcelado em até 12x com juros</p>
                         </label>
@@ -340,19 +361,10 @@ onMounted(() => {
                   <div class="col-lg-6" v-else>
                     <div class="border border-secondary rounded-3 px-3 py-2">
                       <div class="form-check d-flex align-items-center">
-                        <input
-                          class="form-check-input fs-5 border-secondary border"
-                          type="radio"
-                          id="pagamentoassinatura"
-                          value="assinatura"
-                          v-model="paymentType"
-                          @click="paymentTypeChange('assinatura')"
-                        />
-                        <label
-                          class="form-check-label ms-3 flex-fill"
-                          for="pagamentoassinatura"
-                          role="button"
-                        >
+                        <input class="form-check-input fs-5 border-secondary border" type="radio"
+                          id="pagamentoassinatura" value="assinatura" v-model="paymentType"
+                          @click="paymentTypeChange('assinatura')" />
+                        <label class="form-check-label ms-3 flex-fill" for="pagamentoassinatura" role="button">
                           <p class="fw-semibold mb-0">Pagamento em assinatura</p>
                           <p class="text-success mb-0">Pagamento mensal</p>
                         </label>
@@ -360,8 +372,19 @@ onMounted(() => {
                     </div>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-lg-6 align-self-end mb-3 mb-lg-0">
+                    <label for="coupon_input" class="form-label">Caso possua um cupom, insira aqui:</label>
+                    <input type="text" v-model="coupon.code" id="coupon_input" class="form-control p-2">
+                  </div>
+                  <div class="col-lg-auto align-self-end d-grid">
+                    <button class="btn btn-success px-5 py-2 rounded-4" type="button" @click="searchCoupon">Aplicar
+                      Cupom</button>
+                  </div>
+                </div>
               </div>
             </div>
+
           </div>
           <div class="col-lg-3 mb-3 p-3">
             <div class="p-4 bg-light rounded-4">
@@ -401,7 +424,7 @@ onMounted(() => {
                     <div class="col-12 d-grid mb-3">
                       <button class="btn btn-success btn-lg rounded-4" @click="handlePayment">
                         <font-awesome-icon icon="fa-solid fa-lock" />
-                        Ir para o Pagamento
+                        {{ isLoadingPaymentData ? 'Processando...' : 'Ir para o pagamento' }}
                       </button>
                     </div>
                     <div class="col-12">
