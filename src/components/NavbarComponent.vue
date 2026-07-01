@@ -11,134 +11,173 @@ const route = useRoute()
 const router = useRouter()
 const toTopBtn = ref<any>(null)
 const btnParent = ref<boolean>(false)
+const baseUrl = import.meta.env.VITE_BASE_URL
 
 const onScroll = () => {
-    fixedNavbar.value = window.scrollY > 56
-    btnParent.value = window.scrollY > 800
+  fixedNavbar.value = window.scrollY > 56
+  btnParent.value = window.scrollY > 800
 }
 
 const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 const logOut = () => {
-    siteStore.logout()
-    localStorage.removeItem('tokenJwt')
-    sessionStorage.removeItem('payment')
-    sessionStorage.removeItem('course')
-    window.location.href = '/'
+  siteStore.logout()
+  localStorage.removeItem('tokenJwt')
+  sessionStorage.removeItem('payment')
+  sessionStorage.removeItem('course')
+  window.location.href = '/'
+}
+
+const toadm = () => {
+  sessionStorage.setItem('firstname', siteStore.firstname)
+  sessionStorage.setItem('email', siteStore.email)
+  sessionStorage.setItem('level', siteStore.role)
+  window.location.href = `${baseUrl}admin/login/index.php?company=${siteStore.company}&email=${siteStore.email}`
 }
 
 onMounted(() => {
-    window.addEventListener('scroll', onScroll)
-    actualRoute.value = route.name as string
-    if(localStorage.getItem('tokenJwt') == null){
-        siteStore.logout()
-    }
+  window.addEventListener('scroll', onScroll)
+  actualRoute.value = route.name as string
+  if (localStorage.getItem('tokenJwt') == null) {
+    siteStore.logout()
+  }
 })
 
 onUnmounted(() => {
-    window.removeEventListener('scroll', onScroll)
+  window.removeEventListener('scroll', onScroll)
 })
 </script>
 <template>
-    <header class="ff-roboto fw-semibold">
-        <nav :class="['navbar navbar-expand-xl bg-light shadow', { 'fixed-top': fixedNavbar }]" data-bs-theme="light">
-            <!-- caixa da navbar -->
-            <div class="container">
-                <!-- logo / brand -->
-                <a href="/" class="navbar-brand">
-                    <img :src="Logo" alt="Logo do site" height="45">
-                </a>
+  <header class="ff-roboto fw-semibold">
+    <nav
+      :class="['navbar navbar-expand-xl bg-light shadow', { 'fixed-top': fixedNavbar }]"
+      data-bs-theme="light"
+    >
+      <!-- caixa da navbar -->
+      <div class="container">
+        <!-- logo / brand -->
+        <a href="/" class="navbar-brand">
+          <img :src="Logo" alt="Logo do site" height="45" />
+        </a>
 
-                <!-- botão do menu -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigationBar"
-                    aria-expanded="false" aria-label="Gatilho da barra de navegação">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- links -->
-                <div id="navigationBar" class="collapse navbar-collapse">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item ms-lg-2">
-                            <RouterLink to="/"
-                                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'home' }]">Home
-                            </RouterLink>
-                        </li>
-                        <li class="nav-item ms-lg-2">
-                            <RouterLink to="/mentoria"
-                                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'mentoria' }]">
-                                Mentoria</RouterLink>
-                        </li>
-                        <li class="nav-item ms-lg-2">
-                            <RouterLink to="/revisao"
-                                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'revisao' }]">Revisão
-                            </RouterLink>
-                        </li>
-                        <li class="nav-item ms-lg-2">
-                            <RouterLink to="/manual"
-                                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'manual' }]">Ebook
-                            </RouterLink>
-                        </li>
-                        <li class="nav-item ms-lg-2">
-                            <RouterLink to="/contato"
-                                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'contato' }]">Contato
-                            </RouterLink>
-                        </li>
-
-                        <li class="nav-item ms-lg-2 dropdown" v-if="siteStore.isAuthenticated">
-                            <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Bem vindo(a), {{ siteStore.firstname }}
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li v-if="siteStore.role == 'usuario'">
-                                    <a href="javascript:alert('Em construção')" class="dropdown-item">Administrativo</a>
-                                </li>
-                                <li>
-                                    <RouterLink to="/perfil" class="dropdown-item">Perfil</RouterLink>
-                                </li>
-                                <li>
-                                    <RouterLink to="/meus-cursos" class="dropdown-item">Meus Cursos</RouterLink>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" class="dropdown-item" @click="logOut">Sair</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item ms-lg-2 align-items-center d-flex mb-3 mb-lg-0" v-else>
-                            <RouterLink to="/login" class="btn btn-success bg-gradient rounded-4 px-4">
-                                Login
-                            </RouterLink>
-                        </li>
-                        <li class="nav-item ms-lg-2 align-items-center d-flex" v-if="!siteStore.isAuthenticated">
-                            <RouterLink to="/cadastro" class="btn btn-danger bg-gradient rounded-4 px-4">
-                                Cadastro
-                            </RouterLink>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <div class="floating-button" :class="btnParent ? 'd-block' : 'd-none'">
-        <button ref="toTopBtn" class="btn btn-success btn-lg border-light border border-3 fs-3 px-3 rounded-4 shadow"
-            @click="scrollToTop">
-            <font-awesome-icon icon="fa-solid fa-arrow-up" />
+        <!-- botão do menu -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navigationBar"
+          aria-expanded="false"
+          aria-label="Gatilho da barra de navegação"
+        >
+          <span class="navbar-toggler-icon"></span>
         </button>
-    </div>
+
+        <!-- links -->
+        <div id="navigationBar" class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item ms-lg-2">
+              <RouterLink
+                to="/"
+                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'home' }]"
+                >Home
+              </RouterLink>
+            </li>
+            <li class="nav-item ms-lg-2">
+              <RouterLink
+                to="/mentoria"
+                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'mentoria' }]"
+              >
+                Mentoria</RouterLink
+              >
+            </li>
+            <li class="nav-item ms-lg-2">
+              <RouterLink
+                to="/revisao"
+                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'revisao' }]"
+                >Revisão
+              </RouterLink>
+            </li>
+            <li class="nav-item ms-lg-2">
+              <RouterLink
+                to="/manual"
+                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'manual' }]"
+                >Ebook
+              </RouterLink>
+            </li>
+            <li class="nav-item ms-lg-2">
+              <RouterLink
+                to="/contato"
+                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'contato' }]"
+                >Contato
+              </RouterLink>
+            </li>
+
+            <li class="nav-item ms-lg-2 dropdown" v-if="siteStore.isAuthenticated">
+              <a
+                href="#"
+                class="nav-link dropdown-toggle"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Bem vindo(a), {{ siteStore.firstname }}
+              </a>
+              <ul class="dropdown-menu">
+                <li v-if="siteStore.role == 'usuario'">
+                  <a href="javascript:;" @click="toadm" class="dropdown-item">Administrativo</a>
+                </li>
+                <li>
+                  <RouterLink to="/perfil" class="dropdown-item">Perfil</RouterLink>
+                </li>
+                <li>
+                  <RouterLink to="/meus-cursos" class="dropdown-item">Meus Cursos</RouterLink>
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a href="javascript:void(0)" class="dropdown-item" @click="logOut">Sair</a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item ms-lg-2 align-items-center d-flex mb-3 mb-lg-0" v-else>
+              <RouterLink to="/login" class="btn btn-success bg-gradient rounded-4 px-4">
+                Login
+              </RouterLink>
+            </li>
+            <li
+              class="nav-item ms-lg-2 align-items-center d-flex"
+              v-if="!siteStore.isAuthenticated"
+            >
+              <RouterLink to="/cadastro" class="btn btn-danger bg-gradient rounded-4 px-4">
+                Cadastro
+              </RouterLink>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="floating-button" :class="btnParent ? 'd-block' : 'd-none'">
+    <button
+      ref="toTopBtn"
+      class="btn btn-success btn-lg border-light border border-3 fs-3 px-3 rounded-4 shadow"
+      @click="scrollToTop"
+    >
+      <font-awesome-icon icon="fa-solid fa-arrow-up" />
+    </button>
+  </div>
 </template>
 
 <style scoped>
 .floating-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
 }
 </style>

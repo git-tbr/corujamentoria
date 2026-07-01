@@ -1,13 +1,65 @@
-import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { faInstagram, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
-import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
-import { faAngleLeft, faAngleRight, faArrowRotateRight, faArrowUp, faBookOpen, faChevronRight, faCircleCheck, faCirclePlay, faClock, faEnvelope, faFile, faFilePdf, faImage, faLock, faMagnifyingGlass, faPencil, faPhone, faPlay, faShieldHalved, faThumbtack, faTicket, faTrashCan, faUserGroup, faUserShield } from "@fortawesome/free-solid-svg-icons";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons'
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
+import {
+  faAngleLeft,
+  faAngleRight,
+  faArrowRotateRight,
+  faArrowUp,
+  faBookOpen,
+  faChevronRight,
+  faCircleCheck,
+  faCirclePlay,
+  faClock,
+  faEnvelope,
+  faFile,
+  faFilePdf,
+  faImage,
+  faLock,
+  faMagnifyingGlass,
+  faPencil,
+  faPhone,
+  faPlay,
+  faShieldHalved,
+  faThumbtack,
+  faTicket,
+  faTrashCan,
+  faUserGroup,
+  faUsers,
+  faUserShield,
+} from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft'
 
 const icons: Record<string, IconDefinition> = {
-    faInstagram, faCircleCheck, faThumbtack, faClock, faLock, faUserGroup, faTicket, faCirclePlay,
-    faWhatsapp, faAngleRight, faArrowUp, faEnvelope, faPhone, faEye, faEyeSlash, faArrowRotateRight,
-    faMagnifyingGlass, faFile, faChevronRight, faTrashCan, faPlay, faBookOpen, faArrowLeft, faFilePdf,
-    faImage, faAngleLeft, faPencil, faShieldHalved, faUserShield
-};
-export default icons;
+  faInstagram,
+  faCircleCheck,
+  faThumbtack,
+  faClock,
+  faLock,
+  faUserGroup,
+  faTicket,
+  faCirclePlay,
+  faWhatsapp,
+  faAngleRight,
+  faArrowUp,
+  faEnvelope,
+  faPhone,
+  faEye,
+  faEyeSlash,
+  faArrowRotateRight,
+  faMagnifyingGlass,
+  faFile,
+  faChevronRight,
+  faTrashCan,
+  faPlay,
+  faBookOpen,
+  faArrowLeft,
+  faFilePdf,
+  faImage,
+  faAngleLeft,
+  faPencil,
+  faShieldHalved,
+  faUserShield,
+  faUsers,
+}
+export default icons
