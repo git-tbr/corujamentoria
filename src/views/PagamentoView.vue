@@ -17,11 +17,12 @@ const userData = ref<any>({})
 const isLoadingUserData = ref<boolean>(false)
 const isLoadingCourseData = ref<boolean>(false)
 const isLoadingPaymentData = ref<boolean>(false)
+const afiliatedkey = ref<string>('')
 
 interface Coupon {
-  id: number;
-  code: string;
-  discount: number;
+  id: number
+  code: string
+  discount: number
 }
 
 // variáveis de pagamento
@@ -33,9 +34,9 @@ const total = ref<number>(0)
 const initialCouponValue = (): Coupon => ({
   id: 0,
   code: '',
-  discount: 0
+  discount: 0,
 })
-const coupon = reactive(initialCouponValue());
+const coupon = reactive(initialCouponValue())
 
 // verifica se o usuário está logado e redireciona a pós o login
 async function getUserData() {
@@ -140,8 +141,8 @@ const paymentTypeChange = (tipo: string = paymentType.value) => {
       subTotal.value = price.gpk_price
     }
 
-    discount.value = subTotal.value * coupon.discount / 100;
-    total.value = subTotal.value - discount.value;
+    discount.value = (subTotal.value * coupon.discount) / 100
+    total.value = subTotal.value - discount.value
   })
 }
 
@@ -177,6 +178,7 @@ const handlePayment = async () => {
       userid: siteStore.userId,
       companyid: siteStore.company,
       coupon: coupon.id,
+      afiliatedkey: afiliatedkey.value,
     })
 
     const data = response.data
@@ -204,21 +206,21 @@ const searchCoupon = async () => {
       message: 'O cupom não pode ser vazio',
       type: 'warning',
     })
-    return;
+    return
   }
   try {
-    const response = await api.get(`/coupon/${siteStore.company}/${coupon.code}`);
-    const data = response.data;
+    const response = await api.get(`/coupon/${siteStore.company}/${coupon.code}`)
+    const data = response.data
 
     if (data.code != 1) {
-      coupon.code = '';
-      coupon.id = 0;
-      coupon.discount = 0;
-      throw new Error(data.message);
+      coupon.code = ''
+      coupon.id = 0
+      coupon.discount = 0
+      throw new Error(data.message)
     }
 
-    coupon.id = data.coupon.id;
-    coupon.discount = data.coupon.discount;
+    coupon.id = data.coupon.id
+    coupon.discount = data.coupon.discount
 
     paymentTypeChange()
   } catch (error) {
@@ -242,6 +244,14 @@ onMounted(() => {
 
   //carregar dados do curso que está sendo comprado
   getCourseData()
+
+  //carregar dados do afiliado
+  if (
+    sessionStorage.getItem('afiliatedkey') != null &&
+    sessionStorage.getItem('afiliatedkey') != ''
+  ) {
+    afiliatedkey.value = sessionStorage.getItem('afiliatedkey') as string
+  }
 })
 </script>
 
@@ -265,12 +275,15 @@ onMounted(() => {
       <section class="container py-3 py-lg-5" v-else>
         <div class="row">
           <div class="col-lg-9 mb-3 p-3">
-
             <div class="row mb-4 px-3 px-lg-0">
               <div class="col-12 bg-light p-3 p-lg-4 rounded-4">
                 <div class="row">
                   <div class="col-lg-3 mb-3 mb-lg-0">
-                    <img :src="courseData.i_path" alt="Miniatura do curso" class="img-fluid rounded-4" />
+                    <img
+                      :src="courseData.i_path"
+                      alt="Miniatura do curso"
+                      class="img-fluid rounded-4"
+                    />
                   </div>
                   <div class="col-lg-9">
                     <p class="fs-4 mb-3 fw-bold">
@@ -315,10 +328,13 @@ onMounted(() => {
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <RouterLink class="text-success fw-semibold text-decoration-none" :to="{
-                      name: 'perfil',
-                      query: { redirect: router.currentRoute.value.fullPath },
-                    }">
+                    <RouterLink
+                      class="text-success fw-semibold text-decoration-none"
+                      :to="{
+                        name: 'perfil',
+                        query: { redirect: router.currentRoute.value.fullPath },
+                      }"
+                    >
                       <font-awesome-icon icon="fa-solid fa-pencil" />
                       Alterar dados cadastrais
                     </RouterLink>
@@ -337,9 +353,19 @@ onMounted(() => {
                   <div class="col-lg-6 mb-3 mb-lg-0">
                     <div class="border border-secondary rounded-3 px-3 py-2">
                       <div class="form-check d-flex align-items-center">
-                        <input class="form-check-input fs-5 border-secondary border" type="radio" id="pagamentoavista"
-                          value="vista" v-model="paymentType" @click="paymentTypeChange('vista')" />
-                        <label class="form-check-label ms-3 flex-fill" for="pagamentoavista" role="button">
+                        <input
+                          class="form-check-input fs-5 border-secondary border"
+                          type="radio"
+                          id="pagamentoavista"
+                          value="vista"
+                          v-model="paymentType"
+                          @click="paymentTypeChange('vista')"
+                        />
+                        <label
+                          class="form-check-label ms-3 flex-fill"
+                          for="pagamentoavista"
+                          role="button"
+                        >
                           <p class="fw-semibold mb-0">Pagamento à vista com desconto</p>
                           <p class="text-success mb-0">Economize no pagamento à vista</p>
                         </label>
@@ -349,9 +375,19 @@ onMounted(() => {
                   <div class="col-lg-6" v-if="isBrazilian">
                     <div class="border border-secondary rounded-3 px-3 py-2">
                       <div class="form-check d-flex align-items-center">
-                        <input class="form-check-input fs-5 border-secondary border" type="radio" id="pagamentoaprazo"
-                          value="prazo" v-model="paymentType" @click="paymentTypeChange('prazo')" />
-                        <label class="form-check-label ms-3 flex-fill" for="pagamentoaprazo" role="button">
+                        <input
+                          class="form-check-input fs-5 border-secondary border"
+                          type="radio"
+                          id="pagamentoaprazo"
+                          value="prazo"
+                          v-model="paymentType"
+                          @click="paymentTypeChange('prazo')"
+                        />
+                        <label
+                          class="form-check-label ms-3 flex-fill"
+                          for="pagamentoaprazo"
+                          role="button"
+                        >
                           <p class="fw-semibold mb-0">Pagamento parcelado (sem desconto)</p>
                           <p class="text-success mb-0">Parcelado em até 12x com juros</p>
                         </label>
@@ -361,10 +397,19 @@ onMounted(() => {
                   <div class="col-lg-6" v-else>
                     <div class="border border-secondary rounded-3 px-3 py-2">
                       <div class="form-check d-flex align-items-center">
-                        <input class="form-check-input fs-5 border-secondary border" type="radio"
-                          id="pagamentoassinatura" value="assinatura" v-model="paymentType"
-                          @click="paymentTypeChange('assinatura')" />
-                        <label class="form-check-label ms-3 flex-fill" for="pagamentoassinatura" role="button">
+                        <input
+                          class="form-check-input fs-5 border-secondary border"
+                          type="radio"
+                          id="pagamentoassinatura"
+                          value="assinatura"
+                          v-model="paymentType"
+                          @click="paymentTypeChange('assinatura')"
+                        />
+                        <label
+                          class="form-check-label ms-3 flex-fill"
+                          for="pagamentoassinatura"
+                          role="button"
+                        >
                           <p class="fw-semibold mb-0">Pagamento em assinatura</p>
                           <p class="text-success mb-0">Pagamento mensal</p>
                         </label>
@@ -374,17 +419,28 @@ onMounted(() => {
                 </div>
                 <div class="row">
                   <div class="col-lg-6 align-self-end mb-3 mb-lg-0">
-                    <label for="coupon_input" class="form-label">Caso possua um cupom, insira aqui:</label>
-                    <input type="text" v-model="coupon.code" id="coupon_input" class="form-control p-2">
+                    <label for="coupon_input" class="form-label"
+                      >Caso possua um cupom, insira aqui:</label
+                    >
+                    <input
+                      type="text"
+                      v-model="coupon.code"
+                      id="coupon_input"
+                      class="form-control p-2"
+                    />
                   </div>
                   <div class="col-lg-auto align-self-end d-grid">
-                    <button class="btn btn-success px-5 py-2 rounded-4" type="button" @click="searchCoupon">Aplicar
-                      Cupom</button>
+                    <button
+                      class="btn btn-success px-5 py-2 rounded-4"
+                      type="button"
+                      @click="searchCoupon"
+                    >
+                      Aplicar Cupom
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
           <div class="col-lg-3 mb-3 p-3">
             <div class="p-4 bg-light rounded-4">

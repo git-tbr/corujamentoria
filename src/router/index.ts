@@ -55,7 +55,7 @@ const router = createRouter({
       component: () => import('@/views/PolicyView.vue'),
     },
     {
-      path: '/promocional/:afiliatedkey',
+      path: '/promocional/:afiliatedkey?',
       name: 'promocional',
       component: () => import('@/views/PromocionalView.vue'),
     },

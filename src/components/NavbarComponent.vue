@@ -27,6 +27,7 @@ const logOut = () => {
   localStorage.removeItem('tokenJwt')
   sessionStorage.removeItem('payment')
   sessionStorage.removeItem('course')
+  sessionStorage.removeItem('afiliatedkey')
   window.location.href = '/'
 }
 
