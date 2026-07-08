@@ -3,7 +3,7 @@ import Layout from '@/layouts/DefaultLayout.vue'
 import api from '@/services/api'
 import WhiteAirplane from '@/assets/img/ebook/white_airplane.svg'
 import { useSiteStore } from '@/stores/website'
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { vReveal } from '@/directives/vReveal'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { useAlert } from '@/services/alertService'
@@ -12,6 +12,8 @@ const { showAlert } = useAlert()
 const siteStore = useSiteStore()
 const router = useRouter()
 const route = useRoute()
+const returnTo = ref<string>('/')
+const showPassword = ref<boolean>(false)
 
 interface LoginFormInterface {
   email: string
@@ -42,22 +44,35 @@ const submitLogin = async () => {
     siteStore.login(data.user)
     localStorage.setItem('tokenJwt', data.token)
     Object.assign(userLoginForm, getInitialLoginFormData())
-
-    await showAlert({
-      title: 'Sucesso!',
-      message: data.message,
-      type: 'success',
-    })
-
-    if (sessionStorage.getItem('payment') == 'true' && sessionStorage.getItem('course') != '')
-      router.push({ name: 'pagamento' })
-    else router.push({ name: 'home' })
-
     isSubmittingLogin.value = false
+
+    if (returnTo.value == 'pagamento') {
+      await showAlert({
+        title: 'Sucesso!',
+        message: data.message,
+        type: 'success',
+      })
+
+      router.push({ name: 'pagamento' })
+    } else {
+      let confirm = await showAlert({
+        title: 'Sucesso!',
+        message: data.message + ' ' + 'Acessar os cursos agora?',
+        type: 'success',
+        isConfirm: true
+      })
+
+      if (confirm) {
+        router.push({ name: 'meus-cursos' })
+      } else {
+        router.push({ name: 'home' })
+      }
+    }
+
   } catch (error: any) {
     await showAlert({
       title: 'Erro de autenticação',
-      message: 'Email ou senha inválidos',
+      message: error.message,
       type: 'error',
     })
 
@@ -65,14 +80,23 @@ const submitLogin = async () => {
     return
   }
 }
+
+const tooglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value
+}
+
+onMounted(() => {
+  if (route.query.redirect) {
+    returnTo.value = route.query.redirect as string
+  } else {
+    returnTo.value = 'home'
+  }
+})
 </script>
 
 <template>
   <Layout>
-    <main
-      class="align-content-center page-size position-relative z-0"
-      style="background-color: #146531"
-    >
+    <main class="align-content-center page-size position-relative z-0" style="background-color: #146531">
       <!-- login -->
       <section class="container position-relative z-1 py-5" v-reveal="'bottom'">
         <div class="row">
@@ -85,27 +109,22 @@ const submitLogin = async () => {
                 <div class="col-12 mb-3">
                   <div class="form-group">
                     <label for="email" class="form-label">E-mail</label>
-                    <input
-                      type="email"
-                      class="form-control fs-5 rounded-4 bg-secondary bg-opacity-10"
-                      id="email"
-                      placeholder="E-mail"
-                      v-model="userLoginForm.email"
-                      required
-                    />
+                    <input type="email" class="form-control fs-5 rounded-4 bg-secondary bg-opacity-10" id="email"
+                      placeholder="E-mail" v-model="userLoginForm.email" required />
                   </div>
                 </div>
                 <div class="col-12 mb-3">
                   <div class="form-group">
                     <label for="password" class="form-label">Senha</label>
-                    <input
-                      type="password"
-                      class="form-control fs-5 rounded-4 bg-secondary bg-opacity-10"
-                      id="password"
-                      placeholder="Senha"
-                      v-model="userLoginForm.password"
-                      required
-                    />
+                    <div class="input-group">
+                      <input :type="showPassword ? 'text' : 'password'" id="password"
+                        class="form-control bg-secondary bg-opacity-10 p-2 rounded-end-0"
+                        v-model="userLoginForm.password" required />
+                      <button class="btn text-dark bg-light border border-1 rounded-2 rounded-start-0" type="button"
+                        @click="tooglePasswordVisibility()">
+                        <font-awesome-icon :icon="showPassword ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -129,7 +148,9 @@ const submitLogin = async () => {
               <div class="row">
                 <div class="col-12">
                   <p class="text-center">
-                    <RouterLink to="/cadastro" class="">Criar uma conta</RouterLink>
+                    <RouterLink :to="{ name: 'cadastro', query: { redirect: returnTo } }" class="">
+                      Criar uma conta
+                    </RouterLink>
                   </p>
                 </div>
               </div>

@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import Layout from '@/layouts/DefaultLayout.vue'
+import WhiteAirplane from '@/assets/img/ebook/white_airplane.svg'
 import { useSiteStore } from '@/stores/website'
 import { onMounted, reactive, ref } from 'vue'
-import { useRouter, RouterLink } from 'vue-router'
+import { useRouter, useRoute, RouterLink } from 'vue-router'
 import { useAlert } from '@/services/alertService'
 import instance from '@/services/api'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -10,7 +11,9 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 const { showAlert } = useAlert()
 const api = instance
 const router = useRouter()
+const route = useRoute()
 const siteStore = useSiteStore()
+const returnTo = ref<string>('/')
 
 interface SubscribeFormInterface {
   name: string
@@ -135,25 +138,52 @@ const subscribeSubmit = async () => {
     return
   }
 
-  //continuar aqui...
+  // verifica nacionalidade e documentos obrigatórios
+  if (isBrazilian.value) {
+    if (subscribeData.cpf === '') {
+      await showAlert({
+        title: 'Erro de autenticação',
+        message: 'CPF é obrigatório',
+        type: 'warning',
+      })
+      return
+    }
+  } else {
+    if (subscribeData.tin === '') {
+      await showAlert({
+        title: 'Erro de autenticação',
+        message: 'TIN é obrigatório',
+        type: 'warning',
+      })
+      return
+    }
+  }
 
   isSubmitingCadastro.value = true
 
   try {
-    await api.post('/api/subscribe', subscribeData)
+    const response = await api.post('/register', subscribeData)
+    const data = response.data;
+
+    if (data.code == 0) throw new Error(data.message);
+
+    siteStore.login(data.user)
+    localStorage.setItem('tokenJwt', data.token)
+    Object.assign(subscribeData, initialValue());
 
     await showAlert({
       title: 'Sucesso',
-      message: 'Cadastro realizado com sucesso',
+      message: response.data.message,
       type: 'success',
-    })
+    });
 
     isSubmitingCadastro.value = false
-    router.push({ name: 'login' })
+
+    router.push({ name: returnTo.value })
   } catch (error: any) {
     await showAlert({
       title: 'Erro de autenticação',
-      message: 'Email ou senha inválidos',
+      message: error.message || 'Email ou senha inválidos',
       type: 'error',
     })
 
@@ -165,15 +195,21 @@ const subscribeSubmit = async () => {
 //-- GET COMPANY
 onMounted(() => {
   subscribeData.company = siteStore.company
+
+  if (route.query.redirect) {
+    returnTo.value = route.query.redirect as string
+  } else {
+    returnTo.value = 'home'
+  }
 })
 </script>
 <template>
   <Layout>
-    <main>
-      <section id="hero-subscribe">
-        <div class="container-fluid py-3 py-lg-5" id="hero-container">
-          <div class="row">
-            <div class="col-xl-6 bg-light p-3 p-lg-5 ms-xl-5 rounded-4 shadow">
+    <main class="align-content-center page-size position-relative z-0" style="background-color: #146531">
+      <section class="container position-relative z-1" v-reveal="'bottom'">
+        <div class="container py-3 py-lg-5">
+          <div class="row justify-content-center">
+            <div class="col-lg-9 bg-light p-3 p-lg-5 rounded-4 shadow">
               <h1 class="text-center text-success ff-roboto fw-bold" v-reveal="'bottom'">
                 Crie sua conta
               </h1>
@@ -186,25 +222,15 @@ onMounted(() => {
                   <div class="col-lg-8 mb-2" v-reveal="'bottom'">
                     <div class="form-group">
                       <label for="name" class="form-label">Nome completo</label>
-                      <input
-                        type="text"
-                        id="name"
-                        class="form-control bg-secondary bg-opacity-10 p-2"
-                        v-model="subscribeData.name"
-                        required
-                      />
+                      <input type="text" id="name" class="form-control bg-secondary bg-opacity-10 p-2"
+                        v-model="subscribeData.name" required />
                     </div>
                   </div>
                   <div class="col-lg-4 mb-2" v-reveal="'bottom'">
                     <div class="form-group">
                       <label for="nacionality" class="form-label">Nacionalidade</label>
-                      <select
-                        id="nacionality"
-                        class="form-select bg-secondary bg-opacity-10 p-2"
-                        v-model="subscribeData.nacionality"
-                        @change="countryChange"
-                        required
-                      >
+                      <select id="nacionality" class="form-select bg-secondary bg-opacity-10 p-2"
+                        v-model="subscribeData.nacionality" @change="countryChange" required>
                         <option value="">Selecione uma opção</option>
                         <option value="Brasileiro(a)">Brasileiro(a)</option>
                         <option value="Estrangeiro(a)">Estrangeiro(a)</option>
@@ -217,42 +243,23 @@ onMounted(() => {
                   <div class="col-lg-6 mb-2" v-if="isBrazilian" v-reveal="'bottom'">
                     <div class="form-group">
                       <label for="cpf" class="form-label">Informe seu CPF</label>
-                      <input
-                        type="text"
-                        id="cpf"
-                        class="form-control bg-secondary bg-opacity-10 p-2"
-                        v-model="subscribeData.cpf"
-                        @input="cpfMask"
-                      />
+                      <input type="text" id="cpf" class="form-control bg-secondary bg-opacity-10 p-2"
+                        v-model="subscribeData.cpf" @input="cpfMask" />
                     </div>
                   </div>
                   <div class="col-lg-6 mb-2" v-else v-reveal="'bottom'">
                     <div class="form-group">
-                      <label for="tin" class="form-label"
-                        >Informe seu TIN (NIF, CUIT, SSN)
-                        <span class="text-danger" role="button" @click="showTinDescription"
-                          >(?)</span
-                        ></label
-                      >
-                      <input
-                        type="text"
-                        class="form-control bg-secondary bg-opacity-10 p-2"
-                        id="tin"
-                        v-model="subscribeData.tin"
-                      />
+                      <label for="tin" class="form-label">Informe seu TIN (NIF, CUIT, SSN)
+                        <span class="text-danger" role="button" @click="showTinDescription">(?)</span></label>
+                      <input type="text" class="form-control bg-secondary bg-opacity-10 p-2" id="tin"
+                        v-model="subscribeData.tin" />
                     </div>
                   </div>
                   <div class="col-lg-6 mb-2" v-reveal="'bottom'">
                     <div class="form-group">
                       <label for="cellphone" class="form-label">Celular</label>
-                      <input
-                        type="text"
-                        id="cellphone"
-                        class="form-control bg-secondary bg-opacity-10 p-2"
-                        v-model="subscribeData.cellphone"
-                        placeholder="+55 99 99999-9999"
-                        required
-                      />
+                      <input type="text" id="cellphone" class="form-control bg-secondary bg-opacity-10 p-2"
+                        v-model="subscribeData.cellphone" placeholder="+55 99 99999-9999" required />
                     </div>
                   </div>
                 </div>
@@ -261,27 +268,16 @@ onMounted(() => {
                   <div class="col-lg-6 mb-2" v-reveal="'bottom'">
                     <div class="form-group">
                       <label for="email" class="form-label">E-mail</label>
-                      <input
-                        type="email"
-                        id="email"
-                        class="form-control bg-secondary bg-opacity-10 p-2"
-                        v-model="subscribeData.email"
-                        required
-                      />
+                      <input type="email" id="email" class="form-control bg-secondary bg-opacity-10 p-2"
+                        v-model="subscribeData.email" required />
                     </div>
                   </div>
                   <div class="col-lg-6 mb-2" v-reveal="'bottom'">
                     <div class="form-group">
                       <label for="email_confirmation" class="form-label">Confirme seu e-mail</label>
-                      <input
-                        type="email"
-                        id="email_confirmation"
-                        class="form-control bg-secondary bg-opacity-10 p-2"
-                        :class="emailCheckedClass"
-                        v-model="subscribeData.email_confirmation"
-                        @input="validateEmail"
-                        required
-                      />
+                      <input type="email" id="email_confirmation" class="form-control bg-secondary bg-opacity-10 p-2"
+                        :class="emailCheckedClass" v-model="subscribeData.email_confirmation" @input="validateEmail"
+                        required />
                     </div>
                   </div>
                 </div>
@@ -292,52 +288,29 @@ onMounted(() => {
                       <label for="password" class="form-label">Senha</label>
 
                       <div class="input-group">
-                        <input
-                          :type="showPassword ? 'text' : 'password'"
-                          id="password"
+                        <input :type="showPassword ? 'text' : 'password'" id="password"
                           class="form-control bg-secondary bg-opacity-10 p-2 rounded-end-0"
-                          v-model="subscribeData.password"
-                          required
-                        />
-                        <button
-                          class="btn text-dark bg-light border border-1 rounded-2 rounded-start-0"
-                          type="button"
-                          @click="tooglePasswordVisibility('password')"
-                        >
-                          <font-awesome-icon
-                            :icon="showPassword ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"
-                          />
+                          v-model="subscribeData.password" required />
+                        <button class="btn text-dark bg-light border border-1 rounded-2 rounded-start-0" type="button"
+                          @click="tooglePasswordVisibility('password')">
+                          <font-awesome-icon :icon="showPassword ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'" />
                         </button>
                       </div>
                     </div>
                   </div>
                   <div class="col-lg-6 mb-2" v-reveal="'bottom'">
                     <div class="form-group">
-                      <label for="password_confirmation" class="form-label"
-                        >Confirme sua senha</label
-                      >
+                      <label for="password_confirmation" class="form-label">Confirme sua senha</label>
                       <div class="input-group">
-                        <input
-                          :type="showPasswordConfirmation ? 'text' : 'password'"
-                          id="password_confirmation"
-                          class="form-control bg-secondary bg-opacity-10 p-2 rounded-end-0"
-                          :class="passCheckedClass"
-                          v-model="subscribeData.password_confirmation"
-                          @input="validatePassword"
-                          required
-                        />
-                        <button
-                          class="btn text-dark bg-light border border-1 rounded-2 rounded-start-0"
-                          type="button"
-                          @click="tooglePasswordVisibility('confirmation')"
-                        >
-                          <font-awesome-icon
-                            :icon="
-                              showPasswordConfirmation
-                                ? 'fa-regular fa-eye-slash'
-                                : 'fa-regular fa-eye'
-                            "
-                          />
+                        <input :type="showPasswordConfirmation ? 'text' : 'password'" id="password_confirmation"
+                          class="form-control bg-secondary bg-opacity-10 p-2 rounded-end-0" :class="passCheckedClass"
+                          v-model="subscribeData.password_confirmation" @input="validatePassword" required />
+                        <button class="btn text-dark bg-light border border-1 rounded-2 rounded-start-0" type="button"
+                          @click="tooglePasswordVisibility('confirmation')">
+                          <font-awesome-icon :icon="showPasswordConfirmation
+                            ? 'fa-regular fa-eye-slash'
+                            : 'fa-regular fa-eye'
+                            " />
                         </button>
                       </div>
                     </div>
@@ -348,25 +321,15 @@ onMounted(() => {
                   <div class="col-lg-6 mb-2" v-reveal="'bottom'">
                     <div class="form-group">
                       <label for="profissao" class="form-label">Área de atuação</label>
-                      <input
-                        type="text"
-                        id="profissao"
-                        class="form-control bg-secondary bg-opacity-10 p-2"
-                        v-model="subscribeData.profession"
-                        required
-                      />
+                      <input type="text" id="profissao" class="form-control bg-secondary bg-opacity-10 p-2"
+                        v-model="subscribeData.profession" required />
                     </div>
                   </div>
                   <div class="col-lg-6 mb-2" v-reveal="'bottom'">
                     <div class="form-group">
                       <label for="city" class="form-label">Cidade</label>
-                      <input
-                        type="text"
-                        id="city"
-                        class="form-control bg-secondary bg-opacity-10 p-2"
-                        v-model="subscribeData.city"
-                        required
-                      />
+                      <input type="text" id="city" class="form-control bg-secondary bg-opacity-10 p-2"
+                        v-model="subscribeData.city" required />
                     </div>
                   </div>
                 </div>
@@ -375,25 +338,15 @@ onMounted(() => {
                   <div class="col-lg-6 mb-2" v-reveal="'bottom'">
                     <div class="form-group">
                       <label for="state" class="form-label">Estado</label>
-                      <input
-                        type="text"
-                        id="state"
-                        class="form-control bg-secondary bg-opacity-10 p-2"
-                        v-model="subscribeData.state"
-                        required
-                      />
+                      <input type="text" id="state" class="form-control bg-secondary bg-opacity-10 p-2"
+                        v-model="subscribeData.state" required />
                     </div>
                   </div>
                   <div class="col-lg-6 mb-2" v-reveal="'bottom'">
                     <div class="form-group">
                       <label for="country" class="form-label">País</label>
-                      <input
-                        type="text"
-                        id="country"
-                        class="form-control bg-secondary bg-opacity-10 p-2"
-                        v-model="subscribeData.country"
-                        required
-                      />
+                      <input type="text" id="country" class="form-control bg-secondary bg-opacity-10 p-2"
+                        v-model="subscribeData.country" required />
                     </div>
                   </div>
                 </div>
@@ -402,8 +355,7 @@ onMounted(() => {
                   <div class="col" v-reveal="'bottom'">
                     <p class="fs-5">
                       Ao me cadastrar, declaro que li e estou de acordo com os
-                      <RouterLink to="/politica" class="text-danger fw-semibold"
-                        >termos e condições de uso
+                      <RouterLink to="/politica" class="fw-semibold">termos e condições de uso
                       </RouterLink>
                       do site.
                     </p>
@@ -412,21 +364,13 @@ onMounted(() => {
 
                 <div class="row" v-reveal="'bottom'">
                   <div class="col-md-6 d-grid mb-2">
-                    <button
-                      class="btn btn-secondary btn-lg rounded-4"
-                      type="button"
-                      @click="cancelSubscribe"
-                    >
+                    <button class="btn btn-secondary btn-lg rounded-4" type="button" @click="cancelSubscribe">
                       Cancelar
                     </button>
                   </div>
                   <div class="col-md-6 d-grid mb-2">
                     <button class="btn btn-success btn-lg rounded-4" type="submit">
-                      <font-awesome-icon
-                        icon="fa-solid fa-arrow-rotate-right"
-                        spin
-                        v-if="isSubmitingCadastro"
-                      />
+                      <font-awesome-icon icon="fa-solid fa-arrow-rotate-right" spin v-if="isSubmitingCadastro" />
                       {{ isSubmitingCadastro ? 'Processando...' : 'Finalizar Cadastro' }}
                     </button>
                   </div>
@@ -436,6 +380,9 @@ onMounted(() => {
           </div>
         </div>
       </section>
+      <div style="position: absolute; bottom: 0; right: 0; z-index: -1">
+        <img :src="WhiteAirplane" alt="Avião branco" class="" style="max-height: 450px" />
+      </div>
     </main>
   </Layout>
 </template>

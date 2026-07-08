@@ -5,24 +5,12 @@
       <div class="container py-5">
         <div class="row">
           <div class="col-lg-9 col-xxl-6">
-            <img
-              :src="Logo"
-              alt="logomarca da corujá"
-              width="240"
-              class="mb-4"
-              v-reveal="'bottom'"
-            />
-            <p
-              class="fs-4 text-light fw-lighter mb-4"
-              style="letter-spacing: 3px"
-              v-reveal="'bottom'"
-            >
+            <img :src="Logo" alt="logomarca da corujá" width="240" class="mb-4" v-reveal="'bottom'" />
+            <p class="fs-4 text-light fw-lighter mb-4" style="letter-spacing: 3px" v-reveal="'bottom'">
               ELITE EM REVALIDAÇÃO MÉDICA
             </p>
             <h1 class="mb-4" v-reveal="'bottom'">
-              <span class="text-warning"
-                >Revalide seu diploma médico em Portugal ou prepare-se para a PNA</span
-              >
+              <span class="text-warning">Revalide seu diploma médico em Portugal ou prepare-se para a PNA</span>
               <span class="text-light">com quem teve as maiores notas da história do concurso</span>
             </h1>
             <p class="fs-5 mb-4 text-light" v-reveal="'bottom'">
@@ -30,10 +18,7 @@
               <span class="fw-semibold">método validado por mais de 1000 médicos aprovados.</span>
             </p>
             <!-- falta a configuração do clique -->
-            <button
-              class="btn btn-danger py-3 px-5 btn-lg mb-4 effect-3"
-              @click="openLink('combo')"
-            >
+            <button class="btn btn-danger py-3 px-5 btn-lg mb-4 effect-3" @click="openLink('combo')">
               Quero garantir minha vaga <span class="fw-semibold">com desconto</span>
             </button>
           </div>
@@ -58,29 +43,19 @@
             <p class="fs-5" v-reveal="'bottom'">
               Todo o conteúdo foi estruturado por dois médicos brasileiros que tiveram as maiores
               notas da história da revalidação. Por todos esses motivos e benefícios,
-              <span class="fw-semibold text-success"
-                >somos a mentoria mais recomendada e com os maiores índices de aprovações do
-                mercado.</span
-              >
+              <span class="fw-semibold text-success">somos a mentoria mais recomendada e com os maiores índices de
+                aprovações do
+                mercado.</span>
             </p>
           </div>
           <div class="col-lg-6 align-self-center">
-            <img
-              :src="AreaAluno"
-              alt="imagem da área do aluno"
-              class="img-fluid effect-4"
-              v-reveal="'bottom'"
-              role="button"
-              @click="openVideoApresentacao"
-            />
+            <img :src="AreaAluno" alt="imagem da área do aluno" class="img-fluid effect-4" v-reveal="'bottom'"
+              role="button" @click="openVideoApresentacao" />
           </div>
         </div>
         <div class="row">
           <div class="col-auto mx-auto" v-reveal="'bottom'">
-            <button
-              class="btn btn-danger py-3 px-5 btn-lg mb-4 effect-3"
-              @click="openLink('combo')"
-            >
+            <button class="btn btn-danger py-3 px-5 btn-lg mb-4 effect-3" @click="openLink('combo')">
               Quero garantir minha vaga <span class="fw-semibold">com desconto</span>
             </button>
           </div>
@@ -98,11 +73,7 @@
         </div>
         <div class="row mb-4">
           <div class="col-md-6 col-lg-4 mb-4" v-for="i in vantagensLista" :key="i.id">
-            <div
-              class="p-3 rounded-3 box-height-1 effect-1"
-              style="border: solid 1px #14ae5c"
-              v-reveal="'bottom'"
-            >
+            <div class="p-3 rounded-3 box-height-1 effect-1" style="border: solid 1px #14ae5c" v-reveal="'bottom'">
               <img :src="CheckIcon" alt="ícone" class="d-block mb-3" width="50" height="50" />
               <p class="text-light fs-5 fw-light">
                 {{ i.content }}
@@ -135,10 +106,8 @@
         </div>
         <div class="row mb-4">
           <div class="col-lg-6 mb-3 mb-lg-0" v-reveal="'bottom'">
-            <div
-              class="px-3 px-md-5 py-3 py-md-4 rounded-4 border-start-red box-height-2 effect-2"
-              style="background-color: #f5f5f5"
-            >
+            <div class="px-3 px-md-5 py-3 py-md-4 rounded-4 border-start-red box-height-2 effect-2"
+              style="background-color: #f5f5f5">
               <p class="fs-1 mb-3 fw-bold" style="color: #ff0000">Brasil: Saturação Real</p>
               <p class="fs-5 mb-3">
                 O mercado brasileiro enfrenta uma abertura desenfreada de faculdades. Segundo
@@ -152,10 +121,8 @@
           </div>
 
           <div class="col-lg-6" v-reveal="'bottom'">
-            <div
-              class="px-3 px-md-5 py-3 py-md-4 rounded-4 border-start-green box-height-2 effect-2"
-              style="background-color: #f5f5f5"
-            >
+            <div class="px-3 px-md-5 py-3 py-md-4 rounded-4 border-start-green box-height-2 effect-2"
+              style="background-color: #f5f5f5">
               <p class="fs-1 mb-3 fw-bold" style="color: #06652e">Portugal: Valorização</p>
               <p class="fs-5 mb-3">
                 O Sistema Nacional de Saúde (SNS) português e o setor privado oferecem remuneração
@@ -201,10 +168,7 @@
               </p>
               <div class="row">
                 <div class="col-auto position-relative z-3" v-reveal="'bottom'">
-                  <button
-                    class="btn btn-danger py-3 px-5 btn-lg effect-3"
-                    @click="openLink('combo')"
-                  >
+                  <button class="btn btn-danger py-3 px-5 btn-lg effect-3" @click="openLink('combo')">
                     Quero garantir minha vaga <span class="fw-semibold">com desconto</span>
                   </button>
                 </div>
@@ -216,14 +180,8 @@
           </div>
         </div>
       </div>
-      <svg
-        class="section-divider"
-        width="100%"
-        height="100"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg class="section-divider" width="100%" height="100" viewBox="0 0 100 100" preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg">
         <polygon points="0,0 0,100 100,100" fill="#032612" />
       </svg>
     </section>
@@ -232,12 +190,7 @@
     <section style="background-color: #032612">
       <div class="container py-3">
         <div class="row">
-          <div
-            class="col-md-6 col-lg-3 mb-3"
-            v-for="i in dadosLista"
-            :key="i.id"
-            v-reveal="'bottom'"
-          >
+          <div class="col-md-6 col-lg-3 mb-3" v-for="i in dadosLista" :key="i.id" v-reveal="'bottom'">
             <div class="p-3">
               <p class="text-center fw-bold display-4 mb-0" style="color: #14ae5c">
                 {{ i.title }}
@@ -282,31 +235,14 @@
       <div class="container">
         <h1 class="fw-bold text-center text-white mb-5">Depoimentos de Nossos Alunos</h1>
 
-        <swiper
-          :modules="modules"
-          :slides-per-view="1"
-          :space-between="20"
-          :loop="true"
-          :autoplay="{ delay: 5000 }"
-          :navigation="true"
-          :pagination="{ clickable: true }"
-          :breakpoints="{
+        <swiper :modules="modules" :slides-per-view="1" :space-between="20" :loop="true" :autoplay="{ delay: 5000 }"
+          :navigation="true" :pagination="{ clickable: true }" :breakpoints="{
             '768': { slidesPerView: 2 },
             '1024': { slidesPerView: 3 },
-          }"
-          class="pb-5"
-        >
+          }" class="pb-5">
           <swiper-slide v-for="item in depoimentosList" :key="item.id" v-reveal="'bottom'">
-            <div
-              class="card-depoimento h-100"
-              role="button"
-              @click="openPlayer(item.videoKey, item.name)"
-            >
-              <img
-                :src="item.img"
-                :alt="item.name"
-                class="w-100 border border-white rounded-top-4"
-              />
+            <div class="card-depoimento h-100" role="button" @click="openPlayer(item.videoKey, item.name)">
+              <img :src="item.img" :alt="item.name" class="w-100 border border-white rounded-top-4" />
               <div class="py-3 text-center rounded-bottom-4 border border-white bg-transparent">
                 <p class="fs-5 fw-semibold mb-0" style="color: #14ae5c">
                   {{ item.name }}
@@ -332,10 +268,8 @@
     <!-- a preparação mais completa -->
     <section class="py-4 px-2">
       <div class="container my-5 px-3 position-relative rounded-5 border-success border border-3">
-        <p
-          class="text-position-1 text-1 text-white mb-0 py-2 px-3 rounded-3"
-          style="background-color: #06652e; letter-spacing: 3px"
-        >
+        <p class="text-position-1 text-1 text-white mb-0 py-2 px-3 rounded-3"
+          style="background-color: #06652e; letter-spacing: 3px">
           A PREPARAÇÃO MAIS COMPLETA
         </p>
 
@@ -352,7 +286,7 @@
             <ul class="list-unstyled">
               <li class="mb-3 fs-4 d-flex align-items-center gap-2">
                 <img :src="CheckIcon2" alt="" width="40" />
-                Curso de revisão &euro; 290,00
+                Curso de revisão 2026 &euro; 290,00
               </li>
               <li class="mb-3 fs-4 d-flex align-items-center gap-2">
                 <img :src="CheckIcon2" alt="" width="40" />
@@ -367,11 +301,7 @@
         </div>
 
         <div class="row mb-4">
-          <div
-            class="col-md-auto mx-auto rounded-4"
-            style="background-color: #032612"
-            v-reveal="'bottom'"
-          >
+          <div class="col-md-auto mx-auto rounded-4" style="background-color: #032612" v-reveal="'bottom'">
             <div class="p-4">
               <p class="text-center text-light fs-3">De &euro; 1428,80 por</p>
               <p class="text-center display-1 fw-bold" style="color: #14ae5c">
@@ -410,10 +340,7 @@
               <p class="text-center fs-5">Inscrição Individual</p>
               <div class="row mb-3">
                 <div class="col-auto mx-auto" v-reveal="'bottom'">
-                  <button
-                    class="btn btn-danger py-3 px-5 btn-lg effect-3"
-                    @click="openLink('mentoria')"
-                  >
+                  <button class="btn btn-danger py-3 px-5 btn-lg effect-3" @click="openLink('mentoria')">
                     Comprar Mentoria
                   </button>
                 </div>
@@ -422,15 +349,12 @@
           </div>
           <div class="col-md-4 px-md-0 mb-3">
             <div class="rounded-5 border border-success border-3 p-4" v-reveal="'bottom'">
-              <p class="text-center fs-3 text-success fw-semibold">Curso de Revisão</p>
+              <p class="text-center fs-3 text-success fw-semibold">Curso de Revisão 2026</p>
               <p class="fs-1 fw-bold text-success text-center">&euro; 290,00</p>
               <p class="text-center fs-5">Inscrição Individual</p>
               <div class="row mb-3">
                 <div class="col-auto mx-auto" v-reveal="'bottom'">
-                  <button
-                    class="btn btn-danger py-3 px-5 btn-lg effect-3"
-                    @click="openLink('revisao')"
-                  >
+                  <button class="btn btn-danger py-3 px-5 btn-lg effect-3" @click="openLink('revisao')">
                     Comprar Revisão
                   </button>
                 </div>
@@ -444,10 +368,7 @@
               <p class="text-center fs-5">Inscrição Individual</p>
               <div class="row mb-3">
                 <div class="col-auto mx-auto" v-reveal="'bottom'">
-                  <button
-                    class="btn btn-danger py-3 px-5 btn-lg effect-3"
-                    @click="openLink('manual')"
-                  >
+                  <button class="btn btn-danger py-3 px-5 btn-lg effect-3" @click="openLink('manual')">
                     Comprar Manual
                   </button>
                 </div>
@@ -469,29 +390,17 @@
         <div class="row">
           <div class="col-lg-9 mx-auto">
             <div class="accordion accordion-flush" id="accordionListFAQ">
-              <div
-                v-for="(item, index) in faqItems"
-                :key="index"
-                class="accordion-item mb-4 rounded-3 bg-light shadow"
-                v-reveal="'bottom'"
-              >
+              <div v-for="(item, index) in faqItems" :key="index" class="accordion-item mb-4 rounded-3 bg-light shadow"
+                v-reveal="'bottom'">
                 <h2 class="accordion-header">
-                  <button
-                    class="accordion-button collapsed rounded-3 fs-5 bg-light"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    :data-bs-target="'#flush-collapse' + index"
-                    aria-expanded="false"
-                    :aria-controls="'flush-collapse' + index"
-                  >
+                  <button class="accordion-button collapsed rounded-3 fs-5 bg-light" type="button"
+                    data-bs-toggle="collapse" :data-bs-target="'#flush-collapse' + index" aria-expanded="false"
+                    :aria-controls="'flush-collapse' + index">
                     {{ item.pergunta }}
                   </button>
                 </h2>
-                <div
-                  :id="'flush-collapse' + index"
-                  class="accordion-collapse collapse"
-                  data-bs-parent="#accordionListFAQ"
-                >
+                <div :id="'flush-collapse' + index" class="accordion-collapse collapse"
+                  data-bs-parent="#accordionListFAQ">
                   <div class="accordion-body preserve-break" v-html="item.resposta"></div>
                 </div>
               </div>
@@ -510,15 +419,8 @@
         </div>
 
         <div class="modal-body">
-          <iframe
-            v-if="currentPlayerUrl"
-            id="player"
-            :src="currentPlayerUrl"
-            frameborder="0"
-            class="d-block mx-auto"
-            style="aspect-ratio: 16 / 9; width: 100%"
-            allowfullscreen
-          ></iframe>
+          <iframe v-if="currentPlayerUrl" id="player" :src="currentPlayerUrl" frameborder="0" class="d-block mx-auto"
+            style="aspect-ratio: 16 / 9; width: 100%" allowfullscreen></iframe>
         </div>
 
         <div class="text-end mt-3">
@@ -540,10 +442,8 @@
     </dialog>
 
     <!-- whatsapp -->
-    <button
-      @click="openLink('whatsapp')"
-      class="btn btn-success rounded-pill d-flex align-items-center justify-content-center shadow effect-3 btn-whatsapp border border-3 border-light"
-    >
+    <button @click="openLink('whatsapp')"
+      class="btn btn-success rounded-pill d-flex align-items-center justify-content-center shadow effect-3 btn-whatsapp border border-3 border-light">
       <font-awesome-icon icon="fa-brands fa-whatsapp" class="fs-1" />
     </button>
   </main>
@@ -819,15 +719,6 @@ const openLink = async (url: string) => {
 
   let returnData = defineProduct(courseKey)
 
-  if (returnData === 0) {
-    await showAlert({
-      title: 'Revisão Pré-Prova',
-      message: 'O curso ainda não está disponível para compra.',
-      type: 'error',
-    })
-    return
-  }
-
   router.push({ name: returnData as string })
 }
 
@@ -835,7 +726,7 @@ onMounted(() => {
   const afiliatedkey = route.params.afiliatedkey
   if (afiliatedkey !== 'undefined' && afiliatedkey !== '') {
     sessionStorage.setItem('afiliatedkey', afiliatedkey as string)
-  } //aqui...
+  }
 })
 </script>
 

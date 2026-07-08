@@ -161,57 +161,33 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   const siteStore = useSiteStore()
   const token = localStorage.getItem('tokenJwt')
+  let isTokenValid = false
 
   if (token) {
     const tokenParts = token.split('.')
-
-    // Um JWT válido sempre possui 3 partes separadas por pontos (header.payload.signature)
     if (tokenParts.length === 3) {
       try {
         const payloadBase64 = tokenParts[1] as string
         const payload = JSON.parse(atob(payloadBase64))
         const expiry = payload.exp * 1000
 
-        if (Date.now() >= expiry) {
-          siteStore.logout()
-          localStorage.removeItem('tokenJwt')
-
-          // Se a rota atual necessitar de autenticação, redireciona para o login
-          if (to.meta.requiresAuth) {
-            return {
-              name: 'login',
-              query: { redirect: to.fullPath },
-            }
-          }
+        if (Date.now() < expiry) {
+          isTokenValid = true
         }
-      } catch (e) {
-        // Token malformado ou erro no parse
-        siteStore.logout()
-        localStorage.removeItem('tokenJwt')
-        if (to.meta.requiresAuth) {
-          return { name: 'login', query: { redirect: to.fullPath } }
-        }
-      }
-    } else {
-      // Se o token guardado não tiver os 3 blocos do JWT, é inválido
-      siteStore.logout()
-      localStorage.removeItem('tokenJwt')
-      if (to.meta.requiresAuth) {
-        return { name: 'login', query: { redirect: to.fullPath } }
-      }
+      } catch (error) {}
     }
   }
 
-  if (
-    to.meta.requiresAuth &&
-    !siteStore.isAuthenticated &&
-    localStorage.getItem('tokenJwt') == null
-  ) {
+  if (token && !isTokenValid) {
+    siteStore.logout()
+    localStorage.removeItem('tokenJwt')
+  }
+
+  if (to.meta.requiresAuth && !isTokenValid && !siteStore.isAuthenticated) {
+    const cleanRedirectPath = to.fullPath.replace(/^\//, '')
     return {
       name: 'login',
-      query: {
-        redirect: to.fullPath,
-      },
+      query: { redirect: cleanRedirectPath },
     }
   }
 })

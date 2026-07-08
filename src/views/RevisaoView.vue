@@ -91,10 +91,15 @@ const definePurchaseItem = (courseKey: string) => {
                             <h1 class="display-4 text-light fw-bold mb-3 ff-roboto">
                                 Curso Revisão Pré-Prova
                             </h1>
-                            <p class="fs-5 text-white">
-                                Curso transmitido do Porto / Portugal em
-                                <br>
-                                07, 08 e 09 de novembro de 2025
+                            <p class="fs-5 text-white mb-0">
+                                Em 2025 o curso foi transmitido do Porto / Portugal em 07, 08 e 09 de novembro de 2025
+                            </p>
+                            <p class="fs-5 text-white mb-0">
+                                Adquira já o curso 2026. O curso será presencial (com vagas limitadas e por ordem de
+                                preenchimento) e transmitido ao vivo pela internet.
+                            </p>
+                            <p class="fs-5 text-white mb-0 fw-semibold py-3 fst-italic">
+                                Ao comprar o Combo, você também terá acesso às aulas do curso de 2025!
                             </p>
                             <p class="fw-semibold text-light fs-4">
                                 Investimento: &euro;290,00
@@ -102,11 +107,13 @@ const definePurchaseItem = (courseKey: string) => {
 
                             <button class="btn btn-danger fs-4 px-4 rounded-4"
                                 @click="definePurchaseItem(siteStore.revisao)">
-                                Adquirir o curso
+                                Adquirir o curso 2026
                             </button>
-                            <RouterLink class="btn btn-light fs-4 px-4 rounded-4 ms-2" to="/login" v-if="!siteStore.isAuthenticated">
-                                Acesse o conteúdo
-                            </RouterLink>
+
+                            <button class="btn btn-danger fs-4 px-4 rounded-4 ms-2"
+                                @click="definePurchaseItem(siteStore.combo)">
+                                Adquirir o combo
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -209,7 +216,8 @@ const definePurchaseItem = (courseKey: string) => {
                         </div>
                     </div>
                     <div class="row g-3">
-                        <div v-for="(src, index) in images" :key="index" class="col-6 col-md-4 col-lg-3" v-reveal="'bottom'">
+                        <div v-for="(src, index) in images" :key="index" class="col-6 col-md-4 col-lg-3"
+                            v-reveal="'bottom'">
                             <img :src="src" class="img-fluid rounded-3 hover-up" @click="() => showImg(index)"
                                 style="object-fit: cover; height: 200px; width: 100%; cursor: pointer;" />
                         </div>

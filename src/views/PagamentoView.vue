@@ -19,6 +19,11 @@ const isLoadingCourseData = ref<boolean>(false)
 const isLoadingPaymentData = ref<boolean>(false)
 const afiliatedkey = ref<string>('')
 
+//tipos de pagamentos disponíveis
+const vistaType = ref<boolean>(false)
+const prazoType = ref<boolean>(false)
+const assinaturaType = ref<boolean>(false)
+
 interface Coupon {
   id: number
   code: string
@@ -43,7 +48,7 @@ async function getUserData() {
   isLoadingUserData.value = true
 
   if (siteStore.isAuthenticated == false) {
-    router.push({ name: 'login', query: { redirect: router.currentRoute.value.fullPath } })
+    router.push({ name: 'login', query: { redirect: router.currentRoute.value.path } })
   }
 
   try {
@@ -104,6 +109,16 @@ const getCourseData = async () => {
 
     courseData.value = data.course
     coursePrices.value = data.prices
+
+    coursePrices.value.forEach((price: any) => {
+      if (price.gpk_type == 'vista') {
+        vistaType.value = true
+      } else if (price.gpk_type == 'prazo') {
+        prazoType.value = true
+      } else if (price.gpk_type == 'assinatura') {
+        assinaturaType.value = true
+      }
+    })
 
     //console.log(courseData.value, coursePrices.value);//remover depois
 
@@ -279,11 +294,7 @@ onMounted(() => {
               <div class="col-12 bg-light p-3 p-lg-4 rounded-4">
                 <div class="row">
                   <div class="col-lg-3 mb-3 mb-lg-0">
-                    <img
-                      :src="courseData.i_path"
-                      alt="Miniatura do curso"
-                      class="img-fluid rounded-4"
-                    />
+                    <img :src="courseData.i_path" alt="Miniatura do curso" class="img-fluid rounded-4" />
                   </div>
                   <div class="col-lg-9">
                     <p class="fs-4 mb-3 fw-bold">
@@ -328,13 +339,10 @@ onMounted(() => {
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <RouterLink
-                      class="text-success fw-semibold text-decoration-none"
-                      :to="{
-                        name: 'perfil',
-                        query: { redirect: router.currentRoute.value.fullPath },
-                      }"
-                    >
+                    <RouterLink class="text-success fw-semibold text-decoration-none" :to="{
+                      name: 'perfil',
+                      query: { redirect: router.currentRoute.value.fullPath },
+                    }">
                       <font-awesome-icon icon="fa-solid fa-pencil" />
                       Alterar dados cadastrais
                     </RouterLink>
@@ -350,66 +358,37 @@ onMounted(() => {
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <div class="col-lg-6 mb-3 mb-lg-0">
+                  <div class="col-lg-6 mb-3 mb-lg-0" v-if="vistaType">
                     <div class="border border-secondary rounded-3 px-3 py-2">
                       <div class="form-check d-flex align-items-center">
-                        <input
-                          class="form-check-input fs-5 border-secondary border"
-                          type="radio"
-                          id="pagamentoavista"
-                          value="vista"
-                          v-model="paymentType"
-                          @click="paymentTypeChange('vista')"
-                        />
-                        <label
-                          class="form-check-label ms-3 flex-fill"
-                          for="pagamentoavista"
-                          role="button"
-                        >
+                        <input class="form-check-input fs-5 border-secondary border" type="radio" id="pagamentoavista"
+                          value="vista" v-model="paymentType" @click="paymentTypeChange('vista')" />
+                        <label class="form-check-label ms-3 flex-fill" for="pagamentoavista" role="button">
                           <p class="fw-semibold mb-0">Pagamento à vista com desconto</p>
                           <p class="text-success mb-0">Economize no pagamento à vista</p>
                         </label>
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-6" v-if="isBrazilian">
+                  <div class="col-lg-6" v-if="isBrazilian && prazoType">
                     <div class="border border-secondary rounded-3 px-3 py-2">
                       <div class="form-check d-flex align-items-center">
-                        <input
-                          class="form-check-input fs-5 border-secondary border"
-                          type="radio"
-                          id="pagamentoaprazo"
-                          value="prazo"
-                          v-model="paymentType"
-                          @click="paymentTypeChange('prazo')"
-                        />
-                        <label
-                          class="form-check-label ms-3 flex-fill"
-                          for="pagamentoaprazo"
-                          role="button"
-                        >
+                        <input class="form-check-input fs-5 border-secondary border" type="radio" id="pagamentoaprazo"
+                          value="prazo" v-model="paymentType" @click="paymentTypeChange('prazo')" />
+                        <label class="form-check-label ms-3 flex-fill" for="pagamentoaprazo" role="button">
                           <p class="fw-semibold mb-0">Pagamento parcelado (sem desconto)</p>
                           <p class="text-success mb-0">Parcelado em até 12x com juros</p>
                         </label>
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-6" v-else>
+                  <div class="col-lg-6" v-if="!isBrazilian && assinaturaType">
                     <div class="border border-secondary rounded-3 px-3 py-2">
                       <div class="form-check d-flex align-items-center">
-                        <input
-                          class="form-check-input fs-5 border-secondary border"
-                          type="radio"
-                          id="pagamentoassinatura"
-                          value="assinatura"
-                          v-model="paymentType"
-                          @click="paymentTypeChange('assinatura')"
-                        />
-                        <label
-                          class="form-check-label ms-3 flex-fill"
-                          for="pagamentoassinatura"
-                          role="button"
-                        >
+                        <input class="form-check-input fs-5 border-secondary border" type="radio"
+                          id="pagamentoassinatura" value="assinatura" v-model="paymentType"
+                          @click="paymentTypeChange('assinatura')" />
+                        <label class="form-check-label ms-3 flex-fill" for="pagamentoassinatura" role="button">
                           <p class="fw-semibold mb-0">Pagamento em assinatura</p>
                           <p class="text-success mb-0">Pagamento mensal</p>
                         </label>
@@ -417,24 +396,13 @@ onMounted(() => {
                     </div>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row" v-if="paymentType == 'vista'">
                   <div class="col-lg-6 align-self-end mb-3 mb-lg-0">
-                    <label for="coupon_input" class="form-label"
-                      >Caso possua um cupom, insira aqui:</label
-                    >
-                    <input
-                      type="text"
-                      v-model="coupon.code"
-                      id="coupon_input"
-                      class="form-control p-2"
-                    />
+                    <label for="coupon_input" class="form-label">Caso possua um cupom, insira aqui:</label>
+                    <input type="text" v-model="coupon.code" id="coupon_input" class="form-control p-2" />
                   </div>
                   <div class="col-lg-auto align-self-end d-grid">
-                    <button
-                      class="btn btn-success px-5 py-2 rounded-4"
-                      type="button"
-                      @click="searchCoupon"
-                    >
+                    <button class="btn btn-success px-5 py-2 rounded-4" type="button" @click="searchCoupon">
                       Aplicar Cupom
                     </button>
                   </div>
