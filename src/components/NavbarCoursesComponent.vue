@@ -7,6 +7,14 @@ import Logo from '@/assets/img/logo/logo.png';
 const siteStore = useSiteStore();
 const router = useRouter();
 const fixedNavbar = ref<boolean>(false);
+const baseUrl = import.meta.env.VITE_BASE_URL;
+
+const toadm = () => {
+    sessionStorage.setItem('firstname', siteStore.firstname)
+    sessionStorage.setItem('email', siteStore.email)
+    sessionStorage.setItem('level', siteStore.role)
+    window.location.href = `${baseUrl}admin/login/index.php?company=${siteStore.company}&email=${siteStore.email}`
+}
 
 const onScroll = () => {
     fixedNavbar.value = window.scrollY > 56;
@@ -18,19 +26,19 @@ const logOut = () => {
     window.location.href = '/';
 }
 
-onMounted(()=>{
+onMounted(() => {
     window.addEventListener('scroll', onScroll);
-    if(localStorage.getItem('tokenJwt') == null){
+    if (localStorage.getItem('tokenJwt') == null) {
         siteStore.logout()
     }
 })
 
-onUnmounted(()=>{
+onUnmounted(() => {
     window.removeEventListener('scroll', onScroll);
 })
 </script>
 
-<template>    
+<template>
     <header class="ff-roboto fw-semibold">
         <nav :class="['navbar navbar-expand-xl bg-light shadow', { 'fixed-top': fixedNavbar }]" data-bs-theme="light">
             <!-- caixa da navbar -->
@@ -59,8 +67,7 @@ onUnmounted(()=>{
                             </a>
                             <ul class="dropdown-menu">
                                 <li v-if="siteStore.role == 'usuario'">
-                                    <a class="dropdown-item"
-                                        :href="`//corujamentoria.com.br/adm/pre-login.php?email=${siteStore.email}&company=${siteStore.company}`">Administrativo</a>
+                                    <a href="javascript:;" @click="toadm" class="dropdown-item">Administrativo</a>
                                 </li>
                                 <li>
                                     <RouterLink class="dropdown-item" to="/perfil">Perfil</RouterLink>

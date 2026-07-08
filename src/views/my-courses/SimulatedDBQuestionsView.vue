@@ -115,7 +115,7 @@ const clearHistory = async () => {
             });
 
             if (response.data.code != 1) throw new Error(response.data.message);
-            
+
             await showAlert({
                 title: "Sucesso",
                 message: response.data.message,
@@ -224,15 +224,16 @@ onMounted(() => {
                                         :class="['p-3 rounded-top text-white', quest.acertou ? 'bg-success' : 'bg-danger']">
                                         <p class="mb-0 fw-bold">
                                             {{ quest.acertou ? '✓ Correta' : '✗ Incorreta' }} - Alternativa correta: {{
-                                            getLetra(quest.caq_correct) }}
+                                                getLetra(quest.caq_correct) }}
                                         </p>
                                     </div>
                                     <div class="p-4 border border-top-0 rounded-bottom bg-white shadow-sm">
                                         <p class="fw-bold text-muted mb-2">Justificativa:</p>
                                         <div v-html="quest.caq_justification"></div>
                                         <hr>
-                                        <p class="fw-bold text-success mb-2" v-if="quest.caq_clue">Dicas das Experts:</p>
-                                        <div v-html="quest.caq_clue" ></div>
+                                        <p class="fw-bold text-success mb-2" v-if="quest.caq_clue">Dicas das Experts:
+                                        </p>
+                                        <div v-html="quest.caq_clue"></div>
                                     </div>
                                 </div>
                             </div>
@@ -259,7 +260,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.blocked-main{
+.blocked-main {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
