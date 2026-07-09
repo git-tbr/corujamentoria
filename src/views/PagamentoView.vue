@@ -145,6 +145,12 @@ const moneyFormat = (value: number) => {
 
 // altera os valores conforme a forma de pagamento
 const paymentTypeChange = (tipo: string = paymentType.value) => {
+  if (tipo != paymentType.value) {
+    coupon.code = ''
+    coupon.id = 0
+    coupon.discount = 0
+  }
+
   paymentType.value = tipo
 
   coursePrices.value.find((price: any) => {
@@ -364,8 +370,13 @@ onMounted(() => {
                         <input class="form-check-input fs-5 border-secondary border" type="radio" id="pagamentoavista"
                           value="vista" v-model="paymentType" @click="paymentTypeChange('vista')" />
                         <label class="form-check-label ms-3 flex-fill" for="pagamentoavista" role="button">
-                          <p class="fw-semibold mb-0">Pagamento à vista com desconto</p>
-                          <p class="text-success mb-0">Economize no pagamento à vista</p>
+                          <div v-if="vistaType && prazoType && assinaturaType">
+                            <p class="fw-semibold mb-0">Pagamento à vista com desconto</p>
+                            <p class="text-success mb-0">Economize no pagamento à vista</p>
+                          </div>
+                          <div v-else>
+                            <p class="fw-semibold mb-0">Pagamento à vista</p>
+                          </div>
                         </label>
                       </div>
                     </div>

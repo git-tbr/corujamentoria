@@ -116,7 +116,7 @@ const definePurchaseItem = (courseKey: string) => {
         });
         return;
     }
-    
+
     router.push({ name: returnData as string });
 }
 
@@ -281,6 +281,50 @@ onMounted(() => {
                                     <div class="text-center">
                                         <button class="btn btn-danger rounded-4 px-4"
                                             @click="definePurchaseItem(siteStore.ebook)">
+                                            Quero adquirir
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- combo -->
+                        <div class="col-md-6 col-xl-3 mb-3 mb-xl-0" v-reveal="'bottom'">
+                            <div class="p-4 bg-success rounded-5 shadow base-card border border-warning border-3">
+                                <div class="top-aligned">
+                                    <h2 class="text-gold text-center fw-bold mb-3">
+                                        Combo
+                                    </h2>
+                                    <p class="text-white">
+                                        Adquira agora mesmo o Combo e tenha acesso a todo o conteúdo da CoruJÁ Mentoria!
+                                    </p>
+                                    <ul class="list-unstyled text-white">
+                                        <li>
+                                            - Mentoria Completa
+                                        </li>
+                                        <li>
+                                            - Revisão Pré-Prova 2025 (Material gravado)
+                                        </li>
+                                        <li>
+                                            - Revisão Pré-Prova 2026 (Presencial e Online em novembro)
+                                        </li>
+                                        <li>
+                                            - Manual Completo
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="bottom-aligned">
+                                    <ul class="list-unstyled text-center">
+                                        <li class="text-gold fs-3 fw-bold text-decoration-line-through">
+                                            De &euro; 1.428,80
+                                        </li>
+                                        <li class="text-gold fs-2 fw-bold">
+                                            Por &euro; 1.048,42
+                                        </li>
+                                    </ul>
+                                    <div class="text-center">
+                                        <button class="btn btn-danger rounded-4 px-4"
+                                            @click="definePurchaseItem(siteStore.combo)">
                                             Quero adquirir
                                         </button>
                                     </div>
@@ -807,7 +851,7 @@ onMounted(() => {
                             <p class="fs-3 text-white mb-3 fw-semibold" v-reveal="'bottom'">
                                 Sua aprovação começa com clareza, suporte e um plano validado.
                             </p>
-                            
+
                             <p class="text-start">
                                 <a href="https://wa.me/5511948308431" target="_blank"
                                     class="btn btn-success bg-gradient btn-lg fs-5 py-3 px-5 rounded-4 border-light mb-3">

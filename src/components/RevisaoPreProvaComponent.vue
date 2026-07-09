@@ -44,7 +44,9 @@ import { defineProduct } from '@/services/FunctionsService';
                     </ul>
 
                     <p class="fs-5 fw-bold mb-3" v-reveal="'bottom'">
-                        Data da revisão uma semana antes da data da prova
+                        Este ano, o curso de revisão será realizado nos dias <span class="text-success">06, 07 e 08 de
+                            novembro de 2026</span>, presencial em <span class="text-success">Holiday Inn
+                            Lisbon-Continental – Lisboa/Portugal</span> e com transmissão ao vivo pela internet.
                     </p>
 
                     <p class="fs-5" v-reveal="'bottom'">

@@ -82,10 +82,13 @@ const tryAgain = () => {
 
                             <div class="mt-4 d-flex flex-wrap justify-content-center gap-3">
                                 <button class="btn btn-primary btn-lg rounded-pill px-5" @click="tryAgain"
-                                    v-if="status !== 'approved'">Tentar
+                                    v-if="status !== 'approved' && status !== 'pending'">Tentar
                                     Novamente</button>
                                 <RouterLink to="/" class="btn btn-danger btn-lg rounded-pill px-5">
                                     Página inicial
+                                </RouterLink>
+                                <RouterLink to="/meus-cursos" class="btn btn-primary btn-lg rounded-pill px-5">
+                                    Meus cursos
                                 </RouterLink>
                             </div>
                         </div>

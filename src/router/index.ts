@@ -92,6 +92,11 @@ const router = createRouter({
       },
     },
     {
+      path: '/manutencao',
+      name: 'manutencao',
+      component: () => import('@/views/ManutencaoView.vue'),
+    },
+    {
       path: '/meus-cursos',
       name: 'meus-cursos',
       redirect: '/meus-cursos/cursos',
