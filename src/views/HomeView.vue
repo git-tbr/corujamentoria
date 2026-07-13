@@ -148,7 +148,7 @@ onMounted(() => {
                             </h2>
                         </div>
                     </div>
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center mb-3">
                         <!-- mentoria -->
                         <div class="col-md-6 col-xl-3 mb-3 mb-xl-0" v-reveal="'bottom'">
                             <div class="p-4 bg-success rounded-5 shadow base-card">
@@ -208,20 +208,24 @@ onMounted(() => {
                             <div class="p-4 bg-success rounded-5 shadow base-card">
                                 <div class="top-aligned">
                                     <h2 class="text-gold text-center fw-bold mb-3">
-                                        Revisão Pré-Prova
+                                        Revisão Pré-Prova *
                                     </h2>
                                     <ul class="list-unstyled text-white">
                                         <li>
                                             20 horas de revisão ao vivo on line
                                         </li>
                                         <li>
-                                            Materiais disponível na plataforma para revisão contínua
+                                            Materiais disponível na plataforma para revisão contínua até o dia da prova
                                         </li>
                                         <li>
-                                            Bônus: Encontro presencial exclusivo para os 35 primeiros compradores
-                                        </li>
-                                        <li>
-                                            Bônus: Mais de 20 horas de revisão gravadas da turma de 2025
+                                            Você pode participar de duas formas:
+                                            <ul>
+                                                <li>Presencial, em Lisboa, vivendo toda a experiência da revisão com os
+                                                    professores e demais alunos.</li>
+                                                <li>Online, com transmissão ao vivo pela plataforma CoruJÁ. Além disso,
+                                                    as gravações e material ficarão disponíveis para você assistir
+                                                    novamente até o dia da prova.</li>
+                                            </ul>
                                         </li>
                                     </ul>
                                 </div>
@@ -330,6 +334,15 @@ onMounted(() => {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col bg-success rounded mx-3">
+                            <p class="text-white mb-0 py-2">
+                                * Revisão Pré-Prova 2026: nos dias 06, 07 e 08 de novembro de 2026 das 08h30 às 18h
+                                (Portugal) | 04h30 às 13h (Brasil). Presencial no Holiday Inn, rua Laura Alves, nº 09,
+                                1069-169, Lisboa - Portugal.
+                            </p>
                         </div>
                     </div>
                 </div>
