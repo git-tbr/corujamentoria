@@ -67,6 +67,7 @@ const abrirMaterial = async (url: string, name: string) => {
 
   selectedMaterialUrl.value = url
   selectedMaterialName.value = name
+  actualPage.value = 1
 
   await nextTick()
   loadPdfDocument(url)
@@ -305,15 +306,9 @@ onBeforeUnmount(() => {
     <main class="page-size bg-coruja" v-else>
       <header class="py-3">
         <div class="container">
-          <div
-            class="row m-0 align-items-center bg-light p-3 rounded shadow-sm"
-            v-reveal="'bottom'"
-          >
+          <div class="row m-0 align-items-center bg-light p-3 rounded shadow-sm" v-reveal="'bottom'">
             <div class="col-md-auto d-flex align-items-center">
-              <button
-                @click="router.go(-1)"
-                class="btn btn-success btn-sm me-3 text-principal fw-bold"
-              >
+              <button @click="router.go(-1)" class="btn btn-success btn-sm me-3 text-principal fw-bold">
                 <font-awesome-icon icon="fa-solid fa-arrow-left" /> Voltar
               </button>
               <h4 class="mb-0 fw-bold">{{ courseName }}: {{ moduloInfo }}</h4>
@@ -322,16 +317,8 @@ onBeforeUnmount(() => {
               <button @click="previousPage" class="btn btn-success btn-sm">
                 <font-awesome-icon icon="fa-solid fa-angle-left" />
               </button>
-              <input
-                type="number"
-                class="border"
-                min="1"
-                :max="totalPages"
-                v-model="actualPage"
-                @keyup="searchPage"
-                name="pageNumber"
-                id="pageNumber"
-              />
+              <input type="number" class="border" min="1" :max="totalPages" v-model="actualPage" @keyup="searchPage"
+                name="pageNumber" id="pageNumber" />
               <button @click="nextPage" class="btn btn-success btn-sm">
                 <font-awesome-icon icon="fa-solid fa-angle-right" />
               </button>
@@ -344,9 +331,7 @@ onBeforeUnmount(() => {
         <div class="row g-4">
           <div class="col-12 mb-3">
             <div v-if="selectedMaterialUrl" class="card border-0 shadow-sm overflow-hidden">
-              <div
-                class="card-header bg-dark text-white d-flex justify-content-between align-items-center py-3"
-              >
+              <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center py-3">
                 <h6 class="mb-0">
                   <font-awesome-icon icon="fa-solid fa-image" class="me-2 text-info" />
                   Visualizando: {{ selectedMaterialName }}
@@ -365,11 +350,9 @@ onBeforeUnmount(() => {
         <div class="row mb-5">
           <p class="fw-bold mb-3 fs-5 text-light">Materiais do Módulo:</p>
           <div v-for="material in conteudos" :key="material.m_id" class="col-md-6 mb-3">
-            <div
-              class="card h-100 border-1 shadow-sm hover-card"
+            <div class="card h-100 border-1 shadow-sm hover-card"
               :class="{ 'active-material': selectedMaterialUrl === material.a_path }"
-              @click="abrirMaterial(material.a_path, material.a_name)"
-            >
+              @click="abrirMaterial(material.a_path, material.a_name)">
               <div class="card-body d-flex align-items-center">
                 <div class="icon-circle bg-danger-subtle text-danger me-3">
                   <font-awesome-icon icon="fa-solid fa-file-pdf" size="lg" />

@@ -13,7 +13,6 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
 interface Chapter {
   id: number
   chapter: string
-  page: number
 }
 
 const { showAlert } = useAlert()
@@ -47,21 +46,21 @@ const courseHash = ref<string>('')
 
 // --- CAPÍTULOS ---
 const chapters = ref<Chapter[]>([
-  { id: 1, chapter: 'Cardiologia', page: 18 },
-  { id: 2, chapter: 'Nefrologia', page: 229 },
-  { id: 3, chapter: 'Neurologia e Otorrino', page: 334 },
-  { id: 4, chapter: 'Pneumologia', page: 510 },
-  { id: 5, chapter: 'Endocrinologia', page: 627 },
-  { id: 6, chapter: 'Gastroenterologia', page: 752 },
-  { id: 7, chapter: 'Hematologia', page: 916 },
-  { id: 8, chapter: 'Infectologia', page: 1035 },
-  { id: 9, chapter: 'Reumatologia e Ortopedia', page: 1150 },
-  { id: 10, chapter: 'Cirurgia', page: 1265 },
-  { id: 11, chapter: 'Pediatria', page: 1532 },
-  { id: 12, chapter: 'Ginecologia e Obstetrícia', page: 1897 },
-  { id: 13, chapter: 'Medicina Geral e Familiar', page: 2127 },
-  { id: 14, chapter: 'Saúde Pública', page: 2206 },
-  { id: 15, chapter: 'Psiquiatria', page: 2301 },
+  { id: 1, chapter: 'Cardiologia' },
+  { id: 2, chapter: 'Nefrologia' },
+  { id: 3, chapter: 'Neurologia e Otorrino' },
+  { id: 4, chapter: 'Pneumologia' },
+  { id: 5, chapter: 'Endocrinologia' },
+  { id: 6, chapter: 'Gastroenterologia' },
+  { id: 7, chapter: 'Hematologia' },
+  { id: 8, chapter: 'Infectologia' },
+  { id: 9, chapter: 'Reumatologia e Ortopedia' },
+  { id: 10, chapter: 'Cirurgia' },
+  { id: 11, chapter: 'Pediatria' },
+  { id: 12, chapter: 'Ginecologia e Obstetrícia' },
+  { id: 13, chapter: 'Medicina Geral e Familiar' },
+  { id: 14, chapter: 'Saúde Pública' },
+  { id: 15, chapter: 'Psiquiatria' },
 ])
 
 const updateScreenSize = (): void => {
@@ -69,10 +68,10 @@ const updateScreenSize = (): void => {
 }
 
 // --- BUSCA CONTEÚDO DO EBOOK ---
-const fetchEbook = async (courseToken: string): Promise<void> => {
+const fetchEbook = async (courseToken: string, chapterId: number): Promise<void> => {
   loading.value = true
   try {
-    const res = await api.get(`/api/purchased-courses/ebook/${courseToken}/1`)
+    const res = await api.get(`/api/purchased-courses/ebook/${courseToken}/${chapterId}`)
     const data = res.data
 
     if (data.code != 1) throw new Error(data.message)
@@ -82,6 +81,8 @@ const fetchEbook = async (courseToken: string): Promise<void> => {
       loading.value = false
       await nextTick()
       await loadPdfDocument()
+    } else {
+      loading.value = false
     }
   } catch (error) {
     console.error('Erro ao carregar módulos:', error)
@@ -90,15 +91,15 @@ const fetchEbook = async (courseToken: string): Promise<void> => {
       message: 'Não foi possível carregar o conteúdo do ebook.',
       type: 'error',
     })
+    loading.value = false
   }
 }
 
 // --- MONITORAMENTO DA TROCA DE CAPÍTULO ---
-watch(filterChapters, (newCapId) => {
-  const capitulo = chapters.value.find((c) => c.id === newCapId)
-  if (capitulo) {
-    actualPage.value = capitulo.page
-    renderPage(capitulo.page)
+watch(filterChapters, async (newCapId) => {
+  actualPage.value = 1
+  if (courseHash.value) {
+    await fetchEbook(courseHash.value, newCapId)
   }
 })
 
@@ -221,6 +222,7 @@ const renderPage = async (pageNumber: number): Promise<void> => {
   }
 }
 
+// --- CARREGAR O DOCUMENTO PDF ATUAL ---
 const loadPdfDocument = async (): Promise<void> => {
   const name = 'Manual Corujá'
   const path = ebook.value
@@ -236,7 +238,7 @@ const loadPdfDocument = async (): Promise<void> => {
 
   if (nameEl) nameEl.innerHTML = 'Carregando documento...'
   pdfContainer.value.innerHTML = 'Carregando documento...'
-  fieldEl.classList.add('d-none')
+  fieldEl.classList.remove('d-none')
 
   const loadingTask = pdfjsLib.getDocument({
     url: path,
@@ -259,15 +261,10 @@ const loadPdfDocument = async (): Promise<void> => {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   const token = route.params.token as string
   courseHash.value = token
-
-  if (token) {
-    fetchEbook(token)
-  } else {
-    loadPdfDocument()
-  }
+  await fetchEbook(token, 1)
 
   window.addEventListener('resize', updateScreenSize)
   window.addEventListener('keydown', handleKeyDown)
@@ -285,15 +282,9 @@ onBeforeUnmount(() => {
       <div ref="pdfNameEl" class="d-none"></div>
 
       <section class="container py-3">
-        <div
-          class="row m-0 mb-3 align-items-center bg-light p-3 rounded shadow-sm"
-          v-reveal="'bottom'"
-        >
+        <div class="row m-0 mb-3 align-items-center bg-light p-3 rounded shadow-sm" v-reveal="'bottom'">
           <div class="col-md-auto d-flex align-items-center">
-            <button
-              @click="router.go(-1)"
-              class="btn btn-success btn-sm me-3 text-principal fw-bold"
-            >
+            <button @click="router.go(-1)" class="btn btn-success btn-sm me-3 text-principal fw-bold">
               <font-awesome-icon icon="fa-solid fa-arrow-left" /> Voltar
             </button>
             <h4 class="mb-0 fw-bold">Manual Completo</h4>
@@ -302,16 +293,8 @@ onBeforeUnmount(() => {
             <button @click="previousPage" class="btn btn-success btn-sm">
               <font-awesome-icon icon="fa-solid fa-angle-left" />
             </button>
-            <input
-              type="number"
-              class="border"
-              min="1"
-              :max="totalPages"
-              v-model="actualPage"
-              @keyup="searchPage"
-              name="pageNumber"
-              id="pageNumber"
-            />
+            <input type="number" class="border" min="1" :max="totalPages" v-model="actualPage" @keyup="searchPage"
+              name="pageNumber" id="pageNumber" />
             <button @click="nextPage" class="btn btn-success btn-sm">
               <font-awesome-icon icon="fa-solid fa-angle-right" />
             </button>
