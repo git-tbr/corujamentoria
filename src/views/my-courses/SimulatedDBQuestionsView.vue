@@ -22,28 +22,20 @@ const isSubmittingAnswer = ref(false); // Feedback de carregamento ao salvar res
 // --- MÉTODOS DE BUSCA (API) ---
 const fetchData = async (coursekey: string) => {
     try {
-        // 1. Busca o Título do Simulado
-        const resTitle = await api.post('/v1/simulate-title', {
-            company: siteStore.company,
-            key: coursekey
-        });
+        // busca dados do simulado
+        const response = await api.get(`/api/purchased-courses/simulate/data/${coursekey}/${siteStore.company}/${siteStore.userId}`)
+        const data = response.data;
 
-        tituloSimulado.value = resTitle.data.cat_title;
-
-        // 2. Busca as Questões
-        const resQuestions = await api.post('/v1/simulate-questions', {
-            company: siteStore.company,
-            key: coursekey
-        });
-
-        // 3. Inicializa o array de exercícios
-        exercicios.value = resQuestions.data.map((q: any) => ({
+        tituloSimulado.value = data.simulate.title.cat_title;
+        exercicios.value = data.simulate.questions.map((q: any) => ({
             ...q,
             verificada: false,
             acertou: false
         }));
 
-        // 4. Recupera progresso local (opcional, já que agora salva no banco)
+        let userHistory = data.simulate.history;
+
+        updateLocalProgress(userHistory);
         loadLocalProgress();
 
     } catch (error) {
@@ -160,6 +152,22 @@ const loadLocalProgress = () => {
         } catch (e) { console.error(e); }
     }
 };
+
+const updateLocalProgress = (userHistory: any) => {
+    const respostas: Record<number, number> = {};
+    const verificadas: number[] = [];
+
+    userHistory.forEach((item: any) => {
+        respostas[item.question] = item.answer;
+        verificadas.push(item.question);
+    });
+
+    let saveData = `simulado_progress_${chaveSimulado.value}`;
+    localStorage.setItem(saveData, JSON.stringify({
+        respostas: respostas,
+        verificadas: verificadas
+    }));
+}
 
 onMounted(() => {
     const token: string | null = route.params.token as string;
