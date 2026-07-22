@@ -22,6 +22,7 @@ const courseName = ref<string>('')
 const moduloInfo = ref<any>(null)
 const conteudos = ref<any[]>([]) // Lista de vídeos
 const videoAtual = ref<any>(null)
+const watchedVideos = ref<number[]>([]) //array de vídeos assistidos
 
 // --- CURSO ---
 const courseHash = ref<string>('')
@@ -39,16 +40,21 @@ const fetchConteudoModulo = async (courseT: string, moduleT: number) => {
       moduloInfo.value = res.data.module
       courseName.value = res.data.course
       conteudos.value = res.data.videos // Array de vídeos
+      watchedVideos.value = res.data.watched ?? [] // Array de vídeos assistidos
 
       // Define o primeiro vídeo como padrão ao carregar
       if (conteudos.value.length > 0) {
         videoAtual.value = conteudos.value[0]
       }
 
-      if (res.data.last.length > 0) {
-        videoAtual.value = res.data.last
-      }
+      if (res.data.last) {
+        let lastVideoId = res.data.last.v_id
+        let lastVideo = conteudos.value.find((video) => video.v_id === lastVideoId || video.id === lastVideoId)
 
+        if (lastVideo) {
+          videoAtual.value = lastVideo
+        }
+      }
       salvarVideoAcessado()
     }
   } catch (error) {
@@ -61,6 +67,9 @@ const fetchConteudoModulo = async (courseT: string, moduleT: number) => {
 // --- AÇÕES ---
 const selecionarVideo = (video: any) => {
   videoAtual.value = video
+  if (!watchedVideos.value.includes(video.v_id)) {
+    watchedVideos.value.push(video.v_id)
+  }
   salvarVideoAcessado()
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
@@ -149,21 +158,17 @@ onMounted(() => {
               <h6 class="mb-0 fw-bold">Conteúdo do Módulo</h6>
             </div>
 
-            <div
-              class="list-group list-group-flush"
-              style="max-height: calc(700px - 168px); overflow-y: auto"
-            >
-              <button
-                v-for="(video, index) in conteudos"
-                :key="video.id"
-                @click="selecionarVideo(video)"
-                class="list-group-item list-group-item-action border-bottom p-3 transition"
-                :class="{ 'active-video': videoAtual?.v_id === video.id }"
-              >
+            <div class="list-group list-group-flush" style="max-height: calc(700px - 168px); overflow-y: auto">
+              <button v-for="(video, index) in conteudos" :key="video.id" @click="selecionarVideo(video)"
+                class="list-group-item list-group-item-action border-bottom p-3 transition" :class="{
+                  'active-video': videoAtual?.v_id === video.v_id
+                }">
                 <div class="d-flex align-items-center">
                   <div class="me-3 small text-muted">{{ index + 1 }}</div>
                   <div class="flex-grow-1">
                     <p class="mb-0 small fw-bold text-dark">
+                      <font-awesome-icon v-if="watchedVideos.includes(video.v_id)" icon="fa-solid fa-circle-check"
+                        class="text-success me-2" />
                       {{ video.v_title }}
                     </p>
                   </div>
@@ -171,9 +176,7 @@ onMounted(() => {
               </button>
             </div>
             <!-- adicional -->
-            <div
-              class="p-3 bg-light border-top border-bottom small fw-bold text-secondary text-uppercase"
-            >
+            <div class="p-3 bg-light border-top border-bottom small fw-bold text-secondary text-uppercase">
               Recursos Extras
             </div>
 
@@ -187,10 +190,7 @@ onMounted(() => {
                 </div>
               </button> -->
 
-            <button
-              @click="irParaMateriais"
-              class="list-group-item list-group-item-action p-3 border-bottom"
-            >
+            <button @click="irParaMateriais" class="list-group-item list-group-item-action p-3 border-bottom">
               <div class="d-flex align-items-center text-principal">
                 <font-awesome-icon icon="fa-solid fa-file-pdf" class="me-3" />
                 <div>
