@@ -211,6 +211,12 @@ onMounted(() => {
   height: 700px;
 }
 
+@media (max-width: 768px) {
+  .fullSize {
+    height: auto;
+  }
+}
+
 .active-video {
   background-color: #f0f7ff !important;
   border-left: 4px solid #0d6efd !important;

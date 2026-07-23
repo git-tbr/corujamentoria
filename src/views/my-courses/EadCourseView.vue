@@ -90,30 +90,23 @@ onMounted(() => {
             <hr class="border border-light mb-0" />
           </div>
         </div>
-        <div
-          class="row m-0 mb-4 align-items-center bg-light p-3 rounded shadow-sm"
-          v-reveal="'bottom'"
-        >
-          <div class="col-md-6">
+        <div class="row m-0 mb-4 align-items-center bg-light p-3 rounded shadow-sm" v-reveal="'bottom'">
+          <div class="col-md-6 mb-3 mb-lg-0">
             <div class="input-group">
               <span class="input-group-text bg-white border-end-0">
                 <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
               </span>
-              <input
-                v-model="search"
-                type="text"
-                class="form-control border-start-0"
-                placeholder="Pesquisar pelo nome do curso..."
-              />
+              <input v-model="search" type="text" class="form-control border-start-0"
+                placeholder="Pesquisar pelo nome do curso..." />
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 mb-3 mb-lg-0">
             <select v-model="filterOrder" class="form-select">
               <option value="asc">Ordem: A - Z</option>
               <option value="desc">Ordem: Z - A</option>
             </select>
           </div>
-          <div class="col-md-3 text-md-end">
+          <div class="col-md-3 text-center text-md-end">
             <span class="badge bg-principal px-3 py-2">
               {{ modulosFiltrados.length }} módulo(s) encontrado(s)
             </span>
@@ -143,10 +136,7 @@ onMounted(() => {
                 </p>
               </div>
               <div class="card-footer bg-transparent border-0 p-4 pt-0">
-                <button
-                  @click="irParaModulo(modulo.m_id)"
-                  class="btn btn-success w-100 rounded-pill bg-gradient"
-                >
+                <button @click="irParaModulo(modulo.m_id)" class="btn btn-success w-100 rounded-pill bg-gradient">
                   ESTUDAR AGORA
                   <font-awesome-icon icon="fa-solid fa-play" class="ms-2" />
                 </button>

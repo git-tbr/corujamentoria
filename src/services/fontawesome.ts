@@ -7,7 +7,10 @@ import {
   faArrowRotateRight,
   faArrowUp,
   faBookOpen,
+  faChartLine,
+  faChevronDown,
   faChevronRight,
+  faChevronUp,
   faCircleCheck,
   faCirclePlay,
   faClock,
@@ -61,5 +64,8 @@ const icons: Record<string, IconDefinition> = {
   faShieldHalved,
   faUserShield,
   faUsers,
+  faChartLine,
+  faChevronUp,
+  faChevronDown,
 }
 export default icons

@@ -283,13 +283,13 @@ onBeforeUnmount(() => {
 
       <section class="container py-3">
         <div class="row m-0 mb-3 align-items-center bg-light p-3 rounded shadow-sm" v-reveal="'bottom'">
-          <div class="col-md-auto d-flex align-items-center">
+          <div class="col-md-auto d-md-flex align-items-center">
             <button @click="router.go(-1)" class="btn btn-success btn-sm me-3 text-principal fw-bold">
               <font-awesome-icon icon="fa-solid fa-arrow-left" /> Voltar
             </button>
-            <h4 class="mb-0 fw-bold">Manual Completo</h4>
+            <h4 class="mb-0 fw-bold mt-3 mt-md-0 text-center">Manual Completo</h4>
           </div>
-          <div class="col d-flex align-items-center justify-content-center gap-2">
+          <div class="col mt-3 mt-md-0 d-flex align-items-center justify-content-center gap-2">
             <button @click="previousPage" class="btn btn-success btn-sm">
               <font-awesome-icon icon="fa-solid fa-angle-left" />
             </button>
@@ -299,10 +299,10 @@ onBeforeUnmount(() => {
               <font-awesome-icon icon="fa-solid fa-angle-right" />
             </button>
           </div>
-          <div class="col-auto ms-auto">
+          <div class="col-md-auto ms-md-auto">
             <p class="mb-0">Capítulo:</p>
           </div>
-          <div class="col-auto">
+          <div class="col-md-auto">
             <select v-model="filterChapters" class="form-select">
               <option v-for="v in chapters" :key="v.id" :value="v.id">
                 {{ v.chapter }}

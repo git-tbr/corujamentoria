@@ -83,26 +83,22 @@ onMounted(() => {
         </div>
 
         <div class="row mb-4 m-0 align-items-center bg-light p-3 rounded shadow-sm">
-          <div class="col-md-6">
+          <div class="col-md-6 mb-3 mb-md-0">
             <div class="input-group">
               <span class="input-group-text bg-white border-end-0">
                 <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
               </span>
-              <input
-                v-model="search"
-                type="text"
-                class="form-control border-start-0"
-                placeholder="Pesquisar simulado pelo título..."
-              />
+              <input v-model="search" type="text" class="form-control border-start-0"
+                placeholder="Pesquisar simulado pelo título..." />
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 mb-3 mb-md-0">
             <select v-model="filterOrder" class="form-select">
               <option value="asc">Ordem: A - Z</option>
               <option value="desc">Ordem: Z - A</option>
             </select>
           </div>
-          <div class="col-md-3 text-md-end">
+          <div class="col-md-3 text-center text-md-end">
             <span class="badge bg-principal px-3 py-2">
               {{ simuladosFiltrados.length }} simulado(s) encontrado(s)
             </span>
@@ -129,10 +125,7 @@ onMounted(() => {
                 </p>
               </div>
               <div class="card-footer bg-transparent border-0 p-4 pt-0">
-                <button
-                  @click="irParaSimulado(item.cat_key)"
-                  class="btn btn-success w-100 rounded-pill bg-gradient"
-                >
+                <button @click="irParaSimulado(item.cat_key)" class="btn btn-success w-100 rounded-pill bg-gradient">
                   ACESSAR
                   <font-awesome-icon icon="fa-solid fa-chevron-right" class="ms-2" />
                 </button>
