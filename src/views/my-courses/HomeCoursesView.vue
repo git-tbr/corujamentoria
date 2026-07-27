@@ -13,6 +13,7 @@ interface Course {
   imagepath: string
   namecourse: string
   isSample: number
+  courseorder: number
 }
 
 interface ExerciciosAcessados {
@@ -34,7 +35,7 @@ const isLoading = ref(true)
 const courses = ref<Course[]>([])
 const router = useRouter()
 const search = ref('')
-const filterOrder = ref<'asc' | 'desc'>('asc')
+const filterOrder = ref<'asc' | 'desc' | 'default'>('default')
 const dashboard = ref<DashboardData | null>(null)
 
 const fetchCourses = async () => {
@@ -139,8 +140,11 @@ const cursosFiltrados = computed(() => {
     const titleB = b.namecourse.toLowerCase()
     if (filterOrder.value === 'asc') {
       return titleA.localeCompare(titleB)
+    } else if (filterOrder.value === 'desc') {
+      return titleB.localeCompare(titleA)
+    } else {
+      return a.courseorder - b.courseorder
     }
-    return titleB.localeCompare(titleA)
   })
 
   return lista
@@ -175,15 +179,14 @@ const enter = (el: Element) => {
 
 const afterEnter = (el: Element) => {
   const element = el as HTMLElement
-  element.style.height = 'auto' // Retorna para auto para não quebrar a responsividade se a janela redimensionar
+  element.style.height = 'auto'
 }
 
 const leave = (el: Element) => {
   const element = el as HTMLElement
-  element.style.height = element.scrollHeight + 'px' // Define a altura atual antes de zerar
+  element.style.height = element.scrollHeight + 'px'
   element.style.opacity = '1'
 
-  // Força o reflow do navegador para a transição funcionar do tamanho atual até zero
   element.offsetHeight
 
   element.style.height = '0px'
@@ -221,6 +224,7 @@ onMounted(() => {
           </div>
           <div class="col-md-3 mb-3 mb-lg-0">
             <select v-model="filterOrder" class="form-select">
+              <option value="default">Ordem por Grupo</option>
               <option value="asc">Ordem: A - Z</option>
               <option value="desc">Ordem: Z - A</option>
             </select>

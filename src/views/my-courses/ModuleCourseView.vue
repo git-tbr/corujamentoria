@@ -55,7 +55,7 @@ const fetchConteudoModulo = async (courseT: string, moduleT: number) => {
           videoAtual.value = lastVideo
         }
       }
-      salvarVideoAcessado()
+      //salvarVideoAcessado()
     }
   } catch (error) {
     console.error('Erro ao carregar conteúdo:', error)
@@ -67,10 +67,6 @@ const fetchConteudoModulo = async (courseT: string, moduleT: number) => {
 // --- AÇÕES ---
 const selecionarVideo = (video: any) => {
   videoAtual.value = video
-  if (!watchedVideos.value.includes(video.v_id)) {
-    watchedVideos.value.push(video.v_id)
-  }
-  salvarVideoAcessado()
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
@@ -102,6 +98,13 @@ const salvarVideoAcessado = async () => {
     if (res.data.code != 1) throw new Error(res.data.message)
   } catch (error) {
     console.error('Erro ao salvar vídeo acessado:', error)
+  }
+}
+
+const markAsConcluded = () => {
+  if (!watchedVideos.value.includes(videoAtual.value.v_id)) {
+    watchedVideos.value.push(videoAtual.value.v_id)
+    salvarVideoAcessado()
   }
 }
 
@@ -148,8 +151,23 @@ onMounted(() => {
             </div>
 
             <div class="p-4">
-              <h3 class="fw-bold">{{ videoAtual?.v_title || 'Título do vídeo' }}</h3>
-              <p class="text-muted">{{ videoAtual?.v_synopsis || '' }}</p>
+              <div class="row">
+                <div class="col mb-3 mb-lg-0">
+                  <h3 class="fw-bold">{{ videoAtual?.v_title || 'Título do vídeo' }}</h3>
+                </div>
+                <div class="col-lg-auto d-grid">
+                  <button @click="markAsConcluded" class="btn btn-success">
+                    Marcar aula como assistida
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <p class="text-muted">{{ videoAtual?.v_synopsis || '' }}</p>
+                </div>
+              </div>
+
+
             </div>
           </div>
 
@@ -211,7 +229,7 @@ onMounted(() => {
   height: 700px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .fullSize {
     height: auto;
   }
