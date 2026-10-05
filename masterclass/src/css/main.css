@@ -1,0 +1,50 @@
+:root {
+  --cor-principal: #146531;
+  --cor-texto-claro: #fff;
+  --cor-texto-escuro: #333333;
+  --cor-borda: #cecece;
+  --cor-botao: #198754;
+  --cor-botao-hover: #146531;
+  --cor-fundo-login: #fff;
+  --cor-fundo-page: #146531;
+  --cor-borda-focus: #a1bdb0;
+}
+
+body {
+  background-color: #146531;
+  background-image: url('../img/white_airplane.svg');
+  background-repeat: no-repeat;
+  background-size: 50vw;
+  background-position: right bottom;
+  min-height: 100dvh;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  color: var(--cor-texto-escuro);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.header img {
+  display: block;
+  padding: 0.5rem;
+  width: 50%;
+  max-width: 400px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.header h1 {
+  color: var(--cor-texto-claro);
+  text-align: center;
+}

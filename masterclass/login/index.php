@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <header class="header-login">
+    <header class="header">
         <img src="../src/img/white_logo.png" alt="Logo branca - Coruja Mentoria">
         <h1>Masterclass</h1>
     </header>
@@ -27,7 +27,7 @@
                 <!-- código de país -->
                 <div class="country-code-container">
                     <label for="country-code">Código do país</label>
-                    <input class="country-code" type="text" id="country-code" name="country-code" placeholder="+55" required>
+                    <input class="country-code" type="text" id="country-code" name="country-code" placeholder="+55" required onchange="validateCountryCode()">
                 </div>
                 <!-- código de área -->
                 <div class="area-code-container">
