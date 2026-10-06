@@ -54,6 +54,12 @@ if (!isset($_SESSION[SESSION_NAME]['user']) || empty($_SESSION[SESSION_NAME]['us
                 <li <?= (date('d') < '09') ? '' : 'class="d-none"' ?>>09/10 - 08h (Horário de Brasília) | 12h (Horário de Lisboa)</li>
                 <li <?= (date('d') < '10') ? '' : 'class="d-none"' ?>>10/10 - 12h (Horário de Brasília) | 16h (Horário de Lisboa)</li>
             </ul>
+            <p <?= (date('Y-m-d H:i:s') > '2026-10-09 13:00:00') ? '' : 'class="d-none"' ?>>
+                Acesse o <a href="https://corujamentoria.com.br/promocional" target="_blank" rel="noopener noreferrer" title="Acesse o conteúdo promocional da masterclass">Conteúdo promocional</a> para mais informações.
+            </p>
+            <p>
+                Entre em contato via <a href="https://wa.me/message/26SC3NEOMJ43E1" target="_blank" rel="noopener noreferrer" title="Entre em contato via WhatsApp">WhatsApp</a> para informações e dúvidas sobre a plataforma.
+            </p>
         </section>
     </main>
 
