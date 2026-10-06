@@ -31,7 +31,10 @@ if ($name && $email && $phone) {
         $_SESSION[SESSION_NAME]['user'] = [
             "name" => $name,
             "email" => $email,
-            "phone" => $phone
+            "phone" => $phone,
+            "hash" => md5($email),
+            "tbread_id" => TBREAD_ID,
+            "event_id" => EVENT_ID
         ];
 
         http_response_code(200);

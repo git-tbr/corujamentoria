@@ -1,5 +1,14 @@
 @import './main.css';
 
+.header img {
+  display: block;
+  padding: 0.5rem;
+  width: 50%;
+  max-width: 300px;
+  height: auto;
+  margin: 0 auto;
+}
+
 .main-masterclass {
   display: flex;
   flex-direction: column;
@@ -15,24 +24,38 @@
   align-items: center;
   width: 100%;
   gap: 1rem;
+  background-color: aliceblue;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-sizing: border-box;
+  align-items: stretch;
 }
 
 .container .player {
   width: 70%;
+  display: flex;
+  flex-direction: column;
 }
 
 .container .chat {
   width: 30%;
+  display: flex;
+  flex-direction: column;
 }
 
 #player-iframe {
   width: 100%;
   aspect-ratio: 16/9;
+  border-radius: 4px;
 }
 
 #chat-iframe {
   width: 100%;
   height: 100%;
+  min-height: 480px;
+  border: 0;
+  border-radius: 4px;
+  background-color: aliceblue;
 }
 
 #no-live {
@@ -59,16 +82,19 @@ ul {
   display: none;
 }
 
-/* Media query para tablets e notebooks menores */
-@media screen and (max-width: 1024px) {
-  .container {
-    flex-direction: row;
-  }
-}
-
 /* Media query para celulares */
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 1400px) {
   .container {
     flex-direction: column;
+    align-items: stretch;
+  }
+
+  .container .player,
+  .container .chat {
+    width: 100%;
+  }
+
+  #chat-iframe {
+    min-height: 480px;
   }
 }

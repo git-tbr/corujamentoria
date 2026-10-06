@@ -27,7 +27,10 @@ try {
         $_SESSION[SESSION_NAME]['user'] = [
             "name" => $verify['m_name'],
             "email" => $verify['m_email'],
-            "phone" => $verify['m_cellphone']
+            "phone" => $verify['m_cellphone'],
+            "hash" => md5($verify['m_email']),
+            "tbread_id" => TBREAD_ID,
+            "event_id" => EVENT_ID
         ];
 
         http_response_code(200);

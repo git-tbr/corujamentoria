@@ -33,6 +33,7 @@ if (!isset($_SESSION[SESSION_NAME]['user']) || empty($_SESSION[SESSION_NAME]['us
         <section class="container" id="live">
             <div class="player">
                 <iframe id="player-iframe" src="" frameborder="0" allow="autoplay; fullscreen"></iframe>
+                <iframe id="player-map-iframe" style="display: none;" src=""></iframe>
             </div>
             <div class="chat">
                 <iframe id="chat-iframe" src="" frameborder="0"></iframe>
