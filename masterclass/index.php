@@ -40,10 +40,14 @@ if (!isset($_SESSION[SESSION_NAME]['user']) || empty($_SESSION[SESSION_NAME]['us
             </div>
         </section>
         <section class="container" id="no-live">
-            <p>
+            <p <?= (date('Y-m-d') <= '2026-10-10') ? '' : 'class="d-none"' ?>>
                 A masterclass ainda não começou!
                 <br>
                 As aulas serão transmitidas ao vivo nos dias 08, 09 e 10 de outubro:
+            </p>
+            <p <?= (date('Y-m-d') > '2026-10-10') ? '' : 'class="d-none"' ?>>
+                As aulas já aconteceram!<br>
+                Fique atento nos grupos para os próximos eventos!
             </p>
             <ul>
                 <li <?= (date('d') < '08') ? '' : 'class="d-none"' ?>>08/10 - 08h (Horário de Brasília) | 12h (Horário de Lisboa)</li>
