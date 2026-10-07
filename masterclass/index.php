@@ -27,8 +27,8 @@ if (!isset($_SESSION[SESSION_NAME]['user']) || empty($_SESSION[SESSION_NAME]['us
         <!-- player e chat - adicionados via iframe -->
         <section class="container" id="live" style="background-color: aliceblue;">
             <div class="player">
-                <iframe id="player-iframe" src="" frameborder="0" allow="autoplay; fullscreen"></iframe>
                 <iframe id="player-map-iframe" style="display: none;" src=""></iframe>
+                <iframe id="player-iframe" src="" frameborder="0" allow="autoplay; fullscreen"></iframe>
             </div>
             <div class="chat">
                 <iframe id="chat-iframe" src="" frameborder="0"></iframe>
@@ -59,7 +59,7 @@ if (!isset($_SESSION[SESSION_NAME]['user']) || empty($_SESSION[SESSION_NAME]['us
                 Conteúdo promocional &#x21e8;
             </a>
             <p style="color: white; text-align: center;">
-                Entre em contato via Whatsapp para informações e dúvidas sobre a plataforma.
+                Entre em contato via Whatsapp para informações e dúvidas sobre a Mentoria primeira fase 2027.
             </p>
             <a href="https://wa.me/message/26SC3NEOMJ43E1" class="btn btn-green" target="_blank" rel="noopener noreferrer" title="Entre em contato via WhatsApp">
                 Contato via WhatsApp <img src="./src/img/whatsapp.png" alt="Ícone do WhatsApp" style="width: 1.2rem; height: 1.2rem;">
@@ -67,7 +67,7 @@ if (!isset($_SESSION[SESSION_NAME]['user']) || empty($_SESSION[SESSION_NAME]['us
         </section>
     </main>
 
-    <script src="./src/js/live.js"></script>
+    <script src="./src/js/live.js?v=<?= time() ?>"></script>
 </body>
 
 </html>

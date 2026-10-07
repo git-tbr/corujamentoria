@@ -42,7 +42,9 @@ const loadLiveContent = (userData) => {
                         const todayDate = new Date();
                         const cY = todayDate.getFullYear();
                         let cM = todayDate.getMonth() + 1;
+                        if (cM < 10) cM = `0${cM}`;
                         let cD = todayDate.getDate();
+                        if (cD < 10) cD = `0${cD}`;
                         const dateNow = `${cY}-${cM}-${cD}`;
                         const chatCssUrl = '//eventos.tbr.com.br/masterclass/chat.css';
                         const param = btoa(chatCssUrl);
@@ -93,7 +95,7 @@ const presenceConfirmation = async (user) => {
         const result = await response.text();
         console.log('Presença confirmada: ', result);
     } catch (error) {
-        console.error('Erro ao confirmar presença: ',error.message);
+        console.error('Erro ao confirmar presença: ', error.message);
     }
 }
 

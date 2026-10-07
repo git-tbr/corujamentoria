@@ -1,4 +1,4 @@
-@import './main.css';
+@import './main.css?v=1';
 
 .main-login {
   display: flex;
@@ -10,6 +10,7 @@
   background-color: var(--cor-fundo-login);
   padding: 1.6rem;
   border-radius: 10px;
+  margin-bottom: 50px;
 }
 
 .main-login .paragrafo-login {
@@ -71,8 +72,10 @@
 .telefone {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  justify-content: space-between;  
   width: 100%;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .country-code-container,
@@ -83,22 +86,24 @@
 }
 
 .country-code-container {
-  width: 25%;
+  flex-grow: 1;
 }
 
 .area-code-container {
-  width: 25%;
+  flex-grow: 1;
 }
 
 .phone-container {
-  width: 50%;
+  flex-grow: 2;
 }
 
+/*
 .country-code,
 .area-code,
 .phone {
   width: 100%;
 }
+*/
 
 /* Media query para tablets e notebooks menores */
 @media screen and (max-width: 1024px) {
@@ -109,6 +114,10 @@
     margin-top: 2rem;
     width: 75vw;
   }
+  
+  .telefone{
+    gap: 0.2rem;
+  }
 }
 
 /* Media query para celulares */
@@ -116,5 +125,16 @@
   .main-login {
     margin-top: 2rem;
     width: 90vw;
+  }
+
+  .telefone {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .country-code-container,
+  .area-code-container,
+  .phone-container {
+    width: 100%;
   }
 }
