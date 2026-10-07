@@ -21,17 +21,10 @@
 .container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   width: 100%;
   gap: 1rem;
   padding: 1rem;
   border-radius: 1rem;
-  box-sizing: border-box;
-  align-items: stretch;
-}
-
-.container #live{
-  background-color: aliceblue;
 }
 
 .container .player {
@@ -44,6 +37,7 @@
   width: 30%;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
 }
 
 #player-iframe {
@@ -78,7 +72,56 @@
 }
 
 ul {
-  list-style-type: none;
+  list-style-type: circle;
+  padding:0;
+}
+
+.container-messages{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin: 1rem auto;
+}
+
+.btn {
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 400;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: solid 1px var(--cor-texto-claro);
+  box-sizing: border-box;
+  box-shadow: 0 4px 2px var(--cor-texto-claro);
+}
+
+.btn-red {
+  background-color: #c62828;
+  color: white;
+  text-decoration: none;  
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-red:hover {
+  background-color: #b71c1c;
+}
+
+.btn-green {
+  background-color: #2e7d32;
+  color: white;
+  text-decoration: none;  
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-green:hover {
+  background-color: #1b5e20;
 }
 
 .d-none {
@@ -89,7 +132,6 @@ ul {
 @media screen and (max-width: 1400px) {
   .container {
     flex-direction: column;
-    align-items: stretch;
   }
 
   .container .player,
