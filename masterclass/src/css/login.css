@@ -1,4 +1,4 @@
-@import './main.css';
+@import './main.css?v=1';
 
 .main-login {
   display: flex;

@@ -10,6 +10,10 @@ noLiveContainer.style.display = 'flex';
 const userData = JSON.parse(sessionStorage.getItem('user'));
 
 window.addEventListener('DOMContentLoaded', (e) => {
+    const session = sessionStorage.getItem('user');
+    if (!session) {
+        window.location.href = './login/';
+    }
     presenceConfirmation(userData);
     loadLiveContent(userData);
 });

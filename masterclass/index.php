@@ -52,12 +52,13 @@ if (!isset($_SESSION[SESSION_NAME]['user']) || empty($_SESSION[SESSION_NAME]['us
 
         </section>
         <section class="container-messages">
-            <p class="<?= (date('Y-m-d H:i:s') > '2026-10-09 13:00:00') ? '' : 'd-none' ?>" style="color: white; text-align: center;">
+            <p class="<?= (date('Y-m-d H:i:s') > '2026-10-09 09:00:00') ? '' : '' ?>" style="color: white; text-align: center;">
                 Acesse o Conteúdo promocional para mais informações.
             </p>
-            <a href="https://corujamentoria.com.br/promocional" class="btn btn-red <?= (date('Y-m-d H:i:s') > '2026-10-09 13:00:00') ? '' : 'd-none' ?>" target="_blank" rel="noopener noreferrer" title="Acesse o conteúdo promocional da masterclass">
+            <a href="https://corujamentoria.com.br/promocional" class="btn btn-red <?= (date('Y-m-d H:i:s') > '2026-10-09 13:00:00') ? '' : '' ?>" target="_blank" rel="noopener noreferrer" title="Acesse o conteúdo promocional da masterclass">
                 Conteúdo promocional &#x21e8;
             </a>
+            <br>
             <p style="color: white; text-align: center;">
                 Entre em contato via Whatsapp para informações e dúvidas sobre a plataforma.
             </p>

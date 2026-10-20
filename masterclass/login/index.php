@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Coruja Mentoria</title>
-    <link rel="stylesheet" href="../src/css/login.css">
+    <link rel="stylesheet" href="../src/css/login.css?v=1">
 </head>
 
 <body>
