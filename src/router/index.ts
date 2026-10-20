@@ -97,6 +97,14 @@ const router = createRouter({
       component: () => import('@/views/ManutencaoView.vue'),
     },
     {
+      path: '/revisao2026',
+      name: 'revisao2026',
+      component: () => import('@/views/Revisao2026View.vue'),
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
       path: '/meus-cursos',
       name: 'meus-cursos',
       redirect: '/meus-cursos/cursos',
