@@ -10,39 +10,128 @@ const { showAlert } = useAlert();
 const siteStore = useSiteStore();
 
 interface Course {
-    course_id: number | string
-    course_key: string
-    course_type: string
-    course_name: string
+    courseid: number | string
+    coursekey: string
+    coursetype: string
+    imagepath: string
+    namecourse: string
+    isSample: number
+    courseorder: number
 }
 
-const courses = ref<Course>();
+const courses = ref<Course[]>([]);
+const hasAccessToRevision2026 = ref<boolean>(false);
 const isLoading = ref<boolean>(false);
-const liveContainer = ref<HTMLElement | null>(null);
-const noLiveContainer = ref<HTMLElement | null>(null);
+const liveContainer = ref<boolean>(false);
+const player = ref<HTMLIFrameElement | null>(null);
+const playerMap = ref<HTMLIFrameElement | null>(null);
+const chat = ref<HTMLIFrameElement | null>(null);
 
 //verificar se o usuário possui o curso revisão 2026
 const checkCourse = async () => {
-    console.log('consultar a lista de cursos via api');
+    try {
+        isLoading.value = true;
+        const response = await api.get(`/api/purchased-courses/list/${siteStore.company}/${siteStore.userId}`);
+        const data = response.data;
+        if (data.code === 0) {
+            throw new Error(data.message || 'Erro desconhecido');
+        }
+        courses.value = data.courses || [];
+
+        hasAccessToRevision2026.value = courses.value.some(
+            (course) => course.coursekey === 'b260e77c79b4ffd48bfdad48293a4e7c'
+        );
+        if (hasAccessToRevision2026.value) {
+            console.log('Usuário possui o curso revisão 2026');
+            liveCheck();
+        }
+    } catch (error: any) {
+        await showAlert({
+            title: 'Erro',
+            message: error.message || 'Não foi possível carregar os cursos.',
+            type: 'error',
+        });
+    } finally {
+        isLoading.value = false;
+    }
+}
+
+const liveCheck = async () => {
+    try {
+        //const response = await api.get('./masterclass/src/api/live.php');
+        fetch('//localhost:8080/src/api/live.php', {
+            method: 'GET',
+        }).then(async (response) => {
+            if (!response.ok) {
+                throw new Error('Erro na requisição');
+            }
+            const data = await response.json();
+            if (data.status !== "success") {
+                throw new Error(data.message || 'Erro desconhecido');
+            }
+
+            const userData = {
+                name: siteStore.firstname + ' ' + siteStore.lastname,
+                email: siteStore.email
+            };
+
+            //dados do usuário
+            let userDatas = {
+                name: userData.name,
+                email: userData.email
+            };
+            let userDatasStringify = JSON.stringify(userDatas);
+            let userDataBtoa = btoa(userDatasStringify);
+
+            //player e chat devem ser exibidos;
+            liveContainer.value = data.vivo === 1;
+            console.log(data);
+
+            if (playerMap.value) {
+                playerMap.value.src = `https://player.verto.ia.br/corujamasterclass?data=${userDataBtoa}`;
+            }
+            if (player.value) {
+                player.value.src = `https://player.tbr.srv.br/?type=webrtc&source=${data.pagina}`;
+            }
+            if (chat.value) {
+                //condiguração do chat
+                const todayDate = new Date();
+                const cY: number | string = todayDate.getFullYear();
+                let cM: number | string = todayDate.getMonth() + 1;
+                if (cM < 10) cM = `0${cM}`;
+                let cD: number | string = todayDate.getDate();
+                if (cD < 10) cD = `0${cD}`;
+                const dateNow: string = `${cY}-${cM}-${cD}`;
+                const chatCssUrl: string = '//corujamentoria.com.br/masterclass/src/css/chat.css';
+                const param: string = btoa(chatCssUrl);
+                const idChat: string = `${data.pagina}-${dateNow}`;
+                const userName: string = encodeURIComponent(userData.name);
+                chat.value.src = `https://chat.tbrplay.com.br/${idChat}?user.name=${userName}&css=${param}`;
+            }
+
+
+        })
+    } catch (error) {
+
+    }
+}
+
+const checkDate = (comparisonDate: string) => {
+    const today = new Date();
+    const date = today.toISOString().split('T')[0];
+    if (date === comparisonDate) {
+        return true;
+    }
+    return false;
 }
 
 onMounted(() => {
-    if (document.getElementById('live')) {
-        liveContainer.value = document.getElementById('live');
-    }
-    if (document.getElementById('no-live')) {
-        noLiveContainer.value = document.getElementById('no-live');
-    }
-    if (liveContainer.value && noLiveContainer.value) {
-        liveContainer.value.style.display = 'none';
-        noLiveContainer.value.style.display = 'flex';
-    }
     checkCourse();
 })
 </script>
 <template>
     <Layout>
-        <main class="page-size bg-coruja">
+        <main class="page-size bg-coruja-container">
             <header class="header">
                 <figure class="">
                     <img :src="LogoBranca" alt="LogoBranca" class="img-fluid">
@@ -51,33 +140,34 @@ onMounted(() => {
             </header>
             <section class="main-revisao">
                 <!-- player e chat - adicionados via iframe -->
-                <section class="containerLive" id="live" style="background-color: aliceblue;">
+                <section class="containerLive" id="live" v-if="liveContainer" style="background-color: aliceblue;">
                     <div class="player">
-                        <iframe id="player-map-iframe" style="display: none;" src=""></iframe>
-                        <iframe id="player-iframe" src="" frameborder="0" allow="autoplay; fullscreen"></iframe>
+                        <iframe id="player-map-iframe" style="display: none;" ref="playerMap" src=""></iframe>
+                        <iframe id="player-iframe" ref="player" src="" frameborder="0"
+                            allow="autoplay; fullscreen"></iframe>
                     </div>
                     <div class="chat">
-                        <iframe id="chat-iframe" src="" frameborder="0"></iframe>
+                        <iframe id="chat-iframe" ref="chat" src="" frameborder="0"></iframe>
                     </div>
                 </section>
-                <section class="containerLive" id="no-live">
-                    <p class="text-white" :class="{ 'd-none': new Date() > new Date('2026-11-06') }">
+                <section class="containerLive" id="no-live" v-else>
+                    <p class="text-white" :class="{ 'd-none': checkDate('2026-11-06') }">
                         O curso de revisão ainda não começou!
                         <br>
                         As aulas serão transmitidas ao vivo nos dias 06, 07 e 08 de novembro.
                     </p>
-                    <p class="text-white" :class="{ 'd-none': new Date() > new Date('2026-11-08') }">
+                    <p class="text-white" :class="{ 'd-none': !checkDate('2026-11-08') }">
                         As aulas já aconteceram!<br>
                         Acesse o material na área do aluno.
                     </p>
                     <ul class="text-white">
-                        <li :class="{ 'd-none': new Date() > new Date('2026-11-06') }">06/11 - 08h (Horário de Lisboa) |
+                        <li :class="{ 'd-none': !checkDate('2026-11-06') }">06/11 - 08h (Horário de Lisboa) |
                             05h
                             (Horário de Brasília)</li>
-                        <li :class="{ 'd-none': new Date() > new Date('2026-11-07') }">07/11 - 08h (Horário de Lisboa) |
+                        <li :class="{ 'd-none': !checkDate('2026-11-07') }">07/11 - 08h (Horário de Lisboa) |
                             05h
                             (Horário de Brasília)</li>
-                        <li :class="{ 'd-none': new Date() > new Date('2026-11-08') }">08/11 - 08h (Horário de Lisboa) |
+                        <li :class="{ 'd-none': !checkDate('2026-11-08') }">08/11 - 08h (Horário de Lisboa) |
                             05h
                             (Horário de Brasília)</li>
                     </ul>
@@ -89,7 +179,7 @@ onMounted(() => {
 </template>
 <style>
 .page-size {
-    min-height: calc(100dvh - 76px);
+    min-height: calc(100dvh - 337px);
 }
 
 .header {

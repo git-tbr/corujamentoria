@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /meus-cursos/
+Disallow: /perfil
+Disallow: /pagamento
+Disallow: /mp-pagamento
+Disallow: /sp-pagamento
+Disallow: /alterar-senha/
+
+Sitemap: https://corujamentoria.com.br/sitemap.xml
