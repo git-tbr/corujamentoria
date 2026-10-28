@@ -10,33 +10,42 @@ const { showAlert } = useAlert();
 const siteStore = useSiteStore();
 
 interface Course {
-    course_id: number | string
-    course_key: string
-    course_type: string
-    course_name: string
+    courseid: number | string
+    coursekey: string
+    coursetype: string
+    imagepath: string
+    namecourse: string
+    isSample: number
+    courseorder: number
 }
 
-const courses = ref<Course>();
-const isLoading = ref<boolean>(false);
-const liveContainer = ref<HTMLElement | null>(null);
-const noLiveContainer = ref<HTMLElement | null>(null);
+const courses = ref<Course[]>([]);
+const liveContainer = ref<boolean>(false);
 
 //verificar se o usuário possui o curso revisão 2026
 const checkCourse = async () => {
-    console.log('consultar a lista de cursos via api');
+    try {
+        const response = await api.get(
+            `/api/purchased-courses/list/${siteStore.company}/${siteStore.userId}`,
+        )
+        const data = response.data
+
+        if (data.code === 0) {
+            throw new Error(data.message || 'Erro desconhecido')
+        }
+
+        courses.value = data.courses || []
+
+    } catch (error: any) {
+        await showAlert({
+            title: 'Erro',
+            message: error.message || 'Não foi possível carregar os cursos.',
+            type: 'error',
+        })
+    }
 }
 
 onMounted(() => {
-    if (document.getElementById('live')) {
-        liveContainer.value = document.getElementById('live');
-    }
-    if (document.getElementById('no-live')) {
-        noLiveContainer.value = document.getElementById('no-live');
-    }
-    if (liveContainer.value && noLiveContainer.value) {
-        liveContainer.value.style.display = 'none';
-        noLiveContainer.value.style.display = 'flex';
-    }
     checkCourse();
 })
 </script>
