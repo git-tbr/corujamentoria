@@ -201,6 +201,13 @@ html {
     background-attachment: fixed;
 }
 
+.bg-coruja-container {
+    background-color: #146531;
+    background-image: url('@/assets/img/logo/white_airplane.svg');
+    background-repeat: no-repeat;
+    background-position: right bottom;
+}
+
 @media (min-width: 768px) {
     .base-card {
         min-height: 470px;
