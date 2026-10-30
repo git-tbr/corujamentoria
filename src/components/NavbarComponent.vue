@@ -11,7 +11,6 @@ const route = useRoute()
 const router = useRouter()
 const toTopBtn = ref<any>(null)
 const btnParent = ref<boolean>(false)
-const baseUrl = import.meta.env.VITE_BASE_URL
 
 const onScroll = () => {
   fixedNavbar.value = window.scrollY > 56
@@ -35,7 +34,7 @@ const toadm = () => {
   sessionStorage.setItem('firstname', siteStore.firstname)
   sessionStorage.setItem('email', siteStore.email)
   sessionStorage.setItem('level', siteStore.role)
-  window.location.href = `${baseUrl}admin/login/index.php?company=${siteStore.company}&email=${siteStore.email}`
+  window.location.href = `https://corujamentoria.com.br/admin/login/index.php?company=${siteStore.company}&email=${siteStore.email}`
 }
 
 onMounted(() => {
@@ -52,10 +51,7 @@ onUnmounted(() => {
 </script>
 <template>
   <header class="ff-roboto fw-semibold">
-    <nav
-      :class="['navbar navbar-expand-xl bg-light shadow', { 'fixed-top': fixedNavbar }]"
-      data-bs-theme="light"
-    >
+    <nav :class="['navbar navbar-expand-xl bg-light shadow', { 'fixed-top': fixedNavbar }]" data-bs-theme="light">
       <!-- caixa da navbar -->
       <div class="container">
         <!-- logo / brand -->
@@ -64,14 +60,8 @@ onUnmounted(() => {
         </a>
 
         <!-- botão do menu -->
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navigationBar"
-          aria-expanded="false"
-          aria-label="Gatilho da barra de navegação"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigationBar"
+          aria-expanded="false" aria-label="Gatilho da barra de navegação">
           <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -79,50 +69,33 @@ onUnmounted(() => {
         <div id="navigationBar" class="collapse navbar-collapse">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item ms-lg-2">
-              <RouterLink
-                to="/"
-                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'home' }]"
-                >Home
+              <RouterLink to="/" :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'home' }]">Home
               </RouterLink>
             </li>
             <li class="nav-item ms-lg-2">
-              <RouterLink
-                to="/mentoria"
-                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'mentoria' }]"
-              >
-                Mentoria</RouterLink
-              >
+              <RouterLink to="/mentoria"
+                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'mentoria' }]">
+                Mentoria</RouterLink>
             </li>
             <li class="nav-item ms-lg-2">
-              <RouterLink
-                to="/revisao"
-                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'revisao' }]"
-                >Revisão
+              <RouterLink to="/revisao"
+                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'revisao' }]">Revisão
               </RouterLink>
             </li>
             <li class="nav-item ms-lg-2">
-              <RouterLink
-                to="/manual"
-                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'manual' }]"
-                >Ebook
+              <RouterLink to="/manual" :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'manual' }]">
+                Ebook
               </RouterLink>
             </li>
             <li class="nav-item ms-lg-2">
-              <RouterLink
-                to="/contato"
-                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'contato' }]"
-                >Contato
+              <RouterLink to="/contato"
+                :class="['nav-link', { 'text-success fw-semibold': actualRoute === 'contato' }]">Contato
               </RouterLink>
             </li>
 
             <li class="nav-item ms-lg-2 dropdown" v-if="siteStore.isAuthenticated">
-              <a
-                href="#"
-                class="nav-link dropdown-toggle"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
+              <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
                 Bem vindo(a), {{ siteStore.firstname }}
               </a>
               <ul class="dropdown-menu">
@@ -149,10 +122,7 @@ onUnmounted(() => {
                 Login
               </RouterLink>
             </li>
-            <li
-              class="nav-item ms-lg-2 align-items-center d-flex"
-              v-if="!siteStore.isAuthenticated"
-            >
+            <li class="nav-item ms-lg-2 align-items-center d-flex" v-if="!siteStore.isAuthenticated">
               <RouterLink to="/cadastro" class="btn btn-danger bg-gradient rounded-4 px-4">
                 Cadastro
               </RouterLink>
@@ -164,11 +134,8 @@ onUnmounted(() => {
   </header>
 
   <div class="floating-button" :class="btnParent ? 'd-block' : 'd-none'">
-    <button
-      ref="toTopBtn"
-      class="btn btn-success btn-lg border-light border border-3 fs-3 px-3 rounded-4 shadow"
-      @click="scrollToTop"
-    >
+    <button ref="toTopBtn" class="btn btn-success btn-lg border-light border border-3 fs-3 px-3 rounded-4 shadow"
+      @click="scrollToTop">
       <font-awesome-icon icon="fa-solid fa-arrow-up" />
     </button>
   </div>

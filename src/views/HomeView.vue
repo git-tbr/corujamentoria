@@ -161,19 +161,16 @@ onMounted(() => {
                                             Mais de 150 aulas gravadas
                                         </li>
                                         <li>
-                                            Mais de 2.300 questões comentadas
+                                            Mais de 3.000 questões comentadas
                                         </li>
                                         <li>
-                                            Mais de 20 horas de encontros ao vivo
+                                            40 encontros gravados de 2025
                                         </li>
                                         <li>
-                                            45 encontros gravados de 2025
+                                            40 encontros gravados de 2026
                                         </li>
                                         <li>
-                                            Simulados no formato da prova
-                                        </li>
-                                        <li>
-                                            2 Encontros semanais de mentoria
+                                            2 encontros semanais em grupo ao vivo
                                         </li>
                                         <li>
                                             Acompanhamento contínuo durante os 5 meses que antecedem a data da prova da
@@ -218,14 +215,17 @@ onMounted(() => {
                                             Materiais disponível na plataforma para revisão contínua até o dia da prova
                                         </li>
                                         <li>
-                                            Você pode participar de duas formas:
+                                            Duas modalidades de participação:
                                             <ul>
-                                                <li>Presencial, em Lisboa, vivendo toda a experiência da revisão com os
+                                                <li><b>Presencial:</b> em Lisboa, com a experiência da revisão junto aos
                                                     professores e demais alunos.</li>
-                                                <li>Online, com transmissão ao vivo pela plataforma CoruJÁ. Além disso,
-                                                    as gravações e material ficarão disponíveis para você assistir
-                                                    novamente até o dia da prova.</li>
+                                                <li><b>Online</b>: com transmissão ao vivo pela plataforma CoruJÁ.
+                                                </li>
                                             </ul>
+                                        </li>
+                                        <li>
+                                            As gravações e os materiais ficarão disponíveis para que o aluno
+                                            possa revisar o conteúdo novamente até o dia da prova da Primeira Fase.
                                         </li>
                                     </ul>
                                 </div>
@@ -272,7 +272,7 @@ onMounted(() => {
                                             </ul>
                                         </li>
                                         <li>
-                                            Mais de 2500 páginas com índice para fácil consulta
+                                            Mais de 2500 páginas com índice para fácil consulta. Acesso 100% Online.
                                         </li>
                                     </ul>
                                 </div>
@@ -304,13 +304,13 @@ onMounted(() => {
                                     </p>
                                     <ul class="list-unstyled text-white">
                                         <li>
-                                            - Mentoria Completa
+                                            - Mentoria da Primeira Fase
                                         </li>
                                         <li>
-                                            - Revisão Pré-Prova 2025 (Material gravado)
+                                            - Bônus: Revisão Pré-Prova 2025 (Material gravado)
                                         </li>
                                         <li>
-                                            - Revisão Pré-Prova 2026 (Presencial e Online em novembro)
+                                            - Revisão Pré-Prova 2026 nas modalidades Presencial e Online, em novembro
                                         </li>
                                         <li>
                                             - Manual Completo

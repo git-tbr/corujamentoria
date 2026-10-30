@@ -276,7 +276,7 @@
         <div class="row pt-5 mb-4">
           <div class="col pt-3">
             <h1 class="text-center fw-bold" style="color: #06652e" v-reveal="'bottom'">
-              Combo Completo CoruJÁ 2026
+              Combo Completo CoruJÁ
             </h1>
           </div>
         </div>
