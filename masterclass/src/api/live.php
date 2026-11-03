@@ -8,6 +8,11 @@ header("Access-Control-Allow-Credentials: true");
 include_once "session.php";
 include_once "sql.php";
 
+// exibir erros do php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
 try {
     $search = sql([
         "statement" => "SELECT * FROM tbread.cliente WHERE id = ?",

@@ -23,9 +23,12 @@ const courses = ref<Course[]>([]);
 const hasAccessToRevision2026 = ref<boolean>(false);
 const isLoading = ref<boolean>(false);
 const liveContainer = ref<boolean>(false);
-const player = ref<HTMLIFrameElement | null>(null);
-const playerMap = ref<HTMLIFrameElement | null>(null);
-const chat = ref<HTMLIFrameElement | null>(null);
+//const player = ref<HTMLIFrameElement | null>(null);
+//const playerMap = ref<HTMLIFrameElement | null>(null);
+//const chat = ref<HTMLIFrameElement | null>(null);
+const playerUrl = ref<string>('');
+const playerMapUrl = ref<string>('');
+const chatUrl = ref<string>('');
 
 //verificar se o usuário possui o curso revisão 2026
 const checkCourse = async () => {
@@ -58,8 +61,7 @@ const checkCourse = async () => {
 
 const liveCheck = async () => {
     try {
-        //const response = await api.get('./masterclass/src/api/live.php');
-        fetch('//localhost:8080/src/api/live.php', {
+        fetch('https://corujamentoria.tbr.com.br/masterclass/src/api/live.php', {
             method: 'GET',
         }).then(async (response) => {
             if (!response.ok) {
@@ -84,30 +86,26 @@ const liveCheck = async () => {
             let userDataBtoa = btoa(userDatasStringify);
 
             //player e chat devem ser exibidos;
-            liveContainer.value = data.vivo === 1;
+            liveContainer.value = data.data.vivo === 1;
             console.log(data);
 
-            if (playerMap.value) {
-                playerMap.value.src = `https://player.verto.ia.br/corujamasterclass?data=${userDataBtoa}`;
-            }
-            if (player.value) {
-                player.value.src = `https://player.tbr.srv.br/?type=webrtc&source=${data.pagina}`;
-            }
-            if (chat.value) {
-                //condiguração do chat
-                const todayDate = new Date();
-                const cY: number | string = todayDate.getFullYear();
-                let cM: number | string = todayDate.getMonth() + 1;
-                if (cM < 10) cM = `0${cM}`;
-                let cD: number | string = todayDate.getDate();
-                if (cD < 10) cD = `0${cD}`;
-                const dateNow: string = `${cY}-${cM}-${cD}`;
-                const chatCssUrl: string = '//corujamentoria.com.br/masterclass/src/css/chat.css';
-                const param: string = btoa(chatCssUrl);
-                const idChat: string = `${data.pagina}-${dateNow}`;
-                const userName: string = encodeURIComponent(userData.name);
-                chat.value.src = `https://chat.tbrplay.com.br/${idChat}?user.name=${userName}&css=${param}`;
-            }
+            playerMapUrl.value = `https://player.verto.ia.br/corujamasterclass?data=${userDataBtoa}`;
+            playerUrl.value = `https://player.tbr.srv.br/?type=webrtc&source=${data.data.pagina}`;
+
+            //condiguração do chat
+            const todayDate = new Date();
+            const cY: number | string = todayDate.getFullYear();
+            let cM: number | string = todayDate.getMonth() + 1;
+            if (cM < 10) cM = `0${cM}`;
+            let cD: number | string = todayDate.getDate();
+            if (cD < 10) cD = `0${cD}`;
+            const dateNow: string = `${cY}-${cM}-${cD}`;
+            const chatCssUrl: string = '//corujamentoria.com.br/masterclass/src/css/chat.css';
+            const param: string = btoa(chatCssUrl);
+            const idChat: string = `${data.data.pagina}-${dateNow}`;
+            const userName: string = encodeURIComponent(userData.name);
+            chatUrl.value = `https://chat.tbrplay.com.br/${idChat}?user.name=${userName}&css=${param}`;
+            
 
 
         })
@@ -133,21 +131,21 @@ onMounted(() => {
     <Layout>
         <main class="page-size bg-coruja-container">
             <header class="header">
-                <figure class="">
+                <!-- <figure class="">
                     <img :src="LogoBranca" alt="LogoBranca" class="img-fluid">
-                </figure>
-                <h1 class="text-white">Revisão Pré-Prova 2026</h1>
+                </figure> -->
+                <h1 class="text-white py-3">Revisão Pré-Prova 2026</h1>
             </header>
-            <section class="main-revisao">
+            <section class="main-revisao mb-3 mb-lg-5">
                 <!-- player e chat - adicionados via iframe -->
                 <section class="containerLive" id="live" v-if="liveContainer" style="background-color: aliceblue;">
                     <div class="player">
-                        <iframe id="player-map-iframe" style="display: none;" ref="playerMap" src=""></iframe>
-                        <iframe id="player-iframe" ref="player" src="" frameborder="0"
+                        <iframe id="player-map-iframe" style="display: none;" :src="playerMapUrl"></iframe>
+                        <iframe id="player-iframe" ref="player" :src="playerUrl" frameborder="0"
                             allow="autoplay; fullscreen"></iframe>
                     </div>
                     <div class="chat">
-                        <iframe id="chat-iframe" ref="chat" src="" frameborder="0"></iframe>
+                        <iframe id="chat-iframe" ref="chat" :src="chatUrl" frameborder="0"></iframe>
                     </div>
                 </section>
                 <section class="containerLive" id="no-live" v-else>

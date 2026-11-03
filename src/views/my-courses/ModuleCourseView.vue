@@ -55,7 +55,11 @@ const fetchConteudoModulo = async (courseT: string, moduleT: number) => {
           videoAtual.value = lastVideo
         }
       }
-      //salvarVideoAcessado()
+      
+      //verificar se o curso é o revisão 2026, se for, direcionar para a página de revisão 2026
+      if(courseT === siteStore.revisao && moduleT === 87){
+        router.push({ name: 'revisao2026' })
+      }
     }
   } catch (error) {
     console.error('Erro ao carregar conteúdo:', error)
