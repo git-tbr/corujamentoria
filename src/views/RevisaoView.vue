@@ -105,15 +105,24 @@ const definePurchaseItem = (courseKey: string) => {
                                 Investimento: &euro;290,00
                             </p>
 
-                            <button class="btn btn-danger fs-4 px-4 rounded-4"
-                                @click="definePurchaseItem(siteStore.revisao)">
-                                Adquirir o curso 2026
-                            </button>
+                            <div class="mb-3">
+                                <button class="btn btn-danger fs-4 px-4 rounded-4"
+                                    @click="definePurchaseItem(siteStore.revisao)">
+                                    Adquirir o curso 2026
+                                </button>
 
-                            <button class="btn btn-danger fs-4 px-4 rounded-4 ms-2"
-                                @click="definePurchaseItem(siteStore.combo)">
-                                Adquirir o combo
-                            </button>
+                                <button class="btn btn-danger fs-4 px-4 rounded-4 ms-2"
+                                    @click="definePurchaseItem(siteStore.combo)">
+                                    Adquirir o combo
+                                </button>
+                            </div>
+
+                            <p class="fs-5 text-white mb-3">
+                                É aluno ou ex-aluno da CoruJÁ? Entre em contato como nosso time de vendas pelo <a
+                                    href="https://wa.me/5511948308431" target="_blank"
+                                    class="text-white fw-semibold">WhatsApp</a>
+                                para consultar as condições especiais de desconto disponíveis para você.
+                            </p>
                         </div>
                     </div>
                 </div>
