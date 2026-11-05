@@ -3,7 +3,7 @@
 //setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.ISO-8859-1', 'pt_BR.utf8-8');
 date_default_timezone_set('America/Sao_Paulo');
 
-include "session.php";
+include "session_aula.php";
 include "sql.php";
 
 //recuperar os dados enviados pelo formulário via fetch: nome, email, celular

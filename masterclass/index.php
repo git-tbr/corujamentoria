@@ -1,5 +1,5 @@
 <?php
-include_once "./src/api/session.php";
+include_once "./src/api/session_aula.php";
 include_once "./src/api/sql.php";
 
 if (!isset($_SESSION[SESSION_NAME]['user']) || empty($_SESSION[SESSION_NAME]['user'])) {
@@ -14,14 +14,14 @@ if (!isset($_SESSION[SESSION_NAME]['user']) || empty($_SESSION[SESSION_NAME]['us
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masterclass - Coruja Mentoria</title>
+    <title>Aula Magna - Coruja Mentoria</title>
     <link rel="stylesheet" href="./src/css/live.css?v=<?= time() ?>">
 </head>
 
 <body>
     <header class="header">
         <img src="./src/img/white_logo.png" alt="Logo branca - Coruja Mentoria">
-        <h1>Masterclass</h1>
+        <h1>Aula Magna</h1>
     </header>
     <main class="main-masterclass">
         <!-- player e chat - adicionados via iframe -->
@@ -35,20 +35,15 @@ if (!isset($_SESSION[SESSION_NAME]['user']) || empty($_SESSION[SESSION_NAME]['us
             </div>
         </section>
         <section class="container" id="no-live">
-            <p <?= (date('Y-m-d') <= '2026-10-10') ? '' : 'class="d-none"' ?>>
-                A masterclass ainda não começou!
+            <p <?= (date('Y-m-d') <= '2026-11-06') ? '' : 'class="d-none"' ?>>
+                A aula magna ainda não começou!
                 <br>
-                As aulas serão transmitidas ao vivo nos dias 08, 09 e 10 de outubro:
+                A aula será transmitida ao vivo no dia 06 de novembro:
             </p>
-            <p <?= (date('Y-m-d') > '2026-10-10') ? '' : 'class="d-none"' ?>>
-                As aulas já aconteceram!<br>
+            <p <?= (date('Y-m-d') > '2026-11-06') ? '' : 'class="d-none"' ?>>
+                A aula já aconteceu!<br>
                 Fique atento nos grupos para os próximos eventos!
             </p>
-            <ul>
-                <li <?= (date('d') < '08') ? '' : 'class="d-none"' ?>>08/10 - 08h (Horário de Brasília) | 12h (Horário de Lisboa)</li>
-                <li <?= (date('d') < '09') ? '' : 'class="d-none"' ?>>09/10 - 08h (Horário de Brasília) | 12h (Horário de Lisboa)</li>
-                <li <?= (date('d') < '10') ? '' : 'class="d-none"' ?>>10/10 - 12h (Horário de Brasília) | 16h (Horário de Lisboa)</li>
-            </ul>
 
         </section>
         <section class="container-messages">

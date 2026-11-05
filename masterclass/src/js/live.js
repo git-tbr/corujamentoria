@@ -40,8 +40,8 @@ const loadLiveContent = (userData) => {
                         liveContainer.style.display = 'flex';
                         noLiveContainer.style.display = 'none';
                         //configuração do player
-                        playerMap.src = "https://player.verto.ia.br/corujamasterclass?data=".concat(userDatas);
-                        player.src = "https://player.tbr.srv.br/?type=webrtc&source=corujamasterclass";
+                        playerMap.src = "https://player.verto.ia.br/corujaaulamagna?data=".concat(userDatas);
+                        player.src = "https://player.tbr.srv.br/?type=webrtc&source=corujaaulamagna";
                         //condiguração do chat
                         const todayDate = new Date();
                         const cY = todayDate.getFullYear();

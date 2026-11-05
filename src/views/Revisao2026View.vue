@@ -58,8 +58,8 @@ const checkCourse = async () => {
 
 const liveCheck = async () => {
     try {
-        //const response = await api.get('./masterclass/src/api/live.php');
-        fetch('//localhost:8080/src/api/live.php', {
+        //https://corujamentoria.com.br/masterclass/src/api/live_revisao.php
+        fetch('https://corujamentoria.com.br/masterclass/src/api/live_revisao.php', {
             method: 'GET',
         }).then(async (response) => {
             if (!response.ok) {
@@ -84,14 +84,14 @@ const liveCheck = async () => {
             let userDataBtoa = btoa(userDatasStringify);
 
             //player e chat devem ser exibidos;
-            liveContainer.value = data.vivo === 1;
-            console.log(data);
+            liveContainer.value = data.data.vivo === 1;
+            console.log(data.data);
 
             if (playerMap.value) {
-                playerMap.value.src = `https://player.verto.ia.br/corujamasterclass?data=${userDataBtoa}`;
+                playerMap.value.src = `https://player.verto.ia.br/revisao2026?data=${userDataBtoa}`;
             }
             if (player.value) {
-                player.value.src = `https://player.tbr.srv.br/?type=webrtc&source=${data.pagina}`;
+                player.value.src = `https://player.tbr.srv.br/?type=webrtc&source=${data.data.stream_transmissao}`;
             }
             if (chat.value) {
                 //condiguração do chat
@@ -104,7 +104,7 @@ const liveCheck = async () => {
                 const dateNow: string = `${cY}-${cM}-${cD}`;
                 const chatCssUrl: string = '//corujamentoria.com.br/masterclass/src/css/chat.css';
                 const param: string = btoa(chatCssUrl);
-                const idChat: string = `${data.pagina}-${dateNow}`;
+                const idChat: string = `${data.data.pagina}-${dateNow}`;
                 const userName: string = encodeURIComponent(userData.name);
                 chat.value.src = `https://chat.tbrplay.com.br/${idChat}?user.name=${userName}&css=${param}`;
             }
