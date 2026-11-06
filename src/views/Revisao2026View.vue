@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Layout from '@/layouts/DefaultLayout.vue'
 import { useSiteStore } from '@/stores/website';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useAlert } from '@/services/alertService';
 import api from '@/services/api';
 //import LogoBranca from '@/assets/img/logo/white_logo.png'
@@ -26,6 +26,7 @@ const liveContainer = ref<boolean>(false);
 const playerUrl = ref<string>('');
 const playerMapUrl = ref<string>('');
 const chatUrl = ref<string>('');
+const hashUser = Date.now();
 
 //verificar se o usuário possui o curso revisão 2026
 const checkCourse = async () => {
@@ -102,6 +103,8 @@ const liveCheck = async () => {
             const idChat: string = `${data.data.pagina}-${dateNow}`;
             const userName: string = encodeURIComponent(userData.name);
             chatUrl.value = `https://chat.tbrplay.com.br/${idChat}?user.name=${userName}&css=${param}`;
+
+            presenceConfirmation()
         })
     } catch (error) {
 
@@ -117,8 +120,62 @@ const checkDate = (comparisonDate: string) => {
     return false;
 }
 
+const presenceConfirmation = async () => {
+    const todayLogin = new Date();
+    const dthLogin = `${todayLogin.getFullYear()}/${todayLogin.getMonth() + 1}/${todayLogin.getDate()} ${todayLogin.getHours()}:${todayLogin.getMinutes()}:${todayLogin.getSeconds()}`;
+    const urlAPI = 'https://acessos.tbr.com.br/oldapi.php';
+
+    const dataForm = {
+        codigo: 1054, 
+        evento: 414,
+        url: window.location.href,
+        hash: hashUser,
+        inscrito: siteStore.firstname + ' ' + siteStore.lastname,
+        email: siteStore.email,
+        login: dthLogin
+    };
+
+    try {
+        const response = await fetch(urlAPI, {
+            method: 'POST',
+            body: JSON.stringify(dataForm),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const result = await response.text();
+        console.log('Presença confirmada: ', result);
+    } catch (error) {        
+        console.error('Erro ao confirmar presença: ', error instanceof Error ? error.message : error);
+    }
+}
+
+const presenceClose = () => {
+    if (!navigator.sendBeacon) {
+        console.warn('Beacon API não suportada neste navegador. Presença pode não ser registrada corretamente.');
+        return;
+    }
+
+    const todayLogout = new Date();
+    const dthLogout = `${todayLogout.getFullYear()}/${todayLogout.getMonth() + 1}/${todayLogout.getDate()} ${todayLogout.getHours()}:${todayLogout.getMinutes()}:${todayLogout.getSeconds()}`;
+
+    const urlAPI = 'https://acessos.tbr.com.br/oldapi.php'
+    const dataForm = {
+        hash: hashUser,
+        logout: dthLogout
+    }
+
+    const blob = new Blob([JSON.stringify(dataForm)], { type: 'application/json' });
+    navigator.sendBeacon(urlAPI, blob);
+}
+
 onMounted(() => {
     checkCourse();
+})
+
+onUnmounted(()=>{
+    presenceClose();
 })
 </script>
 <template>
